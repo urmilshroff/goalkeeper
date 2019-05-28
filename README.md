@@ -1,2 +1,3 @@
-# goalkeeper
-A simple Android app to help you achieve your goals
+# Goalkeeper
+
+A simple Flutter app to help you achieve your goals!
