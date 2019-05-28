@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/goals_page.dart';
 
 void main() => runApp(MyApp());
@@ -9,7 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Goalkeeper",
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primaryColor: MyColors.primaryColor,
+        accentColor: MyColors.accentColor,
       ),
       home: GoalsPage(),
     );

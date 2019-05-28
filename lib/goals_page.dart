@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goalkeeper/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GoalsPage extends StatefulWidget {
@@ -12,10 +13,10 @@ class _GoalsPageState extends State<GoalsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: Colors.orange,
+        backgroundColor: MyColors.primaryColor,
         title: Text('Goals',
             style: TextStyle(
-                color: Colors.white,
+                color: MyColors.light,
                 fontWeight: FontWeight.w700,
                 fontSize: 28.0)),
       ),
@@ -37,23 +38,89 @@ class _GoalsPageState extends State<GoalsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Goalkeeper",
-                            style: TextStyle(
-                                color: Colors.orangeAccent, fontSize: 18)),
+                            style:
+                                TextStyle(color: MyColors.blue, fontSize: 18)),
                         Text("Hello, World!",
                             style: TextStyle(
-                                color: Colors.black,
+                                color: MyColors.dark,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 30.0))
                       ],
                     ),
                     Material(
-                        color: Colors.orange,
+                        color: MyColors.blue,
                         borderRadius: BorderRadius.circular(50.0),
                         child: Center(
                             child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Icon(Icons.check_circle,
-                              color: Colors.white, size: 40.0),
+                              color: MyColors.light, size: 40.0),
+                        )))
+                  ]),
+            ),
+          ),
+          _buildTile(
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Goalkeeper",
+                            style: TextStyle(
+                                color: MyColors.yellow, fontSize: 18)),
+                        Text("Hello, World!",
+                            style: TextStyle(
+                                color: MyColors.dark,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30.0))
+                      ],
+                    ),
+                    Material(
+                        color: MyColors.yellow,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Center(
+                            child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Icon(Icons.check_circle,
+                              color: MyColors.light, size: 40.0),
+                        )))
+                  ]),
+            ),
+          ),
+          _buildTile(
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Goalkeeper",
+                            style:
+                                TextStyle(color: MyColors.aqua, fontSize: 18)),
+                        Text("Hello, World!",
+                            style: TextStyle(
+                                color: MyColors.dark,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30.0))
+                      ],
+                    ),
+                    Material(
+                        color: MyColors.aqua,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Center(
+                            child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Icon(Icons.check_circle,
+                              color: MyColors.light, size: 40.0),
                         )))
                   ]),
             ),
@@ -61,9 +128,9 @@ class _GoalsPageState extends State<GoalsPage> {
         ],
         staggeredTiles: [
           StaggeredTile.extent(2, 110.0),
-          StaggeredTile.extent(1, 180.0),
-          StaggeredTile.extent(1, 180.0),
-          StaggeredTile.extent(2, 220.0),
+          StaggeredTile.extent(2, 110.0),
+          StaggeredTile.extent(2, 110.0),
+          StaggeredTile.extent(2, 110.0),
           StaggeredTile.extent(2, 110.0),
         ],
       ),
@@ -75,7 +142,7 @@ Widget _buildTile(Widget widgetStuff, {Function() onTapAction}) {
   return Material(
       elevation: 10.0,
       borderRadius: BorderRadius.circular(10.0),
-      shadowColor: Colors.orangeAccent,
+      shadowColor: MyColors.light,
       child: InkWell(
           onTap: onTapAction != null
               ? () => onTapAction()
