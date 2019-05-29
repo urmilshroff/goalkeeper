@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goalkeeper/colors.dart';
+import 'package:goalkeeper/new_goal.dart';
+import 'package:goalkeeper/route_transitions.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 
@@ -105,15 +107,20 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          if (showNewGoalAlert == true) {
-            setState(() {
-              showNewGoalAlert = false;
-            });
-          } else if (showNewGoalAlert == false) {
-            setState(() {
-              showNewGoalAlert = true;
-            });
-          }
+//          if (showNewGoalAlert == true) {
+//            setState(() {
+//              showNewGoalAlert = false;
+//            });
+//          } else if (showNewGoalAlert == false) {
+//            setState(() {
+//              showNewGoalAlert = true;
+//            });
+//          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NewGoal()),
+          );
+//          Navigator.push(context, SizeRoute(page: NewGoal()));
         },
         icon: Icon(Icons.add),
         label: Text("NEW GOAL"),
