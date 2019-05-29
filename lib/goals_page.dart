@@ -28,6 +28,18 @@ class _GoalsPageState extends State<GoalsPage> {
     }
   }
 
+  _createNewGoal(BuildContext context) async {
+      var goalDetails = new List();
+    goalDetails = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NewGoal()),
+    );
+
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text("$goalDetails[0]")));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +119,7 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+            _createNewGoal(context);
 //          if (showNewGoalAlert == true) {
 //            setState(() {
 //              showNewGoalAlert = false;
@@ -116,10 +129,10 @@ class _GoalsPageState extends State<GoalsPage> {
 //              showNewGoalAlert = true;
 //            });
 //          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NewGoal()),
-          );
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute(builder: (context) => NewGoal()),
+//          );
 //          Navigator.push(context, SizeRoute(page: NewGoal()));
         },
         icon: Icon(Icons.add),

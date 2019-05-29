@@ -11,6 +11,7 @@ class NewGoal extends StatefulWidget {
 }
 
 class _NewGoalState extends State<NewGoal> {
+  var goalDetails = new List();
   Color invertColors() {
     if (Theme.of(context).brightness == Brightness.light) {
       return MyColors.dark;
@@ -35,14 +36,24 @@ class _NewGoalState extends State<NewGoal> {
             child: new Form(
           child: new ListView(
             children: <Widget>[
-              new TextFormField(),
-              new TextFormField(),
+              new TextFormField(
+                onSaved: (String value) {
+                  goalDetails.add(value);
+                },
+              ),
+              new TextFormField(
+                onSaved: (String value) {
+                  goalDetails.add(value);
+                },
+              ),
               new Container(
                 child: new RaisedButton(
                   child: new Text(
                     'SEND DATA',
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context, goalDetails);
+                  },
                 ),
               )
             ],
