@@ -11,53 +11,20 @@ class NewGoal extends StatefulWidget {
 }
 
 class _NewGoalState extends State<NewGoal> {
-  var goalDetails = new List();
-  Color invertColors() {
-    if (Theme.of(context).brightness == Brightness.light) {
-      return MyColors.dark;
-    } else if (Theme.of(context).brightness == Brightness.dark) {
-      return MyColors.light;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 5.0,
-          backgroundColor: MyColors.primaryColor,
-          title: Text('Goals',
-              style: TextStyle(
-                  color: MyColors.light,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24.0)),
-        ),
-        body: new Container(
-            child: new Form(
-          child: new ListView(
-            children: <Widget>[
-              new TextFormField(
-                onSaved: (String value) {
-                  goalDetails.add(value);
-                },
-              ),
-              new TextFormField(
-                onSaved: (String value) {
-                  goalDetails.add(value);
-                },
-              ),
-              new Container(
-                child: new RaisedButton(
-                  child: new Text(
-                    'SEND DATA',
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context, goalDetails);
-                  },
-                ),
-              )
-            ],
-          ),
-        )));
-  }
+      Scaffold(
+          appBar: new AppBar(title: new Text('Add a new task')),
+          body: new TextField(
+            autofocus: true,
+            onSubmitted: (val) {
+//              _createNewGoal(val);
+              Navigator.pop(context); // Close the add todo screen
+            },
+            decoration: new InputDecoration(
+                hintText: 'Enter something to do...',
+                contentPadding: const EdgeInsets.all(16.0)),
+          ));
+      }
 }

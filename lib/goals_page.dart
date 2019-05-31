@@ -45,11 +45,77 @@ class _GoalsPageState extends State<GoalsPage> {
 //      ..showSnackBar(SnackBar(content: Text("$goalDetails[0]")));
 //  }
 
-  void _createNewGoal(BuildContext context) {
-    setState(() {
-      int index = _goalsList.length;
-      _goalsList.add('Item ' + index.toString());
-    });
+  void _pushCreateNewGoal() {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return Scaffold(
+          appBar: AppBar(title: Text("New Goal")),
+          body: TextField(
+            onSubmitted: (val) {
+              _createNewGoal(val);
+              Navigator.pop(context);
+            },
+            decoration: new InputDecoration(
+                hintText: 'Enter new goal',
+                contentPadding: const EdgeInsets.all(10.0)),
+          ));
+    }));
+  }
+
+    void _createNewGoal(String goalTitle) {
+//    setState(() {
+//      int index = _goalsList.length;
+//      _goalsList.add(index.toString());
+//    });
+    if (goalTitle.length > 0) {
+      setState(() => _goalsList.add(goalTitle));
+    }
+  }
+
+  Widget _buildGoalItem(String index) {
+//    return new ListTile(title: new Text(goalText));
+    return _buildTile(
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("New Goal #$index",
+                      style: TextStyle(
+                          color: MyColors.accentColor, fontSize: 15.0)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text("Goal Title",
+                      style: TextStyle(
+                          color: invertColors(),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22.0)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text("Goal Description",
+                      style: TextStyle(color: invertColors(), fontSize: 15)),
+                ],
+              ),
+            ]),
+      ),
+    );
+//    return _buildCard();
+  }
+
+  Widget _buildGoalsList() {
+    return Container(
+      child: ListView.builder(itemBuilder: (context, index) {
+        if (index < _goalsList.length) {
+          return _buildGoalItem(_goalsList[index]);
+        }
+      }),
+    );
   }
 
   Widget _buildTile(Widget widgetStuff, {Function() onTapAction}) {
@@ -66,82 +132,9 @@ class _GoalsPageState extends State<GoalsPage> {
                     print("Nothing set");
                   },
             child: widgetStuff,
-            splashColor: MyColors.light,
+            splashColor: MyColors.accentColor,
           )),
     );
-  }
-
-  Widget _buildCard() {
-    return Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-            ),
-            ButtonTheme.bar(
-              // make buttons use the appropriate styles for cards
-              child: ButtonBar(
-                children: <Widget>[
-                  FlatButton(
-                    child: const Text('BUY TICKETS'),
-                    onPressed: () {/* ... */},
-                  ),
-                  FlatButton(
-                    child: const Text('LISTEN'),
-                    onPressed: () {/* ... */},
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGoalsList() {
-    return Container(
-      child: ListView.builder(itemBuilder: (context, index) {
-        if (index < _goalsList.length) {
-          return _buildGoalItem(_goalsList[index]);
-        }
-      }),
-    );
-  }
-
-  Widget _buildGoalItem(String goalText) {
-//    return new ListTile(title: new Text(goalText));
-    return _buildTile(
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("New goal",
-                      style: TextStyle(
-                          color: invertColors(),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22.0)),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text("Click the + button below.",
-                      style: TextStyle(color: invertColors(), fontSize: 15)),
-                ],
-              ),
-            ]),
-      ),
-    );
-//    return _buildCard();
   }
 
   @override
@@ -217,7 +210,8 @@ class _GoalsPageState extends State<GoalsPage> {
 //      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _createNewGoal(context);
+//          _createNewGoal(context);
+          _pushCreateNewGoal();
         },
         icon: Icon(Icons.add),
         label: Text("NEW GOAL"),
