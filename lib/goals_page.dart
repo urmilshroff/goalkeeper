@@ -53,31 +53,95 @@ class _GoalsPageState extends State<GoalsPage> {
   }
 
   Widget _buildTile(Widget widgetStuff, {Function() onTapAction}) {
-    return Material(
-        elevation: 7.5,
-        borderRadius: BorderRadius.circular(10.0),
-        shadowColor: MyColors.light,
-        child: InkWell(
-          onTap: onTapAction != null
-              ? () => onTapAction()
-              : () {
-                  print("Nothing set");
-                },
-          child: widgetStuff,
-          splashColor: MyColors.light,
-        ));
+    return Container(
+      margin: const EdgeInsets.all(5.0),
+      child: Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(10.0),
+//          shadowColor: MyColors.light,
+          child: InkWell(
+            onTap: onTapAction != null
+                ? () => onTapAction()
+                : () {
+                    print("Nothing set");
+                  },
+            child: widgetStuff,
+            splashColor: MyColors.light,
+          )),
+    );
+  }
+
+  Widget _buildCard() {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.album),
+              title: Text('The Enchanted Nightingale'),
+              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            ),
+            ButtonTheme.bar(
+              // make buttons use the appropriate styles for cards
+              child: ButtonBar(
+                children: <Widget>[
+                  FlatButton(
+                    child: const Text('BUY TICKETS'),
+                    onPressed: () {/* ... */},
+                  ),
+                  FlatButton(
+                    child: const Text('LISTEN'),
+                    onPressed: () {/* ... */},
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildGoalsList() {
-    return ListView.builder(itemBuilder: (context, index) {
-      if (index < _goalsList.length) {
-        return _buildGoalItem(_goalsList[index]);
-      }
-    });
+    return Container(
+      child: ListView.builder(itemBuilder: (context, index) {
+        if (index < _goalsList.length) {
+          return _buildGoalItem(_goalsList[index]);
+        }
+      }),
+    );
   }
 
   Widget _buildGoalItem(String goalText) {
-    return new ListTile(title: new Text(goalText));
+//    return new ListTile(title: new Text(goalText));
+    return _buildTile(
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("New goal",
+                      style: TextStyle(
+                          color: invertColors(),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22.0)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text("Click the + button below.",
+                      style: TextStyle(color: invertColors(), fontSize: 15)),
+                ],
+              ),
+            ]),
+      ),
+    );
+//    return _buildCard();
   }
 
   @override
