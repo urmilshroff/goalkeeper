@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/new_goal.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 
@@ -18,7 +17,7 @@ class _GoalsPageState extends State<GoalsPage> {
     } else {
       return false;
     }
-  }
+  } //returns current theme
 
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(
@@ -33,25 +32,15 @@ class _GoalsPageState extends State<GoalsPage> {
     }
   } //returns appropriate colors for text visibility
 
-//  _createNewGoal(BuildContext context) async {
-//    var goalDetails = new List();
-//    goalDetails = await Navigator.push(
-//      context,
-//      MaterialPageRoute(builder: (context) => NewGoal()),
-//    );
-//
-//    Scaffold.of(context)
-//      ..removeCurrentSnackBar()
-//      ..showSnackBar(SnackBar(content: Text("$goalDetails[0]")));
-//  }
-
-  void _pushCreateNewGoal() {
+  void _createNewGoal() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       return Scaffold(
           appBar: AppBar(title: Text("New Goal")),
           body: TextField(
             onSubmitted: (val) {
-              _createNewGoal(val);
+              if (val.length > 0) {
+                setState(() => _goalsList.add(val));
+              }
               Navigator.pop(context);
             },
             decoration: new InputDecoration(
@@ -59,20 +48,9 @@ class _GoalsPageState extends State<GoalsPage> {
                 contentPadding: const EdgeInsets.all(10.0)),
           ));
     }));
-  }
+  } //user creates a new goal
 
-    void _createNewGoal(String goalTitle) {
-//    setState(() {
-//      int index = _goalsList.length;
-//      _goalsList.add(index.toString());
-//    });
-    if (goalTitle.length > 0) {
-      setState(() => _goalsList.add(goalTitle));
-    }
-  }
-
-  Widget _buildGoalItem(String index) {
-//    return new ListTile(title: new Text(goalText));
+  Widget _buildNewGoal(String index) {
     return _buildTile(
       Padding(
         padding: const EdgeInsets.all(10.0),
@@ -84,13 +62,13 @@ class _GoalsPageState extends State<GoalsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("New Goal #$index",
+                  Text("$index",
                       style: TextStyle(
                           color: MyColors.accentColor, fontSize: 15.0)),
                   SizedBox(
                     height: 5,
                   ),
-                  Text("Goal Title",
+                  Text("$index",
                       style: TextStyle(
                           color: invertColors(),
                           fontWeight: FontWeight.w700,
@@ -98,25 +76,24 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text("Goal Description",
+                  Text("$index",
                       style: TextStyle(color: invertColors(), fontSize: 15)),
                 ],
               ),
             ]),
       ),
     );
-//    return _buildCard();
-  }
+  } //flutter builds a new goal
 
   Widget _buildGoalsList() {
     return Container(
       child: ListView.builder(itemBuilder: (context, index) {
         if (index < _goalsList.length) {
-          return _buildGoalItem(_goalsList[index]);
+          return _buildNewGoal(_goalsList[index]);
         }
       }),
     );
-  }
+  } //builds goals list
 
   Widget _buildTile(Widget widgetStuff, {Function() onTapAction}) {
     return Container(
@@ -124,7 +101,6 @@ class _GoalsPageState extends State<GoalsPage> {
       child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(10.0),
-//          shadowColor: MyColors.light,
           child: InkWell(
             onTap: onTapAction != null
                 ? () => onTapAction()
@@ -135,7 +111,7 @@ class _GoalsPageState extends State<GoalsPage> {
             splashColor: MyColors.accentColor,
           )),
     );
-  }
+  } //build material goal card
 
   @override
   Widget build(BuildContext context) {
@@ -161,57 +137,9 @@ class _GoalsPageState extends State<GoalsPage> {
         ],
       ),
       body: _buildGoalsList(),
-//      Container(
-//        child: CustomScrollView(
-//          slivers: <Widget>[
-//            SliverGrid(
-//              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                  crossAxisCount: 1,
-//                  crossAxisSpacing: 100.0,
-//                  mainAxisSpacing: 0.0,
-//                  childAspectRatio: 4.0),
-//              delegate: SliverChildListDelegate(
-//                [
-//                  Padding(
-//                    padding: const EdgeInsets.all(10.0),
-//                    child: _buildTile(
-//                      Padding(
-//                        padding: const EdgeInsets.all(10.0),
-//                        child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            children: <Widget>[
-//                              Column(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                crossAxisAlignment: CrossAxisAlignment.start,
-//                                children: <Widget>[
-//                                  Text("Welcome!",
-//                                      style: TextStyle(
-//                                          color: invertColors(),
-//                                          fontWeight: FontWeight.w700,
-//                                          fontSize: 22.0)),
-//                                  SizedBox(
-//                                    height: 5,
-//                                  ),
-//                                  Text("Start by creating a new goal below.",
-//                                      style: TextStyle(
-//                                          color: invertColors(), fontSize: 15)),
-//                                ],
-//                              ),
-//                            ]),
-//                      ),
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-//          _createNewGoal(context);
-          _pushCreateNewGoal();
+          _createNewGoal();
         },
         icon: Icon(Icons.add),
         label: Text("NEW GOAL"),
