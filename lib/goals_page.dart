@@ -37,14 +37,14 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-        elevation: 5.0,
-        backgroundColor: MyColors.primaryColor,
-        title: Text('New Goal',
-            style: TextStyle(
-                color: MyColors.light,
-                fontWeight: FontWeight.w700,
-                fontSize: 24.0)),
-      ),
+          elevation: 5.0,
+          backgroundColor: MyColors.primaryColor,
+          title: Text('New Goal',
+              style: TextStyle(
+                  color: MyColors.light,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24.0)),
+        ),
         body: Form(
           child: new ListView(
             children: <Widget>[
@@ -77,7 +77,34 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   } //user creates a new goal
 
-  Widget _buildNewGoal(int goalNumber, String goalTitle, String goalBody) {
+  void _deleteGoal(int index) {
+    setState(() => _goalTitlesList.removeAt(index));
+  }
+
+  void _deleteGoalConfirmation(int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Done with \'${_goalTitlesList[index]}\'?"),
+              content: Text("This goal will be deleted!"),
+              actions: <Widget>[
+                FlatButton(
+                    child: Text('CANCEL'),
+                    onPressed: () => Navigator.of(context).pop()),
+                FlatButton(
+                    child:
+                        Text('DELETE', style: TextStyle(color: MyColors.red)),
+                    onPressed: () {
+                      _deleteGoal(index);
+                      Navigator.of(context).pop();
+                    })
+              ]);
+        });
+  }
+
+  Widget _buildNewGoal(int index, String goalTitle, String goalBody) {
+    int goalNumber = index + 1;
     return _buildTile(
       Padding(
         padding: const EdgeInsets.all(10.0),
@@ -109,6 +136,7 @@ class _GoalsPageState extends State<GoalsPage> {
               ),
             ]),
       ),
+      onTap: () => _deleteGoalConfirmation(index),
     );
   } //flutter builds a new goal
 
@@ -123,15 +151,15 @@ class _GoalsPageState extends State<GoalsPage> {
     );
   } //builds goals list
 
-  Widget _buildTile(Widget widgetStuff, {Function() onTapAction}) {
+  Widget _buildTile(Widget widgetStuff, {Function() onTap}) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(10.0),
           child: InkWell(
-            onTap: onTapAction != null
-                ? () => onTapAction()
+            onTap: onTap != null
+                ? () => onTap()
                 : () {
                     print("Nothing set");
                   },
