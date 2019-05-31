@@ -9,7 +9,8 @@ class GoalsPage extends StatefulWidget {
 }
 
 class _GoalsPageState extends State<GoalsPage> {
-  List<String> _goalsList = [];
+  List<String> _goalTitlesList = [];
+  List<String> _goalBodiesList = [];
 
   bool isThemeCurrentlyDark() {
     if (Theme.of(context).brightness == Brightness.dark) {
@@ -35,22 +36,48 @@ class _GoalsPageState extends State<GoalsPage> {
   void _createNewGoal() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       return Scaffold(
-          appBar: AppBar(title: Text("New Goal")),
-          body: TextField(
-            onSubmitted: (val) {
-              if (val.length > 0) {
-                setState(() => _goalsList.add(val));
-              }
-              Navigator.pop(context);
-            },
-            decoration: new InputDecoration(
-                hintText: 'Enter new goal',
-                contentPadding: const EdgeInsets.all(10.0)),
-          ));
+        appBar: AppBar(
+        elevation: 5.0,
+        backgroundColor: MyColors.primaryColor,
+        title: Text('New Goal',
+            style: TextStyle(
+                color: MyColors.light,
+                fontWeight: FontWeight.w700,
+                fontSize: 24.0)),
+      ),
+        body: Form(
+          child: new ListView(
+            children: <Widget>[
+              TextField(
+                onSubmitted: (title) {
+                  if (title.length > 0) {
+                    setState(() => _goalTitlesList.add(title));
+                  }
+                  Navigator.pop(context);
+                },
+                decoration: new InputDecoration(
+                    hintText: 'Enter Goal Title',
+                    contentPadding: const EdgeInsets.all(10.0)),
+              ),
+//                TextField(
+//                onSubmitted: (body) {
+//                  if (body.length > 0) {
+//                    setState(() => _goalBodiesList.add(body));
+//                  }
+//                  Navigator.pop(context);
+//                },
+//                decoration: new InputDecoration(
+//                    hintText: 'Enter Goal Body',
+//                    contentPadding: const EdgeInsets.all(10.0)),
+//              )
+            ],
+          ),
+        ),
+      );
     }));
   } //user creates a new goal
 
-  Widget _buildNewGoal(String index) {
+  Widget _buildNewGoal(int goalNumber, String goalTitle, String goalBody) {
     return _buildTile(
       Padding(
         padding: const EdgeInsets.all(10.0),
@@ -62,13 +89,13 @@ class _GoalsPageState extends State<GoalsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("$index",
+                  Text("Goal #$goalNumber",
                       style: TextStyle(
                           color: MyColors.accentColor, fontSize: 15.0)),
                   SizedBox(
                     height: 5,
                   ),
-                  Text("$index",
+                  Text("$goalTitle",
                       style: TextStyle(
                           color: invertColors(),
                           fontWeight: FontWeight.w700,
@@ -76,7 +103,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text("$index",
+                  Text("$goalBody",
                       style: TextStyle(color: invertColors(), fontSize: 15)),
                 ],
               ),
@@ -88,8 +115,9 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget _buildGoalsList() {
     return Container(
       child: ListView.builder(itemBuilder: (context, index) {
-        if (index < _goalsList.length) {
-          return _buildNewGoal(_goalsList[index]);
+        if (index < _goalTitlesList.length) {
+          return _buildNewGoal(
+              index, _goalTitlesList[index], "Goal body goes here");
         }
       }),
     );
@@ -119,7 +147,7 @@ class _GoalsPageState extends State<GoalsPage> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
-        title: Text('Goals',
+        title: Text('My Goals',
             style: TextStyle(
                 color: MyColors.light,
                 fontWeight: FontWeight.w700,
