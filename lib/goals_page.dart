@@ -21,6 +21,7 @@ class _GoalsPageState extends State<GoalsPage> {
   }
 
   Color invertColors() {
+    //returns appropriate colors for text visibility
     if (Theme.of(context).brightness == Brightness.light) {
       return MyColors.dark;
     } else if (Theme.of(context).brightness == Brightness.dark) {
@@ -29,7 +30,7 @@ class _GoalsPageState extends State<GoalsPage> {
   }
 
   _createNewGoal(BuildContext context) async {
-      var goalDetails = new List();
+    var goalDetails = new List();
     goalDetails = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => NewGoal()),
@@ -51,6 +52,18 @@ class _GoalsPageState extends State<GoalsPage> {
                 color: MyColors.light,
                 fontWeight: FontWeight.w700,
                 fontSize: 24.0)),
+        actions: <Widget>[
+          IconButton(
+            icon: Theme.of(context).brightness ==
+                    Brightness.light //if currently in light mode
+                ? Icon(Icons.brightness_2) //use moon icon
+                : Icon(Icons.brightness_7), //otherwise use sun icon
+            onPressed: changeBrightness,
+            tooltip: Theme.of(context).brightness == Brightness.light
+                ? "Switch to dark mode"
+                : "Switch to light mode",
+          ),
+        ],
       ),
       body: Container(
         child: CustomScrollView(
@@ -98,19 +111,19 @@ class _GoalsPageState extends State<GoalsPage> {
                           title: Text("ALERT BITCHES"),
                         )
                       : Text("NO ALERT"),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: RaisedButton(
-                      padding: const EdgeInsets.all(1.0),
-                      onPressed: changeBrightness,
-                      color: MyColors.primaryColor,
-                      splashColor: invertColors(),
-                      child: Text("LIGHTS"),
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0))),
-                    ),
-                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.all(10.0),
+//                    child: RaisedButton(
+//                      padding: const EdgeInsets.all(1.0),
+//                      onPressed: changeBrightness,
+//                      color: MyColors.primaryColor,
+//                      splashColor: invertColors(),
+//                      child: Text("LIGHTS"),
+//                      shape: RoundedRectangleBorder(
+//                          borderRadius:
+//                              BorderRadius.all(Radius.circular(10.0))),
+//                    ),
+//                  ),
                 ],
               ),
             ),
@@ -119,7 +132,7 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-            _createNewGoal(context);
+          _createNewGoal(context);
 //          if (showNewGoalAlert == true) {
 //            setState(() {
 //              showNewGoalAlert = false;
