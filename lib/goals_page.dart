@@ -157,8 +157,8 @@ class _GoalsPageState extends State<GoalsPage> {
                       Hero(
                         tag: "dartIcon${index}",
                         child: Container(
-                            width: 70.0,
-                            height: 70.0,
+                            width: 80.0,
+                            height: 80.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage("img/icon.png")))),
@@ -174,9 +174,9 @@ class _GoalsPageState extends State<GoalsPage> {
                       SizedBox(
                         height: 5.0,
                       ),
-                      Text("Goal description goes here",
+                      Text("Goal description",
                           style:
-                              TextStyle(color: invertColors(), fontSize: 16)),
+                              TextStyle(color: invertColors(), fontSize: 18)),
                     ],
                   ),
                 ])),
@@ -235,7 +235,7 @@ class _GoalsPageState extends State<GoalsPage> {
                             fontSize: 22.0)),
                   ),
                   SizedBox(height: 5.0,),
-                  Text("Goal description goes here",
+                  Text("Goal description",
                       style: TextStyle(color: invertColors(), fontSize: 15)),
                 ],
               ),
@@ -303,7 +303,7 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
       body: noGoals == true
           ? Center(
-              child: Text("No goals yet",
+              child: Text("No goals yet :(",
                   style: TextStyle(color: invertColors(), fontSize: 24.0)))
           : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
