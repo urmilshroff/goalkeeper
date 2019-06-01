@@ -55,22 +55,49 @@ class _GoalsPageState extends State<GoalsPage> {
           title: Text('New Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         ),
-        body: Form(
-          child: new ListView(
-            children: <Widget>[
-              TextField(
-                controller: inputGoalTitleController,
-                onSubmitted: (title) {
-                  inputGoalTitle = title;
-                  _submitForm(inputGoalTitle);
-                },
-                decoration: new InputDecoration(
-                    hintText: 'Enter Goal Title',
-                    contentPadding: const EdgeInsets.all(10.0)),
+        body:
+        Container(
+            child: Padding(
+                padding: const EdgeInsets.all(10.0),
+            child: Form(
+              child: ListView(
+                children: <Widget>[
+                SizedBox(height: 15.0,),
+                  TextField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: invertColors(), fontSize: 18.0),
+                    controller: inputGoalTitleController,
+                    onSubmitted: (title) {
+                      inputGoalTitle = title;
+                      _submitForm(inputGoalTitle);
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Goal Title',
+                        hintText: 'What\'s your goal for today?',
+                        contentPadding: const EdgeInsets.all(15.0)),
+                  ),
+                  SizedBox(height: 15.0,),
+                  TextField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: invertColors(), fontSize: 18.0),
+                    // controller: inputGoalTitleController,
+                    // onSubmitted: (title) {
+                    //   inputGoalTitle = title;
+                    //   _submitForm(inputGoalTitle);
+                    // },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Description',
+                        hintText: 'Explain it in a few words',
+                        contentPadding: const EdgeInsets.all(15.0)),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+            ),
+            ),
+            
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _submitForm(inputGoalTitleController.text);
@@ -120,47 +147,41 @@ class _GoalsPageState extends State<GoalsPage> {
           title: Text('Edit Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         ),
-        body: _buildTile(
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+        body: Container(
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                    SizedBox(height: 100.0,),
                       Hero(
                         tag: "dartIcon${index}",
                         child: Container(
-                            width: 70.0,
-                            height: 70.0,
+                            width: 80.0,
+                            height: 80.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage("img/icon.png")))),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 10.0,
                       ),
-                      Center(
-                        child: Text("${_goalTitlesList[index]}",
+                        Text("${_goalTitlesList[index]}",
                             style: TextStyle(
                                 color: invertColors(),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 22.0)),
-                      ),
+                                fontSize: 26.0)),
                       SizedBox(
-                        height: 5,
+                        height: 5.0,
                       ),
-                      Text("${_goalTitlesList[index]}",
+                      Text("Goal description",
                           style:
-                              TextStyle(color: invertColors(), fontSize: 15)),
+                              TextStyle(color: invertColors(), fontSize: 18)),
                     ],
                   ),
-                ]),
-          ),
-        ),
+                ])),
+        //   ),
+        // ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _deleteGoal(index);
@@ -196,6 +217,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   ),
                 ],
               ),
+              SizedBox(width: 10.0,),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,9 +225,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   Text("Goal #$goalNumber",
                       style: TextStyle(
                           color: MyColors.accentColor, fontSize: 15.0)),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5.0,),
                   Hero(
                     tag: "goalTitle${index}",
                     child: Text("${_goalTitlesList[index]}",
@@ -214,13 +234,12 @@ class _GoalsPageState extends State<GoalsPage> {
                             fontWeight: FontWeight.w700,
                             fontSize: 22.0)),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text("${_goalTitlesList[index]}",
+                  SizedBox(height: 5.0,),
+                  Text("Goal description",
                       style: TextStyle(color: invertColors(), fontSize: 15)),
                 ],
               ),
+              Spacer(),
             ]),
       ),
       onTap: () => _editGoal(index),
@@ -284,7 +303,7 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
       body: noGoals == true
           ? Center(
-              child: Text("No goals yet",
+              child: Text("No goals yet :(",
                   style: TextStyle(color: invertColors(), fontSize: 24.0)))
           : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
