@@ -73,6 +73,15 @@ class _GoalsPageState extends State<GoalsPage> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.check),
+          foregroundColor: MyColors.light,
+          backgroundColor: MyColors.purple,
+          elevation: 5.0,
+        ),
       );
     }));
   } //user creates a new goal
@@ -97,55 +106,119 @@ class _GoalsPageState extends State<GoalsPage> {
                         Text('DELETE', style: TextStyle(color: MyColors.red)),
                     onPressed: () {
                       _deleteGoal(index);
+                      _editGoal(index);
                       Navigator.of(context).pop();
                     })
               ]);
         });
   }
 
-  Widget _buildNewGoal(int index, String goalTitle, String goalBody) {
-    int goalNumber = index + 1;
-    return _buildTile(
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+  void _editGoal(int index) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 5.0,
+          backgroundColor: MyColors.primaryColor,
+          title: Text('Edit Goal',
+              style: TextStyle(
+                  color: MyColors.light,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24.0)),
+        ),
+        body: Container(
+          margin: const EdgeInsets.all(5.0),
+//          child: Hero(
+//            tag: "card${index}",
+            child: _buildTile(Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Goal #$goalNumber",
-                      style: TextStyle(
-                          color: MyColors.accentColor, fontSize: 15.0)),
                   SizedBox(
-                    height: 5,
+                    height: 50,
                   ),
-                  Text("$goalTitle",
-                      style: TextStyle(
-                          color: invertColors(),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22.0)),
-                  SizedBox(
-                    height: 5,
+                  Center(
+                    child: Hero(
+                      tag: "goalTitle${index}",
+                      child: Text("${_goalTitlesList[index]}",
+                          style: TextStyle(
+                              color: invertColors(),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30.0)),
+                    ),
                   ),
-                  Text("$goalBody",
-                      style: TextStyle(color: invertColors(), fontSize: 15)),
+                  Text("${_goalTitlesList[index]}"),
                 ],
               ),
-            ]),
-      ),
-      onTap: () => _deleteGoalConfirmation(index),
-    );
+//      onTap: () => _editGoal(index),
+            )),
+//          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _deleteGoalConfirmation(index);
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.delete),
+          foregroundColor: MyColors.light,
+          backgroundColor: MyColors.red,
+          elevation: 5.0,
+        ),
+      );
+    }));
+  }
+
+  Widget _buildNewGoal(int index) {
+    int goalNumber = index + 1;
+    return
+//        Hero(
+//      tag: "card${index}",
+      _buildTile(
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Goal #$goalNumber",
+                        style: TextStyle(
+                            color: MyColors.accentColor, fontSize: 15.0)),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Hero(
+                      tag: "goalTitle${index}",
+                      child: Text("${_goalTitlesList[index]}",
+                          style: TextStyle(
+                              color: invertColors(),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22.0)),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("${_goalTitlesList[index]}",
+                        style: TextStyle(color: invertColors(), fontSize: 15)),
+                  ],
+                ),
+              ]),
+        ),
+//      onTap: () => _deleteGoalConfirmation(index),
+        onTap: () => _editGoal(index),
+      );
+    
   } //flutter builds a new goal
 
   Widget _buildGoalsList() {
     return Container(
       child: ListView.builder(itemBuilder: (context, index) {
         if (index < _goalTitlesList.length) {
-          return _buildNewGoal(
-              index, _goalTitlesList[index], "Goal body goes here");
+          return _buildNewGoal(index);
         }
       }),
     );
@@ -200,6 +273,7 @@ class _GoalsPageState extends State<GoalsPage> {
         icon: Icon(Icons.add),
         label: Text("NEW GOAL"),
         foregroundColor: MyColors.light,
+        backgroundColor: MyColors.accentColor,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
         elevation: 5.0,
