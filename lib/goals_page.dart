@@ -13,8 +13,8 @@ class _GoalsPageState extends State<GoalsPage> {
   List<String> _goalTitlesList = [];
   List<String> _goalBodiesList = [];
   String inputGoalTitle;
+  TextEditingController inputGoalTitleController = new TextEditingController();
   bool noGoals = true;
-  TextEditingController goalController = new TextEditingController();
 
   bool isThemeCurrentlyDark() {
     if (Theme.of(context).brightness == Brightness.dark) {
@@ -53,40 +53,27 @@ class _GoalsPageState extends State<GoalsPage> {
           elevation: 5.0,
           backgroundColor: MyColors.purple,
           title: Text('New Goal',
-              style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24.0)),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         ),
         body: Form(
           child: new ListView(
             children: <Widget>[
               TextField(
-                  controller: goalController,
+                controller: inputGoalTitleController,
                 onSubmitted: (title) {
                   inputGoalTitle = title;
-                  _submitForm(title);
+                  _submitForm(inputGoalTitle);
                 },
                 decoration: new InputDecoration(
                     hintText: 'Enter Goal Title',
                     contentPadding: const EdgeInsets.all(10.0)),
               ),
-//                TextField(
-//                onSubmitted: (body) {
-//                  if (body.length > 0) {
-//                    setState(() => _goalBodiesList.add(body));
-//                  }
-//                  Navigator.pop(context);
-//                },
-//                decoration: new InputDecoration(
-//                    hintText: 'Enter Goal Body',
-//                    contentPadding: const EdgeInsets.all(10.0)),
-//              )
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _submitForm(goalController.text);
+            _submitForm(inputGoalTitleController.text);
           },
           child: Icon(Icons.check),
           foregroundColor: MyColors.light,
@@ -131,9 +118,7 @@ class _GoalsPageState extends State<GoalsPage> {
           elevation: 5.0,
           backgroundColor: MyColors.aqua,
           title: Text('Edit Goal',
-              style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24.0)),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         ),
         body: _buildTile(
           Padding(
@@ -147,7 +132,18 @@ class _GoalsPageState extends State<GoalsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Hero(
-                        tag: "goalTitle${index}",
+                        tag: "dartIcon${index}",
+                        child: Container(
+                            width: 70.0,
+                            height: 70.0,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("img/icon.png")))),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Center(
                         child: Text("${_goalTitlesList[index]}",
                             style: TextStyle(
                                 color: invertColors(),
@@ -180,16 +176,26 @@ class _GoalsPageState extends State<GoalsPage> {
 
   Widget _buildNewGoal(int index) {
     int goalNumber = index + 1;
-    return
-//        Hero(
-//      tag: "card${index}",
-        _buildTile(
+    return _buildTile(
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Hero(
+                    tag: "dartIcon${index}",
+                    child: Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("img/icon.png")))),
+                  ),
+                ],
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +223,6 @@ class _GoalsPageState extends State<GoalsPage> {
               ),
             ]),
       ),
-//      onTap: () => _deleteGoalConfirmation(index),
       onTap: () => _editGoal(index),
     );
   } //flutter builds a new goal
@@ -251,15 +256,20 @@ class _GoalsPageState extends State<GoalsPage> {
   } //build material goal card
 
   @override
+  void dispose() {
+    // Clean up the controller when the Widget is removed from the Widget tree
+    inputGoalTitleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
         title: Text('My Goals',
-            style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 24.0)),
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         actions: <Widget>[
           IconButton(
             icon: isThemeCurrentlyDark()
@@ -275,9 +285,7 @@ class _GoalsPageState extends State<GoalsPage> {
       body: noGoals == true
           ? Center(
               child: Text("No goals yet",
-                  style: TextStyle(
-                      color: invertColors(),
-                      fontSize: 24.0)))
+                  style: TextStyle(color: invertColors(), fontSize: 24.0)))
           : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
