@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:goalkeeper/colors.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -11,6 +12,9 @@ class GoalsPage extends StatefulWidget {
 class _GoalsPageState extends State<GoalsPage> {
   List<String> _goalTitlesList = [];
   List<String> _goalBodiesList = [];
+  String inputGoalTitle;
+  bool noGoals = true;
+  TextEditingController goalController = new TextEditingController();
 
   bool isThemeCurrentlyDark() {
     if (Theme.of(context).brightness == Brightness.dark) {
@@ -33,15 +37,23 @@ class _GoalsPageState extends State<GoalsPage> {
     }
   } //returns appropriate colors for text visibility
 
+  void _submitForm(String title) {
+    if (title.length > 0) {
+      setState(() => _goalTitlesList.add(title));
+      noGoals = false;
+    }
+    inputGoalTitle = ""; //resets the title
+    Navigator.pop(context);
+  }
+
   void _createNewGoal() {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+    Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
           elevation: 5.0,
-          backgroundColor: MyColors.primaryColor,
+          backgroundColor: MyColors.purple,
           title: Text('New Goal',
               style: TextStyle(
-                  color: MyColors.light,
                   fontWeight: FontWeight.w700,
                   fontSize: 24.0)),
         ),
@@ -49,11 +61,10 @@ class _GoalsPageState extends State<GoalsPage> {
           child: new ListView(
             children: <Widget>[
               TextField(
+                  controller: goalController,
                 onSubmitted: (title) {
-                  if (title.length > 0) {
-                    setState(() => _goalTitlesList.add(title));
-                  }
-                  Navigator.pop(context);
+                  inputGoalTitle = title;
+                  _submitForm(title);
                 },
                 decoration: new InputDecoration(
                     hintText: 'Enter Goal Title',
@@ -75,11 +86,11 @@ class _GoalsPageState extends State<GoalsPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pop(context);
+            _submitForm(goalController.text);
           },
           child: Icon(Icons.check),
           foregroundColor: MyColors.light,
-          backgroundColor: MyColors.purple,
+          backgroundColor: MyColors.pink,
           elevation: 5.0,
         ),
       );
@@ -87,10 +98,6 @@ class _GoalsPageState extends State<GoalsPage> {
   } //user creates a new goal
 
   void _deleteGoal(int index) {
-    setState(() => _goalTitlesList.removeAt(index));
-  }
-
-  void _deleteGoalConfirmation(int index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -99,66 +106,68 @@ class _GoalsPageState extends State<GoalsPage> {
               content: Text("This goal will be deleted!"),
               actions: <Widget>[
                 FlatButton(
-                    child: Text('CANCEL'),
+                    child:
+                        Text('CANCEL', style: TextStyle(color: invertColors())),
                     onPressed: () => Navigator.of(context).pop()),
                 FlatButton(
                     child:
                         Text('DELETE', style: TextStyle(color: MyColors.red)),
                     onPressed: () {
-                      _deleteGoal(index);
-                      _editGoal(index);
                       Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      setState(() => _goalTitlesList.removeAt(index));
+                      _goalTitlesList.isEmpty == true
+                          ? noGoals = true
+                          : noGoals = false;
                     })
               ]);
         });
   }
 
   void _editGoal(int index) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+    Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
           elevation: 5.0,
-          backgroundColor: MyColors.primaryColor,
+          backgroundColor: MyColors.aqua,
           title: Text('Edit Goal',
               style: TextStyle(
-                  color: MyColors.light,
                   fontWeight: FontWeight.w700,
                   fontSize: 24.0)),
         ),
-        body: Container(
-          margin: const EdgeInsets.all(5.0),
-//          child: Hero(
-//            tag: "card${index}",
-            child: _buildTile(Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
+        body: _buildTile(
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: 50,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Hero(
+                        tag: "goalTitle${index}",
+                        child: Text("${_goalTitlesList[index]}",
+                            style: TextStyle(
+                                color: invertColors(),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22.0)),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("${_goalTitlesList[index]}",
+                          style:
+                              TextStyle(color: invertColors(), fontSize: 15)),
+                    ],
                   ),
-                  Center(
-                    child: Hero(
-                      tag: "goalTitle${index}",
-                      child: Text("${_goalTitlesList[index]}",
-                          style: TextStyle(
-                              color: invertColors(),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30.0)),
-                    ),
-                  ),
-                  Text("${_goalTitlesList[index]}"),
-                ],
-              ),
-//      onTap: () => _editGoal(index),
-            )),
-//          ),
+                ]),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _deleteGoalConfirmation(index);
-            Navigator.pop(context);
+            _deleteGoal(index);
           },
           child: Icon(Icons.delete),
           foregroundColor: MyColors.light,
@@ -174,44 +183,43 @@ class _GoalsPageState extends State<GoalsPage> {
     return
 //        Hero(
 //      tag: "card${index}",
-      _buildTile(
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Goal #$goalNumber",
+        _buildTile(
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Goal #$goalNumber",
+                      style: TextStyle(
+                          color: MyColors.accentColor, fontSize: 15.0)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Hero(
+                    tag: "goalTitle${index}",
+                    child: Text("${_goalTitlesList[index]}",
                         style: TextStyle(
-                            color: MyColors.accentColor, fontSize: 15.0)),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Hero(
-                      tag: "goalTitle${index}",
-                      child: Text("${_goalTitlesList[index]}",
-                          style: TextStyle(
-                              color: invertColors(),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 22.0)),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text("${_goalTitlesList[index]}",
-                        style: TextStyle(color: invertColors(), fontSize: 15)),
-                  ],
-                ),
-              ]),
-        ),
+                            color: invertColors(),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 22.0)),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text("${_goalTitlesList[index]}",
+                      style: TextStyle(color: invertColors(), fontSize: 15)),
+                ],
+              ),
+            ]),
+      ),
 //      onTap: () => _deleteGoalConfirmation(index),
-        onTap: () => _editGoal(index),
-      );
-    
+      onTap: () => _editGoal(index),
+    );
   } //flutter builds a new goal
 
   Widget _buildGoalsList() {
@@ -224,7 +232,7 @@ class _GoalsPageState extends State<GoalsPage> {
     );
   } //builds goals list
 
-  Widget _buildTile(Widget widgetStuff, {Function() onTap}) {
+  Widget _buildTile(Widget widgetContent, {Function() onTap}) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: Material(
@@ -236,7 +244,7 @@ class _GoalsPageState extends State<GoalsPage> {
                 : () {
                     print("Nothing set");
                   },
-            child: widgetStuff,
+            child: widgetContent,
             splashColor: MyColors.accentColor,
           )),
     );
@@ -250,7 +258,6 @@ class _GoalsPageState extends State<GoalsPage> {
         backgroundColor: MyColors.primaryColor,
         title: Text('My Goals',
             style: TextStyle(
-                color: MyColors.light,
                 fontWeight: FontWeight.w700,
                 fontSize: 24.0)),
         actions: <Widget>[
@@ -265,7 +272,13 @@ class _GoalsPageState extends State<GoalsPage> {
           ),
         ],
       ),
-      body: _buildGoalsList(),
+      body: noGoals == true
+          ? Center(
+              child: Text("No goals yet",
+                  style: TextStyle(
+                      color: invertColors(),
+                      fontSize: 24.0)))
+          : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _createNewGoal();
