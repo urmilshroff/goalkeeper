@@ -35,10 +35,10 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 5.0,
+          elevation: 3.0,
           backgroundColor: MyColors.purple,
           title: Text('New Goal',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         ),
         body: Container(
           child: Padding(
@@ -51,8 +51,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   ),
                   TextField(
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(color: invertColors(context), fontSize: 18.0),
+                    style: TextStyle(color: invertColors(context)),
                     controller: inputGoalTitleController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -65,8 +64,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   ),
                   TextField(
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(color: invertColors(context), fontSize: 18.0),
+                    style: TextStyle(color: invertColors(context)),
                     controller: inputGoalBodyController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -87,7 +85,7 @@ class _GoalsPageState extends State<GoalsPage> {
           child: Icon(EvaIcons.checkmark),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.pink,
-          elevation: 5.0,
+          elevation: 3.0,
         ),
       );
     }));
@@ -127,10 +125,10 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 5.0,
+          elevation: 3.0,
           backgroundColor: MyColors.aqua,
           title: Text('Edit Goal',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         ),
         body: Container(
             child: Row(
@@ -144,8 +142,8 @@ class _GoalsPageState extends State<GoalsPage> {
                   Hero(
                     tag: "dartIcon${index}",
                     child: Container(
-                        width: 80.0,
-                        height: 80.0,
+                        width: 70.0,
+                        height: 70.0,
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage("assets/icon/icon.png")))),
@@ -157,13 +155,13 @@ class _GoalsPageState extends State<GoalsPage> {
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0)),
+                          fontSize: 20.0)),
                   SizedBox(
                     height: 5.0,
                   ),
                   Text("${goalBodiesList[index]}",
                       style: TextStyle(
-                          color: invertColors(context), fontSize: 18)),
+                          color: invertColors(context), fontSize: 16.0)),
                 ],
               ),
             ])),
@@ -174,7 +172,7 @@ class _GoalsPageState extends State<GoalsPage> {
           child: Icon(EvaIcons.trash),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.red,
-          elevation: 5.0,
+          elevation: 3.0,
         ),
       );
     }));
@@ -210,10 +208,9 @@ class _GoalsPageState extends State<GoalsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text("Goal #$goalNumber",
-                      style: TextStyle(
-                          color: MyColors.accentColor, fontSize: 15.0)),
+                      style: TextStyle(color: MyColors.accentColor)),
                   SizedBox(
-                    height: 5.0,
+                    height: 3.0,
                   ),
                   Hero(
                     tag: "goalTitle${index}",
@@ -221,14 +218,13 @@ class _GoalsPageState extends State<GoalsPage> {
                         style: TextStyle(
                             color: invertColors(context),
                             fontWeight: FontWeight.w700,
-                            fontSize: 22.0)),
+                            fontSize: 20.0)),
                   ),
                   SizedBox(
-                    height: 5.0,
+                    height: 3.0,
                   ),
                   Text("${goalBodiesList[index]}",
-                      style: TextStyle(
-                          color: invertColors(context), fontSize: 15)),
+                      style: TextStyle(color: invertColors(context))),
                 ],
               ),
               Spacer(),
@@ -252,8 +248,8 @@ class _GoalsPageState extends State<GoalsPage> {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: Material(
-          elevation: 5.0,
-          borderRadius: BorderRadius.circular(10.0),
+          elevation: 3.0,
+          borderRadius: BorderRadius.circular(8.0),
           child: InkWell(
             onTap: onTap != null
                 ? () => onTap()
@@ -277,10 +273,10 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 5.0,
+        elevation: 3.0,
         backgroundColor: MyColors.primaryColor,
         title: Text('My Goals',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         actions: <Widget>[
           IconButton(
             icon: isThemeCurrentlyDark(context)
@@ -325,8 +321,8 @@ class _GoalsPageState extends State<GoalsPage> {
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        elevation: 5.0,
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        elevation: 3.0,
       ),
     );
   }
