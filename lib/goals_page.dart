@@ -5,7 +5,7 @@ import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -18,12 +18,16 @@ class _GoalsPageState extends State<GoalsPage> {
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
   } //switch between light & dark modes
 
-  void _submitForm(String title) {
-    if (title.length > 0) {
-      setState(() => goalTitlesList.add(title));
+  void _submitForm(String inputGoalTitle, String inputGoalBody) {
+    if (inputGoalTitle.length > 0 && inputGoalBody.length > 0) {
+      setState(() {
+        goalTitlesList.add(inputGoalTitle);
+        goalBodiesList.add(inputGoalBody);
+      });
       noGoals = false;
     }
-    inputGoalTitle = ""; //resets the title
+    inputGoalTitleController.text = ""; //resets the title
+    inputGoalBodyController.text = ""; //resets the description
     Navigator.pop(context);
   }
 
@@ -50,10 +54,6 @@ class _GoalsPageState extends State<GoalsPage> {
                     style:
                         TextStyle(color: invertColors(context), fontSize: 18.0),
                     controller: inputGoalTitleController,
-                    onSubmitted: (title) {
-                      inputGoalTitle = title;
-                      _submitForm(inputGoalTitle);
-                    },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Goal Title',
@@ -67,9 +67,10 @@ class _GoalsPageState extends State<GoalsPage> {
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(color: invertColors(context), fontSize: 18.0),
+                    controller: inputGoalBodyController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Description',
+                        labelText: 'Goal Description',
                         hintText: 'Explain it in a few words',
                         contentPadding: const EdgeInsets.all(15.0)),
                   ),
@@ -80,9 +81,10 @@ class _GoalsPageState extends State<GoalsPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _submitForm(inputGoalTitleController.text);
+            _submitForm(
+                inputGoalTitleController.text, inputGoalBodyController.text);
           },
-          child: Icon(OMIcons.check),
+          child: Icon(EvaIcons.checkmark),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.pink,
           elevation: 5.0,
@@ -109,7 +111,10 @@ class _GoalsPageState extends State<GoalsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      setState(() => goalTitlesList.removeAt(index));
+                      setState(() {
+                        goalTitlesList.removeAt(index);
+                        goalBodiesList.removeAt(index);
+                      });
                       goalTitlesList.isEmpty == true
                           ? noGoals = true
                           : noGoals = false;
@@ -143,7 +148,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         height: 80.0,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("img/icon.png")))),
+                                image: AssetImage("assets/icon/icon.png")))),
                   ),
                   SizedBox(
                     height: 10.0,
@@ -156,7 +161,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text("Goal description",
+                  Text("${goalBodiesList[index]}",
                       style: TextStyle(
                           color: invertColors(context), fontSize: 18)),
                 ],
@@ -166,7 +171,7 @@ class _GoalsPageState extends State<GoalsPage> {
           onPressed: () {
             _deleteGoal(index);
           },
-          child: Icon(OMIcons.delete),
+          child: Icon(EvaIcons.trash),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.red,
           elevation: 5.0,
@@ -193,7 +198,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         height: 40.0,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("img/icon.png")))),
+                                image: AssetImage("assets/icon/icon.png")))),
                   ),
                 ],
               ),
@@ -221,7 +226,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text("Goal description",
+                  Text("${goalBodiesList[index]}",
                       style: TextStyle(
                           color: invertColors(context), fontSize: 15)),
                 ],
@@ -279,8 +284,8 @@ class _GoalsPageState extends State<GoalsPage> {
         actions: <Widget>[
           IconButton(
             icon: isThemeCurrentlyDark(context)
-                ? Icon(OMIcons.brightness5) //use sun icon
-                : Icon(OMIcons.brightness2), //use moon icon
+                ? Icon(EvaIcons.sun) //use sun icon
+                : Icon(EvaIcons.moon), //use moon icon
             tooltip: isThemeCurrentlyDark(context)
                 ? "Switch to light mode"
                 : "Switch to dark mode",
@@ -296,15 +301,15 @@ class _GoalsPageState extends State<GoalsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      OMIcons.add,
-                      size: 70.0,
+                      EvaIcons.flag,
+                      size: 64.0,
                       color: invertColors(context),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text("No goals yet",
                           style: TextStyle(
-                              fontSize: 20.0, color: invertColors(context))),
+                              fontSize: 18.0, color: invertColors(context))),
                     ),
                   ],
                 ),
@@ -315,7 +320,7 @@ class _GoalsPageState extends State<GoalsPage> {
         onPressed: () {
           _createGoal();
         },
-        icon: Icon(OMIcons.add),
+        icon: Icon(EvaIcons.plus),
         label: Text("NEW GOAL"),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
