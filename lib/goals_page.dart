@@ -35,7 +35,7 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 3.0,
+          elevation: 5.0,
           backgroundColor: MyColors.purple,
           title: Text('New Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -125,7 +125,7 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 3.0,
+          elevation: 5.0,
           backgroundColor: MyColors.aqua,
           title: Text('Edit Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -273,7 +273,7 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 3.0,
+        elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
         title: Text('My Goals',
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -312,17 +312,39 @@ class _GoalsPageState extends State<GoalsPage> {
               ),
             )
           : _buildGoalsList(),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _createGoal();
         },
-        icon: Icon(EvaIcons.plus),
-        label: Text("NEW GOAL"),
+        child: Icon(EvaIcons.plus),
+//        label: Text("NEW GOAL"),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+//        shape: RoundedRectangleBorder(
+//            borderRadius: BorderRadius.all(Radius.circular(8.0))),
         elevation: 3.0,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 15.0,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 5.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(EvaIcons.home),
+              color: invertColors(context),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(EvaIcons.info),
+              color: invertColors(context),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
