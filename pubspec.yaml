@@ -12,7 +12,7 @@ dependencies:
 
   dynamic_theme: ^1.0.1
   cupertino_icons: ^0.1.2
-  outline_material_icons: ^0.1.0
+  eva_icons_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -22,9 +22,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-      - img/
+      - assets/
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "img/icon.png"
+  image_path: "assets/icon/icon.png"
