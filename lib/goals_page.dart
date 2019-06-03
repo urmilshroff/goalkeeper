@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:goalkeeper/colors.dart';
+import 'package:goalkeeper/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 
@@ -10,43 +12,21 @@ class GoalsPage extends StatefulWidget {
 }
 
 class _GoalsPageState extends State<GoalsPage> {
-  List<String> _goalTitlesList = [];
-  List<String> _goalBodiesList = [];
-  String inputGoalTitle;
-  TextEditingController inputGoalTitleController = new TextEditingController();
-  bool noGoals = true;
-
-  bool isThemeCurrentlyDark() {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return true; //if currently in dark mode
-    } else {
-      return false;
-    }
-  } //returns current theme
-
-  void changeBrightness() {
+  void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
-        isThemeCurrentlyDark() ? Brightness.light : Brightness.dark);
+        isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
   } //switch between light & dark modes
-
-  Color invertColors() {
-    if (isThemeCurrentlyDark()) {
-      return MyColors.light;
-    } else {
-      return MyColors.dark;
-    }
-  } //returns appropriate colors for text visibility
 
   void _submitForm(String title) {
     if (title.length > 0) {
-      setState(() => _goalTitlesList.add(title));
+      setState(() => goalTitlesList.add(title));
       noGoals = false;
     }
     inputGoalTitle = ""; //resets the title
     Navigator.pop(context);
   }
 
-  void _createNewGoal() {
+  void _createGoal() {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -55,17 +35,19 @@ class _GoalsPageState extends State<GoalsPage> {
           title: Text('New Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         ),
-        body:
-        Container(
-            child: Padding(
-                padding: const EdgeInsets.all(10.0),
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Form(
               child: ListView(
                 children: <Widget>[
-                SizedBox(height: 15.0,),
+                  SizedBox(
+                    height: 15.0,
+                  ),
                   TextField(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: invertColors(), fontSize: 18.0),
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(color: invertColors(context), fontSize: 18.0),
                     controller: inputGoalTitleController,
                     onSubmitted: (title) {
                       inputGoalTitle = title;
@@ -77,15 +59,13 @@ class _GoalsPageState extends State<GoalsPage> {
                         hintText: 'What\'s your goal for today?',
                         contentPadding: const EdgeInsets.all(15.0)),
                   ),
-                  SizedBox(height: 15.0,),
+                  SizedBox(
+                    height: 15.0,
+                  ),
                   TextField(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: invertColors(), fontSize: 18.0),
-                    // controller: inputGoalTitleController,
-                    // onSubmitted: (title) {
-                    //   inputGoalTitle = title;
-                    //   _submitForm(inputGoalTitle);
-                    // },
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(color: invertColors(context), fontSize: 18.0),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Description',
@@ -95,9 +75,8 @@ class _GoalsPageState extends State<GoalsPage> {
                 ],
               ),
             ),
-            ),
-            ),
-            
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _submitForm(inputGoalTitleController.text);
@@ -116,12 +95,12 @@ class _GoalsPageState extends State<GoalsPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text("Done with \'${_goalTitlesList[index]}\'?"),
+              title: Text("Done with \'${goalTitlesList[index]}\'?"),
               content: Text("This goal will be deleted!"),
               actions: <Widget>[
                 FlatButton(
-                    child:
-                        Text('CANCEL', style: TextStyle(color: invertColors())),
+                    child: Text('CANCEL',
+                        style: TextStyle(color: invertColors(context))),
                     onPressed: () => Navigator.of(context).pop()),
                 FlatButton(
                     child:
@@ -129,8 +108,8 @@ class _GoalsPageState extends State<GoalsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      setState(() => _goalTitlesList.removeAt(index));
-                      _goalTitlesList.isEmpty == true
+                      setState(() => goalTitlesList.removeAt(index));
+                      goalTitlesList.isEmpty == true
                           ? noGoals = true
                           : noGoals = false;
                     })
@@ -151,37 +130,37 @@ class _GoalsPageState extends State<GoalsPage> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                    SizedBox(height: 100.0,),
-                      Hero(
-                        tag: "dartIcon${index}",
-                        child: Container(
-                            width: 80.0,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage("img/icon.png")))),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                        Text("${_goalTitlesList[index]}",
-                            style: TextStyle(
-                                color: invertColors(),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 26.0)),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text("Goal description",
-                          style:
-                              TextStyle(color: invertColors(), fontSize: 18)),
-                    ],
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 100.0,
                   ),
-                ])),
-        //   ),
-        // ),
+                  Hero(
+                    tag: "dartIcon${index}",
+                    child: Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("img/icon.png")))),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text("${goalTitlesList[index]}",
+                      style: TextStyle(
+                          color: invertColors(context),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26.0)),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text("Goal description",
+                      style: TextStyle(
+                          color: invertColors(context), fontSize: 18)),
+                ],
+              ),
+            ])),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _deleteGoal(index);
@@ -195,7 +174,7 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   }
 
-  Widget _buildNewGoal(int index) {
+  Widget _buildGoal(int index) {
     int goalNumber = index + 1;
     return _buildTile(
       Padding(
@@ -217,7 +196,9 @@ class _GoalsPageState extends State<GoalsPage> {
                   ),
                 ],
               ),
-              SizedBox(width: 10.0,),
+              SizedBox(
+                width: 10.0,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,18 +206,23 @@ class _GoalsPageState extends State<GoalsPage> {
                   Text("Goal #$goalNumber",
                       style: TextStyle(
                           color: MyColors.accentColor, fontSize: 15.0)),
-                  SizedBox(height: 5.0,),
+                  SizedBox(
+                    height: 5.0,
+                  ),
                   Hero(
                     tag: "goalTitle${index}",
-                    child: Text("${_goalTitlesList[index]}",
+                    child: Text("${goalTitlesList[index]}",
                         style: TextStyle(
-                            color: invertColors(),
+                            color: invertColors(context),
                             fontWeight: FontWeight.w700,
                             fontSize: 22.0)),
                   ),
-                  SizedBox(height: 5.0,),
+                  SizedBox(
+                    height: 5.0,
+                  ),
                   Text("Goal description",
-                      style: TextStyle(color: invertColors(), fontSize: 15)),
+                      style: TextStyle(
+                          color: invertColors(context), fontSize: 15)),
                 ],
               ),
               Spacer(),
@@ -249,8 +235,8 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget _buildGoalsList() {
     return Container(
       child: ListView.builder(itemBuilder: (context, index) {
-        if (index < _goalTitlesList.length) {
-          return _buildNewGoal(index);
+        if (index < goalTitlesList.length) {
+          return _buildGoal(index);
         }
       }),
     );
@@ -291,24 +277,40 @@ class _GoalsPageState extends State<GoalsPage> {
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0)),
         actions: <Widget>[
           IconButton(
-            icon: isThemeCurrentlyDark()
+            icon: isThemeCurrentlyDark(context)
                 ? Icon(Icons.brightness_7) //use sun icon
                 : Icon(Icons.brightness_2), //use moon icon
-            tooltip: isThemeCurrentlyDark()
+            tooltip: isThemeCurrentlyDark(context)
                 ? "Switch to light mode"
                 : "Switch to dark mode",
-            onPressed: changeBrightness,
+            onPressed: _changeBrightness,
           ),
         ],
       ),
       body: noGoals == true
-          ? Center(
-              child: Text("No goals yet :(",
-                  style: TextStyle(color: invertColors(), fontSize: 24.0)))
+          ?
+
+
+      Center(child:
+   Column(
+       children: <Widget>[
+           Text("No goals yet :(",
+                  style:
+                      TextStyle(color: invertColors(context), fontSize: 24.0))
+       ],
+              ),)
+
+
+
+
+
+
+
+
           : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _createNewGoal();
+          _createGoal();
         },
         icon: Icon(Icons.add),
         label: Text("NEW GOAL"),
