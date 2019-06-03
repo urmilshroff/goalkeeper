@@ -5,6 +5,7 @@ import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _GoalsPageState extends State<GoalsPage> {
           onPressed: () {
             _submitForm(inputGoalTitleController.text);
           },
-          child: Icon(Icons.check),
+          child: Icon(OMIcons.check),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.pink,
           elevation: 5.0,
@@ -165,7 +166,7 @@ class _GoalsPageState extends State<GoalsPage> {
           onPressed: () {
             _deleteGoal(index);
           },
-          child: Icon(Icons.delete),
+          child: Icon(OMIcons.delete),
           foregroundColor: MyColors.light,
           backgroundColor: MyColors.red,
           elevation: 5.0,
@@ -278,8 +279,8 @@ class _GoalsPageState extends State<GoalsPage> {
         actions: <Widget>[
           IconButton(
             icon: isThemeCurrentlyDark(context)
-                ? Icon(Icons.brightness_7) //use sun icon
-                : Icon(Icons.brightness_2), //use moon icon
+                ? Icon(OMIcons.brightness5) //use sun icon
+                : Icon(OMIcons.brightness2), //use moon icon
             tooltip: isThemeCurrentlyDark(context)
                 ? "Switch to light mode"
                 : "Switch to dark mode",
@@ -288,31 +289,33 @@ class _GoalsPageState extends State<GoalsPage> {
         ],
       ),
       body: noGoals == true
-          ?
-
-
-      Center(child:
-   Column(
-       children: <Widget>[
-           Text("No goals yet :(",
-                  style:
-                      TextStyle(color: invertColors(context), fontSize: 24.0))
-       ],
-              ),)
-
-
-
-
-
-
-
-
+          ? Container(
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      OMIcons.add,
+                      size: 70.0,
+                      color: invertColors(context),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("No goals yet",
+                          style: TextStyle(
+                              fontSize: 20.0, color: invertColors(context))),
+                    ),
+                  ],
+                ),
+              ),
+            )
           : _buildGoalsList(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _createGoal();
         },
-        icon: Icon(Icons.add),
+        icon: Icon(OMIcons.add),
         label: Text("NEW GOAL"),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
