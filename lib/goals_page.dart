@@ -18,12 +18,16 @@ class _GoalsPageState extends State<GoalsPage> {
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
   } //switch between light & dark modes
 
-  void _submitForm(String title) {
-    if (title.length > 0) {
-      setState(() => goalTitlesList.add(title));
+  void _submitForm(String inputGoalTitle, String inputGoalBody) {
+    if (inputGoalTitle.length > 0 && inputGoalBody.length > 0) {
+      setState(() {
+        goalTitlesList.add(inputGoalTitle);
+        goalBodiesList.add(inputGoalBody);
+      });
       noGoals = false;
     }
-    inputGoalTitle = ""; //resets the title
+    inputGoalTitleController.text = ""; //resets the title
+    inputGoalBodyController.text = ""; //resets the description
     Navigator.pop(context);
   }
 
@@ -50,10 +54,6 @@ class _GoalsPageState extends State<GoalsPage> {
                     style:
                         TextStyle(color: invertColors(context), fontSize: 18.0),
                     controller: inputGoalTitleController,
-                    onSubmitted: (title) {
-                      inputGoalTitle = title;
-                      _submitForm(inputGoalTitle);
-                    },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Goal Title',
@@ -67,9 +67,10 @@ class _GoalsPageState extends State<GoalsPage> {
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(color: invertColors(context), fontSize: 18.0),
+                    controller: inputGoalBodyController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Description',
+                        labelText: 'Goal Description',
                         hintText: 'Explain it in a few words',
                         contentPadding: const EdgeInsets.all(15.0)),
                   ),
@@ -80,7 +81,8 @@ class _GoalsPageState extends State<GoalsPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _submitForm(inputGoalTitleController.text);
+            _submitForm(
+                inputGoalTitleController.text, inputGoalBodyController.text);
           },
           child: Icon(EvaIcons.checkmark),
           foregroundColor: MyColors.light,
@@ -109,7 +111,10 @@ class _GoalsPageState extends State<GoalsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      setState(() => goalTitlesList.removeAt(index));
+                      setState(() {
+                        goalTitlesList.removeAt(index);
+                        goalBodiesList.removeAt(index);
+                      });
                       goalTitlesList.isEmpty == true
                           ? noGoals = true
                           : noGoals = false;
@@ -156,7 +161,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text("Goal description",
+                  Text("${goalBodiesList[index]}",
                       style: TextStyle(
                           color: invertColors(context), fontSize: 18)),
                 ],
@@ -221,7 +226,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text("Goal description",
+                  Text("${goalBodiesList[index]}",
                       style: TextStyle(
                           color: invertColors(context), fontSize: 15)),
                 ],

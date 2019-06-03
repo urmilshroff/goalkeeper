@@ -22,7 +22,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-      - assets/
+      - assets/icon/
 
 flutter_icons:
   android: "launcher_icon"
