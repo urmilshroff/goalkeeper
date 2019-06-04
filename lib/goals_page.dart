@@ -25,6 +25,7 @@ class _GoalsPageState extends State<GoalsPage> {
         goalBodiesList.add(inputGoalBody);
       });
       noGoals = false;
+      saveDataToDB(inputGoalTitle, inputGoalBody);
     }
     inputGoalTitleController.text = ""; //resets the title
     inputGoalBodyController.text = ""; //resets the description
@@ -178,7 +179,7 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   }
 
-  Widget _buildGoal(int index) {
+  Widget _buildGoal(index) {
     int goalNumber = index + 1;
     return _buildTile(
       Padding(
@@ -212,14 +213,11 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Hero(
-                    tag: "goalTitle${index}",
-                    child: Text("${goalTitlesList[index]}",
-                        style: TextStyle(
-                            color: invertColors(context),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20.0)),
-                  ),
+                  Text("${goalTitlesList[index]}",
+                      style: TextStyle(
+                          color: invertColors(context),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0)),
                   SizedBox(
                     height: 3.0,
                   ),
@@ -311,19 +309,7 @@ class _GoalsPageState extends State<GoalsPage> {
                 ),
               ),
             )
-//          : _buildGoalsList(),
-          : Column(
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("READ"),
-                  onPressed: readDataFromDB,
-                ),
-                RaisedButton(
-                  child: Text("SAVE"),
-                  onPressed: saveDataToDB,
-                ),
-              ],
-            ),
+          : _buildGoalsList(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
