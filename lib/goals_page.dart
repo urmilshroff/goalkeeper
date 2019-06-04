@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/public.dart';
-import 'package:goalkeeper/database_helper.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -317,11 +316,11 @@ class _GoalsPageState extends State<GoalsPage> {
               children: <Widget>[
                 RaisedButton(
                   child: Text("READ"),
-                  onPressed: _readDataFromDB,
+                  onPressed: readDataFromDB,
                 ),
                 RaisedButton(
                   child: Text("SAVE"),
-                  onPressed: _saveDataToDB,
+                  onPressed: saveDataToDB,
                 ),
               ],
             ),
@@ -358,24 +357,4 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
     );
   }
-}
-
-_readDataFromDB() async {
-  DatabaseHelper helper = DatabaseHelper.instance;
-  int rowId = 1;
-  MyTitle title = await helper.queryMyTitle(rowId);
-  if (title == null) {
-    print('read row $rowId: empty');
-  } else {
-    print('read row $rowId: ${title.title} ${title.body}');
-  }
-}
-
-_saveDataToDB() async {
-  MyTitle title = MyTitle();
-  title.title = "hello";
-  title.body = "world";
-  DatabaseHelper helper = DatabaseHelper.instance;
-  int id = await helper.insert(title);
-  print('inserted row: $id');
 }

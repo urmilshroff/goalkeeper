@@ -10,13 +10,13 @@ final String goalId = '_id';
 final String goalTitle = 'title';
 final String goalBody = 'body';
 
-class MyTitle {
+class MyGoal {
   int id;
   String title;
   String body;
 
-  MyTitle();
-  MyTitle.fromMap(Map<String, dynamic> map) {
+  MyGoal();
+  MyGoal.fromMap(Map<String, dynamic> map) {
     id = map[goalId];
     title = map[goalTitle];
     body = map[goalBody];
@@ -69,20 +69,20 @@ class DatabaseHelper {
               ''');
   }
 
-  Future<int> insert(MyTitle title) async {
+  Future<int> insert(MyGoal title) async {
     Database db = await database;
     int id = await db.insert(goalsTable, title.toMap());
     return id;
   }
 
-  Future<MyTitle> queryMyTitle(int id) async {
+  Future<MyGoal> queryMyGoal(int id) async {
     Database db = await database;
     List<Map> maps = await db.query(goalsTable,
         columns: [goalId, goalTitle, goalBody],
         where: '$goalId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return MyTitle.fromMap(maps.first);
+      return MyGoal.fromMap(maps.first);
     }
     return null;
   }
