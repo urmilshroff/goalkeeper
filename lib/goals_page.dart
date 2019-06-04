@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/public.dart';
+import 'package:goalkeeper/database_helper.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -311,18 +312,27 @@ class _GoalsPageState extends State<GoalsPage> {
                 ),
               ),
             )
-          : _buildGoalsList(),
+//          : _buildGoalsList(),
+          : Column(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("READ"),
+                  onPressed: _readDataFromDB,
+                ),
+                RaisedButton(
+                  child: Text("SAVE"),
+                  onPressed: _saveDataToDB,
+                ),
+              ],
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _createGoal();
         },
         child: Icon(EvaIcons.plus),
-//        label: Text("NEW GOAL"),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
-//        shape: RoundedRectangleBorder(
-//            borderRadius: BorderRadius.all(Radius.circular(8.0))),
         elevation: 3.0,
       ),
       bottomNavigationBar: BottomAppBar(
@@ -348,4 +358,24 @@ class _GoalsPageState extends State<GoalsPage> {
       ),
     );
   }
+}
+
+_readDataFromDB() async {
+  DatabaseHelper helper = DatabaseHelper.instance;
+  int rowId = 1;
+  Word word = await helper.queryWord(rowId);
+  if (word == null) {
+    print('read row $rowId: empty');
+  } else {
+    print('read row $rowId: ${word.word} ${word.frequency}');
+  }
+}
+
+_saveDataToDB() async {
+  Word word = Word();
+  word.word = 'hello';
+  word.frequency = 15;
+  DatabaseHelper helper = DatabaseHelper.instance;
+  int id = await helper.insert(word);
+  print('inserted row: $id');
 }
