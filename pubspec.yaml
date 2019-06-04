@@ -13,6 +13,8 @@ dependencies:
   dynamic_theme: ^1.0.1
   cupertino_icons: ^0.1.2
   eva_icons_flutter: ^2.0.0
+  sqflite: ^1.1.5
+  path_provider: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -22,7 +24,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-      - assets/icon/
+      - assets/
 
 flutter_icons:
   android: "launcher_icon"

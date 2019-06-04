@@ -25,6 +25,7 @@ class _GoalsPageState extends State<GoalsPage> {
         goalBodiesList.add(inputGoalBody);
       });
       noGoals = false;
+      saveDataToDB(inputGoalTitle, inputGoalBody);
     }
     inputGoalTitleController.text = ""; //resets the title
     inputGoalBodyController.text = ""; //resets the description
@@ -35,7 +36,7 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 3.0,
+          elevation: 5.0,
           backgroundColor: MyColors.purple,
           title: Text('New Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -69,7 +70,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Goal Description',
-                        hintText: 'Explain it in a few words',
+                        hintText: 'Explain it in a few titles',
                         contentPadding: const EdgeInsets.all(15.0)),
                   ),
                 ],
@@ -125,7 +126,7 @@ class _GoalsPageState extends State<GoalsPage> {
     Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 3.0,
+          elevation: 5.0,
           backgroundColor: MyColors.aqua,
           title: Text('Edit Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -146,7 +147,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         height: 70.0,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("assets/icon/icon.png")))),
+                                image: AssetImage("assets/icon.png")))),
                   ),
                   SizedBox(
                     height: 10.0,
@@ -178,7 +179,7 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   }
 
-  Widget _buildGoal(int index) {
+  Widget _buildGoal(index) {
     int goalNumber = index + 1;
     return _buildTile(
       Padding(
@@ -196,7 +197,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         height: 40.0,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("assets/icon/icon.png")))),
+                                image: AssetImage("assets/icon.png")))),
                   ),
                 ],
               ),
@@ -212,14 +213,11 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Hero(
-                    tag: "goalTitle${index}",
-                    child: Text("${goalTitlesList[index]}",
-                        style: TextStyle(
-                            color: invertColors(context),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20.0)),
-                  ),
+                  Text("${goalTitlesList[index]}",
+                      style: TextStyle(
+                          color: invertColors(context),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0)),
                   SizedBox(
                     height: 3.0,
                   ),
@@ -271,9 +269,10 @@ class _GoalsPageState extends State<GoalsPage> {
 
   @override
   Widget build(BuildContext context) {
+    PageController _myPage = PageController(initialPage: 0);
     return Scaffold(
       appBar: AppBar(
-        elevation: 3.0,
+        elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
         title: Text('My Goals',
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
@@ -289,40 +288,140 @@ class _GoalsPageState extends State<GoalsPage> {
           ),
         ],
       ),
-      body: noGoals == true
-          ? Container(
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      EvaIcons.flag,
-                      size: 64.0,
-                      color: invertColors(context),
+      body: PageView(
+        controller: _myPage,
+        children: <Widget>[
+          noGoals == true
+              ? Container(
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          EvaIcons.flag,
+                          size: 64.0,
+                          color: invertColors(context),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text("No goals yet",
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: invertColors(context))),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text("No goals yet",
-                          style: TextStyle(
-                              fontSize: 18.0, color: invertColors(context))),
-                    ),
-                  ],
+                  ),
+                )
+              : _buildGoalsList(),
+          Container(
+            child: ListView(
+              children: <Widget>[
+                _buildTile(
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/urmil-vector.png")))),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Text("Made by",
+                                style: TextStyle(color: invertColors(context))),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: Text("Urmil Shroff",
+                                style: TextStyle(
+                                    color: invertColors(context),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20.0)),
+                          ),
+                        ]),
+                  ),
                 ),
-              ),
-            )
-          : _buildGoalsList(),
-      floatingActionButton: FloatingActionButton.extended(
+                _buildTile(
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text("View on",
+                                style: TextStyle(color: invertColors(context))),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: Text("Twiter | GitHub | Website",
+                                style: TextStyle(
+                                  color: invertColors(context),
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _createGoal();
         },
-        icon: Icon(EvaIcons.plus),
-        label: Text("NEW GOAL"),
+        child: Icon(EvaIcons.plus),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
         elevation: 3.0,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 15.0,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 5.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                EvaIcons.home,
+                size: 26,
+              ),
+              color: invertColors(context),
+              onPressed: () {
+                _myPage.jumpToPage(0);
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                EvaIcons.info,
+                size: 26,
+              ),
+              color: invertColors(context),
+              onPressed: () {
+                _myPage.jumpToPage(1);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

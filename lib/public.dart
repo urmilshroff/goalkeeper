@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:goalkeeper/colors.dart';
 import 'package:goalkeeper/main.dart';
 import 'package:goalkeeper/goals_page.dart';
-
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:goalkeeper/database_helper.dart';
+import 'package:goalkeeper/colors.dart';
 
 //publicly usable methods and variables
 
@@ -14,6 +13,7 @@ String inputGoalTitle;
 TextEditingController inputGoalTitleController = new TextEditingController();
 TextEditingController inputGoalBodyController = new TextEditingController();
 bool noGoals = true;
+int rowId = 0;
 
 bool isThemeCurrentlyDark(BuildContext context) {
   if (Theme.of(context).brightness == Brightness.dark) {
@@ -30,3 +30,19 @@ Color invertColors(BuildContext context) {
     return MyColors.dark;
   }
 } //returns appropriate colors for text visibility
+
+readDataFromDB() async {
+  rowId++;
+  DatabaseHelper helper = DatabaseHelper.instance;
+  MyGoal goal = await helper.queryMyGoal(rowId);
+  print("Row ID: $rowId, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+}
+
+saveDataToDB(String inputGoalTitle, String inputGoalBody) async {
+  MyGoal goal = MyGoal();
+  goal.title = "$inputGoalTitle";
+  goal.body = "$inputGoalBody";
+  DatabaseHelper helper = DatabaseHelper.instance;
+  int id = await helper.insert(goal);
+  print("Row ID: $rowId, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+}
