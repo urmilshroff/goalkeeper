@@ -269,6 +269,7 @@ class _GoalsPageState extends State<GoalsPage> {
 
   @override
   Widget build(BuildContext context) {
+    PageController _myPage = PageController(initialPage: 0);
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
@@ -287,29 +288,40 @@ class _GoalsPageState extends State<GoalsPage> {
           ),
         ],
       ),
-      body: noGoals == true
-          ? Container(
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      EvaIcons.flag,
-                      size: 64.0,
-                      color: invertColors(context),
+      body: PageView(
+        controller: _myPage,
+        children: <Widget>[
+          noGoals == true
+              ? Container(
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          EvaIcons.flag,
+                          size: 64.0,
+                          color: invertColors(context),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text("No goals yet",
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: invertColors(context))),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text("No goals yet",
-                          style: TextStyle(
-                              fontSize: 18.0, color: invertColors(context))),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : _buildGoalsList(),
+                  ),
+                )
+              : _buildGoalsList(),
+          Container(
+            child: Center(
+              child: Text("About page"),
+            ),
+          ),
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -329,14 +341,24 @@ class _GoalsPageState extends State<GoalsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Icon(EvaIcons.home),
+              icon: Icon(
+                EvaIcons.home,
+                size: 26,
+              ),
               color: invertColors(context),
-              onPressed: () {},
+              onPressed: () {
+                _myPage.jumpToPage(0);
+              },
             ),
             IconButton(
-              icon: Icon(EvaIcons.info),
+              icon: Icon(
+                EvaIcons.info,
+                size: 26,
+              ),
               color: invertColors(context),
-              onPressed: () {},
+              onPressed: () {
+                _myPage.jumpToPage(1);
+              },
             ),
           ],
         ),
