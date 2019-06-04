@@ -4,49 +4,43 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-// database table and column names
-final String tableWords = 'words';
-final String columnId = '_id';
-final String columnWord = 'word';
-final String columnFrequency = 'frequency';
+// database table and goal names
+final String goalsTable = 'goalsTable';
+final String goalId = '_id';
+final String goalTitle = 'title';
+final String goalBody = 'body';
 
-// data model class
-class Word {
+class MyTitle {
   int id;
-  String word;
-  int frequency;
+  String title;
+  String body;
 
-  Word();
-
-  // convenience constructor to create a Word object
-  Word.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
-    word = map[columnWord];
-    frequency = map[columnFrequency];
+  MyTitle();
+  MyTitle.fromMap(Map<String, dynamic> map) {
+    id = map[goalId];
+    title = map[goalTitle];
+    body = map[goalBody];
   }
 
-  // convenience method to create a Map from this Word object
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{columnWord: word, columnFrequency: frequency};
+    var map = <String, dynamic>{goalTitle: title, goalBody: body};
     if (id != null) {
-      map[columnId] = id;
+      map[goalId] = id;
     }
     return map;
   }
 }
 
-// singleton class to manage the database
 class DatabaseHelper {
-  // This is the actual database filename that is saved in the docs directory.
-  static final _databaseName = "MyDatabase.db";
-  // Increment this version when you need to change the schema.
+  // database filename that is saved in the docs directory
+  static final _databaseName = "GoalsDatabase.db";
+  // increment this version when you need to change the schema
   static final _databaseVersion = 1;
 
-  // Make this a singleton class.
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
-  // Only allow a single open connection to the database.
+  // only allow a single open connection to the database
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -56,10 +50,10 @@ class DatabaseHelper {
 
   // open the database
   _initDatabase() async {
-    // The path_provider plugin gets the right directory for Android or iOS.
+    // the path_provider plugin gets the right directory for Android or iOS
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    // Open the database. Can also add an onUpdate callback parameter.
+    // open the database
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -67,35 +61,29 @@ class DatabaseHelper {
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-              CREATE TABLE $tableWords (
-                $columnId INTEGER PRIMARY KEY,
-                $columnWord TEXT NOT NULL,
-                $columnFrequency INTEGER NOT NULL
+              CREATE TABLE $goalsTable (
+                $goalId INTEGER PRIMARY KEY,
+                $goalTitle TEXT NOT NULL,
+                $goalBody TEXT NOT NULL
               )
               ''');
   }
 
-  // Database helper methods:
-
-  Future<int> insert(Word word) async {
+  Future<int> insert(MyTitle title) async {
     Database db = await database;
-    int id = await db.insert(tableWords, word.toMap());
+    int id = await db.insert(goalsTable, title.toMap());
     return id;
   }
 
-  Future<Word> queryWord(int id) async {
+  Future<MyTitle> queryMyTitle(int id) async {
     Database db = await database;
-    List<Map> maps = await db.query(tableWords,
-        columns: [columnId, columnWord, columnFrequency],
-        where: '$columnId = ?',
+    List<Map> maps = await db.query(goalsTable,
+        columns: [goalId, goalTitle, goalBody],
+        where: '$goalId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return Word.fromMap(maps.first);
+      return MyTitle.fromMap(maps.first);
     }
     return null;
   }
-
-  // TODO: queryAllWords()
-  // TODO: delete(int id)
-  // TODO: update(Word word)
 }

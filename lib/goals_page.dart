@@ -70,7 +70,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Goal Description',
-                        hintText: 'Explain it in a few words',
+                        hintText: 'Explain it in a few titles',
                         contentPadding: const EdgeInsets.all(15.0)),
                   ),
                 ],
@@ -363,19 +363,19 @@ class _GoalsPageState extends State<GoalsPage> {
 _readDataFromDB() async {
   DatabaseHelper helper = DatabaseHelper.instance;
   int rowId = 1;
-  Word word = await helper.queryWord(rowId);
-  if (word == null) {
+  MyTitle title = await helper.queryMyTitle(rowId);
+  if (title == null) {
     print('read row $rowId: empty');
   } else {
-    print('read row $rowId: ${word.word} ${word.frequency}');
+    print('read row $rowId: ${title.title} ${title.body}');
   }
 }
 
 _saveDataToDB() async {
-  Word word = Word();
-  word.word = 'hello';
-  word.frequency = 15;
+  MyTitle title = MyTitle();
+  title.title = "hello";
+  title.body = "world";
   DatabaseHelper helper = DatabaseHelper.instance;
-  int id = await helper.insert(word);
+  int id = await helper.insert(title);
   print('inserted row: $id');
 }
