@@ -13,7 +13,7 @@ String inputGoalTitle;
 TextEditingController inputGoalTitleController = new TextEditingController();
 TextEditingController inputGoalBodyController = new TextEditingController();
 bool noGoals = true;
-int rowId = 0;
+int goalIndex = 0;
 
 bool isThemeCurrentlyDark(BuildContext context) {
   if (Theme.of(context).brightness == Brightness.dark) {
@@ -32,10 +32,10 @@ Color invertColors(BuildContext context) {
 } //returns appropriate colors for text visibility
 
 readDataFromDB() async {
-  rowId++;
+  goalIndex++;
   DatabaseHelper helper = DatabaseHelper.instance;
-  MyGoal goal = await helper.queryMyGoal(rowId);
-  print("Row ID: $rowId, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+  MyGoal goal = await helper.queryMyGoal(goalIndex);
+  print("Goal Index: ${goalIndex}, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
 }
 
 saveDataToDB(String inputGoalTitle, String inputGoalBody) async {
@@ -43,6 +43,6 @@ saveDataToDB(String inputGoalTitle, String inputGoalBody) async {
   goal.title = "$inputGoalTitle";
   goal.body = "$inputGoalBody";
   DatabaseHelper helper = DatabaseHelper.instance;
-  int id = await helper.insert(goal);
-  print("Row ID: $rowId, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+  int goalIndex = await helper.insert(goal);
+  print("Goal Index: ${goalIndex}, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
 }
