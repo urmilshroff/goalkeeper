@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:goalkeeper/colors.dart';
+import 'package:goalkeeper/my_goal.dart';
 import 'package:goalkeeper/database_helper.dart';
 import 'package:goalkeeper/public.dart';
+import 'package:goalkeeper/about_page.dart';
+import 'package:goalkeeper/no_goals.dart';
+import 'package:goalkeeper/goal_details.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
+import 'package:sqflite/sqflite.dart';
+//import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -17,338 +25,113 @@ class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   List<MyGoal> goalsList;
   int count = 0;
-
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
   } //switch between light & dark modes
 
-  void _submitForm(String inputGoalTitle, String inputGoalBody) {
-    if (inputGoalTitle.length > 0 && inputGoalBody.length > 0) {
-      setState(() {
-        goalTitlesList.add(inputGoalTitle);
-        goalBodiesList.add(inputGoalBody);
-      });
-      noGoals = false;
+  void _delete(BuildContext context, MyGoal goal) async {
+    int result = await databaseHelper.deleteGoal(goal.id);
+    if (result != 0) {
+      _showSnackBar(context, 'Note Deleted');
+      updateListView();
     }
-    inputGoalTitleController.text = ""; //resets the title
-    inputGoalBodyController.text = ""; //resets the description
-    Navigator.pop(context);
   }
 
-  void _createGoal() {
-    Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 5.0,
-          backgroundColor: MyColors.purple,
-          title: Text('New Goal',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
-        ),
-        body: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: invertColors(context)),
-                    controller: inputGoalTitleController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Goal Title',
-                        hintText: 'What\'s your goal for today?',
-                        contentPadding: const EdgeInsets.all(15.0)),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: invertColors(context)),
-                    controller: inputGoalBodyController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Goal Description',
-                        hintText: 'Explain it in a few titles',
-                        contentPadding: const EdgeInsets.all(15.0)),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _submitForm(
-                inputGoalTitleController.text, inputGoalBodyController.text);
-          },
-          child: Icon(EvaIcons.checkmark),
-          foregroundColor: MyColors.light,
-          backgroundColor: MyColors.pink,
-          elevation: 3.0,
-        ),
-      );
-    }));
-  } //user creates a new goal
+  void _showSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
 
-//  void _deleteGoalFromDB(BuildContext context, MyGoal goal) async {
-//      int result = await databaseHelper.deleteGoal(goal._id);
-//      }
-
-  void _deleteGoal(int index) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text("Done with \'${goalTitlesList[index]}\'?"),
-              content: Text("This goal will be deleted!"),
-              actions: <Widget>[
-                FlatButton(
-                    child: Text('CANCEL',
-                        style: TextStyle(color: invertColors(context))),
-                    onPressed: () => Navigator.of(context).pop()),
-                FlatButton(
-                    child:
-                        Text('DELETE', style: TextStyle(color: MyColors.red)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-//                      setState(() {
-//                        goalTitlesList.removeAt(index);
-//                        goalBodiesList.removeAt(index);
-//                      });
-
-                      goalTitlesList.isEmpty == true
-                          ? noGoals = true
-                          : noGoals = false;
-                    })
-              ]);
+  void updateListView() {
+    final Future<Database> dbFuture = databaseHelper.initDatabase();
+    dbFuture.then((database) {
+      Future<List<MyGoal>> noteListFuture = databaseHelper.getGoalsList();
+      noteListFuture.then((noteList) {
+        setState(() {
+          this.goalsList = noteList;
+          this.count = noteList.length;
         });
+      });
+    });
   }
 
-  void _editGoal(int index) {
-    Navigator.of(context).push(new CupertinoPageRoute(builder: (context) {
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 5.0,
-          backgroundColor: MyColors.aqua,
-          title: Text('Edit Goal',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
-        ),
-        body: Container(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 100.0,
-                  ),
-                  Hero(
-                    tag: "dartIcon${index}",
-                    child: Container(
-                        width: 70.0,
-                        height: 70.0,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/icon.png")))),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text("${goalTitlesList[index]}",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20.0)),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text("${goalBodiesList[index]}",
-                      style: TextStyle(
-                          color: invertColors(context), fontSize: 16.0)),
-                ],
-              ),
-            ])),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _deleteGoal(index);
-          },
-          child: Icon(EvaIcons.trash),
-          foregroundColor: MyColors.light,
-          backgroundColor: MyColors.red,
-          elevation: 3.0,
-        ),
-      );
+  void navigateToDetail(MyGoal goal, String title) async {
+    bool result =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return GoalDetail(goal, title);
     }));
+
+    if (result == true) {
+      updateListView();
+    }
   }
 
-  Widget _buildGoal(index) {
-    int goalNumber = index + 1;
-    return _buildTile(
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Hero(
-                    tag: "dartIcon${index}",
-                    child: Container(
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/icon.png")))),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Goal #$goalNumber",
-                      style: TextStyle(color: MyColors.accentColor)),
-                  SizedBox(
-                    height: 3.0,
-                  ),
-                  Text(this.goalsList[index].title,
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20.0)),
-                  SizedBox(
-                    height: 3.0,
-                  ),
-                  Text(this.goalsList[index].body,
-                      style: TextStyle(color: invertColors(context))),
-                ],
-              ),
-              Spacer(),
-            ]),
-      ),
-      onTap: () => _editGoal(index),
-    );
-  } //flutter builds a new goal
-
-  Widget _buildGoalsList() {
+  Widget buildGoalsList() {
     return Container(
-      child: ListView.builder(itemBuilder: (context, index) {
-        if (index < goalTitlesList.length) {
-          return _buildGoal(index);
-        }
-      }),
-    );
-  } //builds goals list
-
-  Widget _buildAboutPage() {
-    return Container(
-      child: ListView(
-        children: <Widget>[
-          _buildTile(
+      child: ListView.builder(
+        itemCount: count,
+        itemBuilder: (BuildContext context, int pos) {
+          return buildTile(
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Column(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage("assets/urmil-vector.png")))),
+                    Column(
+                      children: <Widget>[
+                        Hero(
+                          tag: "dartIcon${pos}",
+                          child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage("assets/icon.png")))),
+                        ),
+                      ],
+                    ),
                     SizedBox(
-                      height: 10,
+                      width: 10.0,
                     ),
-                    Center(
-                      child: Text("Made by",
-                          style: TextStyle(color: invertColors(context))),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Goal #$pos+1",
+                            style: TextStyle(color: MyColors.accentColor)),
+                        SizedBox(
+                          height: 3.0,
+                        ),
+                        Text(this.goalsList[pos].title,
+                            style: TextStyle(
+                                color: invertColors(context),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20.0)),
+                        SizedBox(
+                          height: 3.0,
+                        ),
+                        Text(this.goalsList[pos].body,
+                            style: TextStyle(color: invertColors(context))),
+                      ],
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Text("Urmil Shroff",
-                          style: TextStyle(
-                              color: invertColors(context),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.0)),
-                    ),
+                    Spacer(),
                   ]),
             ),
-          ),
-          _buildTile(
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text("View on",
-                          style: TextStyle(color: invertColors(context))),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Text("Twiter | GitHub | Website",
-                          style: TextStyle(
-                            color: invertColors(context),
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                  ]),
-            ),
-          ),
-        ],
+            onTap: () => navigateToDetail(this.goalsList[pos], 'Edit Note'),
+          );
+        },
       ),
     );
-  }
-
-  Widget _buildTile(Widget widgetContent, {Function() onTap}) {
-    return Container(
-      margin: const EdgeInsets.all(5.0),
-      child: Material(
-          elevation: 3.0,
-          borderRadius: BorderRadius.circular(8.0),
-          child: InkWell(
-            onTap: onTap != null
-                ? () => onTap()
-                : () {
-                    print("Nothing set");
-                  },
-            child: widgetContent,
-            splashColor: MyColors.accentColor,
-          )),
-    );
-  } //build material goal card
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is removed from the Widget tree
-    inputGoalTitleController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     PageController _myPage = PageController(initialPage: 0);
-
-    if(goalsList==null){
-        goalsList=List<MyGoal>();
+    if (goalsList == null) {
+      goalsList = List<MyGoal>();
+      updateListView();
     }
 
     return Scaffold(
@@ -372,37 +155,14 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == true
-              ? Container(
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          EvaIcons.flag,
-                          size: 64.0,
-                          color: invertColors(context),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text("No goals yet",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: invertColors(context))),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : _buildGoalsList(),
-          _buildAboutPage(),
+          noGoals == true ? buildNoGoals(context) : buildGoalsList(),
+          buildAboutPage(context),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _createGoal();
+//          createGoal();
         },
         child: Icon(EvaIcons.plus),
         foregroundColor: MyColors.light,
