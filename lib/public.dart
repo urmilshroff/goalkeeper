@@ -35,14 +35,14 @@ readDataFromDB() async {
   goalIndex++;
   DatabaseHelper helper = DatabaseHelper.instance;
   MyGoal goal = await helper.queryMyGoal(goalIndex);
-  print("Goal Index: ${goalIndex}, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+  print("Goal Index: ${goalIndex}, Goal Title: ${goal._title}, Goal Body: ${goal._body}");
 }
 
 saveDataToDB(String inputGoalTitle, String inputGoalBody) async {
   MyGoal goal = MyGoal();
-  goal.title = "$inputGoalTitle";
-  goal.body = "$inputGoalBody";
+  goal._title = "$inputGoalTitle";
+  goal._body = "$inputGoalBody";
   DatabaseHelper helper = DatabaseHelper.instance;
   int goalIndex = await helper.insert(goal);
-  print("Goal Index: ${goalIndex}, Goal Title: ${goal.title}, Goal Body: ${goal.body}");
+  print("Goal Index: ${goalIndex}, Goal Title: ${goal._title}, Goal Body: ${goal._body}");
 }
