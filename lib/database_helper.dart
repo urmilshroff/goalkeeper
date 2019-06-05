@@ -162,4 +162,14 @@ class DatabaseHelper {
     var result = Sqflite.firstIntValue(num);
     return result;
   }
+
+  Future<List<MyGoal>> getGoalsList() async {
+    var goalsMapList = await getGoalsMapList();
+    List<MyGoal> goalsList = List<MyGoal>();
+
+    for (int i = 0; i < goalsMapList.length; i++) {
+      goalsList.add(MyGoal.fromMap(goalsMapList[i]));
+    }
+    return goalsList;
+  }
 }

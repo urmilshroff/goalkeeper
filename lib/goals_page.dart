@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:goalkeeper/colors.dart';
+import 'package:goalkeeper/database_helper.dart';
 import 'package:goalkeeper/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -13,6 +14,10 @@ class GoalsPage extends StatefulWidget {
 }
 
 class _GoalsPageState extends State<GoalsPage> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  List<MyGoal> goalsList;
+  int count = 0;
+
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
@@ -25,7 +30,6 @@ class _GoalsPageState extends State<GoalsPage> {
         goalBodiesList.add(inputGoalBody);
       });
       noGoals = false;
-      saveDataToDB(inputGoalTitle, inputGoalBody);
     }
     inputGoalTitleController.text = ""; //resets the title
     inputGoalBodyController.text = ""; //resets the description
@@ -92,6 +96,10 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   } //user creates a new goal
 
+//  void _deleteGoalFromDB(BuildContext context, MyGoal goal) async {
+//      int result = await databaseHelper.deleteGoal(goal._id);
+//      }
+
   void _deleteGoal(int index) {
     showDialog(
         context: context,
@@ -110,10 +118,11 @@ class _GoalsPageState extends State<GoalsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      setState(() {
-                        goalTitlesList.removeAt(index);
-                        goalBodiesList.removeAt(index);
-                      });
+//                      setState(() {
+//                        goalTitlesList.removeAt(index);
+//                        goalBodiesList.removeAt(index);
+//                      });
+
                       goalTitlesList.isEmpty == true
                           ? noGoals = true
                           : noGoals = false;
@@ -213,7 +222,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Text("${goalTitlesList[index]}",
+                  Text(this.goalsList[index].title,
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
@@ -221,7 +230,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Text("${goalBodiesList[index]}",
+                  Text(this.goalsList[index].body,
                       style: TextStyle(color: invertColors(context))),
                 ],
               ),
@@ -337,6 +346,11 @@ class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
     PageController _myPage = PageController(initialPage: 0);
+
+    if(goalsList==null){
+        goalsList=List<MyGoal>();
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
