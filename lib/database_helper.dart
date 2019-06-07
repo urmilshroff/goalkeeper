@@ -30,7 +30,7 @@ class DatabaseHelper {
     await db.execute('''CREATE TABLE $goalsTable (
         $colId INTEGER PRIMARY KEY AUTOINCREMENT,
         $colTitle TEXT NOT NULL,
-        $colTitle TEXT NOT NULL)''');
+        $colBody TEXT NOT NULL)''');
   }
 
   Future<Database> initDatabase() async {

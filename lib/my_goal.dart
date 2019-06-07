@@ -15,7 +15,8 @@ class MyGoal {
     this.title = newBody;
   }
 
-  MyGoal(this.id, this.title, this.body);
+  MyGoal(this.title, this.body);
+  MyGoal.withId(this.id, this.title, this.body);
 
   MyGoal.fromMap(Map<String, dynamic> map) {
     id = map["id"];

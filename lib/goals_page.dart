@@ -163,6 +163,7 @@ class _GoalsPageState extends State<GoalsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
 //          createGoal();
+          navigateToDetail(MyGoal("", ""), 'Add Note');
         },
         child: Icon(EvaIcons.plus),
         foregroundColor: MyColors.light,

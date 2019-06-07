@@ -156,9 +156,11 @@ class GoalDetailState extends State<GoalDetail> {
 
     if (result != 0) {
       // Success
+        print("Goal saved");
 //      _showAlertDialog('Status', 'Goal Saved Successfully');
     } else {
       // Failure
+        print("An error occurred");
 //      _showAlertDialog('Status', 'Problem Saving Goal');
     }
   }
