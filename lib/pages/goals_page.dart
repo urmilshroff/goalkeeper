@@ -6,6 +6,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:goalkeeper/pages/about_page.dart';
+import 'package:goalkeeper/pages/create_page.dart';
 import 'package:goalkeeper/pages/edit_page.dart';
 import 'package:goalkeeper/pages/empty_page.dart';
 import 'package:goalkeeper/utils/colors.dart';
@@ -20,7 +21,7 @@ class GoalsPage extends StatefulWidget {
 
 class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  //TODO: cleanup
+  //TODO: cleanup this part
   List<GoalClass> goalsList;
   int count = 0;
 
@@ -42,9 +43,16 @@ class _GoalsPageState extends State<GoalsPage> {
     });
   }
 
-  void navigateToDetail(GoalClass goal, String title) async {
+  void navigateToCreateGoal(GoalClass goal) async {
     await Navigator.push(context, CupertinoPageRoute(builder: (context) {
-      return EditGoal(goal, title);
+      return CreateGoal(goal);
+    }));
+    updateListView();
+  }
+
+  void navigateToEditGoal(GoalClass goal) async {
+    await Navigator.push(context, CupertinoPageRoute(builder: (context) {
+//      return EditGoal(goal);
     }));
     updateListView();
   }
@@ -89,7 +97,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         Text(this.goalsList[id].title,
                             style: TextStyle(
                                 color: invertColors(context),
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 20.0)),
                         SizedBox(
                           height: 3.0,
@@ -101,7 +109,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     Spacer(),
                   ]),
             ),
-            onTap: () => navigateToDetail(this.goalsList[id], "Edit Goal"),
+            onTap: () => navigateToEditGoal(this.goalsList[id]),
           );
         },
       ),
@@ -144,7 +152,7 @@ class _GoalsPageState extends State<GoalsPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToDetail(GoalClass("", ""), "Add Goal");
+          navigateToCreateGoal(GoalClass("", ""));
         },
         child: Icon(EvaIcons.plus),
         foregroundColor: MyColors.light,

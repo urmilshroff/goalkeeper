@@ -15,8 +15,8 @@ Widget buildAboutPage(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      width: 80.0,
-                      height: 80.0,
+                      width: 75.0,
+                      height: 75.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -25,7 +25,7 @@ Widget buildAboutPage(BuildContext context) {
                     height: 10,
                   ),
                   Center(
-                    child: Text("Made by",
+                    child: Text("</> by",
                         style: TextStyle(color: invertColors(context))),
                   ),
                   SizedBox(
@@ -35,7 +35,7 @@ Widget buildAboutPage(BuildContext context) {
                     child: Text("Urmil Shroff",
                         style: TextStyle(
                             color: invertColors(context),
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             fontSize: 20.0)),
                   ),
                 ]),
@@ -48,7 +48,7 @@ Widget buildAboutPage(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                    //TODO
+                    //TODO complete this section
                   Center(
                     child: Text("View on",
                         style: TextStyle(color: invertColors(context))),
