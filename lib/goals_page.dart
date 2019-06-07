@@ -44,13 +44,14 @@ class _GoalsPageState extends State<GoalsPage> {
   }
 
   void updateListView() {
+      print("updateListView() called");
     final Future<Database> dbFuture = databaseHelper.initDatabase();
     dbFuture.then((database) {
-      Future<List<MyGoal>> noteListFuture = databaseHelper.getGoalsList();
-      noteListFuture.then((noteList) {
+      Future<List<MyGoal>> goalsListFuture = databaseHelper.getGoalsList();
+      goalsListFuture.then((goalsList) {
         setState(() {
-          this.goalsList = noteList;
-          this.count = noteList.length;
+          this.goalsList = goalsList;
+          this.count = goalsList.length;
         });
       });
     });
@@ -62,9 +63,9 @@ class _GoalsPageState extends State<GoalsPage> {
       return GoalDetail(goal, title);
     }));
 
-    if (result == true) {
+//    if (result == true) {
       updateListView();
-    }
+//    }
   }
 
   Widget buildGoalsList() {
@@ -155,7 +156,7 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == true ? buildNoGoals(context) : buildGoalsList(),
+          noGoals == false ? buildNoGoals(context) : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),
