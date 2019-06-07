@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/public.dart';
+import 'package:goalkeeper/utils/colors.dart';
+import 'package:goalkeeper/utils/goal.dart';
+import 'package:goalkeeper/utils/database_helper.dart';
+import 'package:goalkeeper/utils/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
+bool noGoals = true;
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -13,6 +17,10 @@ class GoalsPage extends StatefulWidget {
 }
 
 class _GoalsPageState extends State<GoalsPage> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  List<GoalClass> goalsList;
+  int count = 0;
+
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
@@ -25,7 +33,6 @@ class _GoalsPageState extends State<GoalsPage> {
         goalBodiesList.add(inputGoalBody);
       });
       noGoals = false;
-      saveDataToDB(inputGoalTitle, inputGoalBody);
     }
     inputGoalTitleController.text = ""; //resets the title
     inputGoalBodyController.text = ""; //resets the description
@@ -92,6 +99,10 @@ class _GoalsPageState extends State<GoalsPage> {
     }));
   } //user creates a new goal
 
+//  void _deleteGoalFromDB(BuildContext context, MyGoal goal) async {
+//      int result = await databaseHelper.deleteGoal(goal._id);
+//      }
+
   void _deleteGoal(int index) {
     showDialog(
         context: context,
@@ -110,10 +121,11 @@ class _GoalsPageState extends State<GoalsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      setState(() {
-                        goalTitlesList.removeAt(index);
-                        goalBodiesList.removeAt(index);
-                      });
+//                      setState(() {
+//                        goalTitlesList.removeAt(index);
+//                        goalBodiesList.removeAt(index);
+//                      });
+
                       goalTitlesList.isEmpty == true
                           ? noGoals = true
                           : noGoals = false;
@@ -213,7 +225,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Text("${goalTitlesList[index]}",
+                  Text(this.goalsList[index].title,
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
@@ -221,7 +233,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   SizedBox(
                     height: 3.0,
                   ),
-                  Text("${goalBodiesList[index]}",
+                  Text(this.goalsList[index].body,
                       style: TextStyle(color: invertColors(context))),
                 ],
               ),
@@ -241,6 +253,73 @@ class _GoalsPageState extends State<GoalsPage> {
       }),
     );
   } //builds goals list
+
+  Widget _buildAboutPage() {
+    return Container(
+      child: ListView(
+        children: <Widget>[
+          _buildTile(
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage("assets/urmil-vector.png")))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text("Made by",
+                          style: TextStyle(color: invertColors(context))),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text("Urmil Shroff",
+                          style: TextStyle(
+                              color: invertColors(context),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.0)),
+                    ),
+                  ]),
+            ),
+          ),
+          _buildTile(
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text("View on",
+                          style: TextStyle(color: invertColors(context))),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text("Twiter | GitHub | Website",
+                          style: TextStyle(
+                            color: invertColors(context),
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ),
+                  ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildTile(Widget widgetContent, {Function() onTap}) {
     return Container(
@@ -270,6 +349,11 @@ class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
     PageController _myPage = PageController(initialPage: 0);
+
+    if (goalsList == null) {
+      goalsList = List<GoalClass>();
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
@@ -315,71 +399,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   ),
                 )
               : _buildGoalsList(),
-          Container(
-            child: ListView(
-              children: <Widget>[
-                _buildTile(
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/urmil-vector.png")))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Text("Made by",
-                                style: TextStyle(color: invertColors(context))),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Center(
-                            child: Text("Urmil Shroff",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20.0)),
-                          ),
-                        ]),
-                  ),
-                ),
-                _buildTile(
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text("View on",
-                                style: TextStyle(color: invertColors(context))),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Center(
-                            child: Text("Twiter | GitHub | Website",
-                                style: TextStyle(
-                                  color: invertColors(context),
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                        ]),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildAboutPage(),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
