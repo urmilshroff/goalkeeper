@@ -6,6 +6,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:goalkeeper/pages/about_page.dart';
+import 'package:goalkeeper/pages/create_page.dart';
 import 'package:goalkeeper/pages/edit_page.dart';
 import 'package:goalkeeper/pages/empty_page.dart';
 import 'package:goalkeeper/utils/colors.dart';
@@ -20,9 +21,8 @@ class GoalsPage extends StatefulWidget {
 
 class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  //TODO: cleanup
   List<GoalClass> goalsList;
-  int count = 0;
+  int len = 0;
 
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
@@ -36,15 +36,27 @@ class _GoalsPageState extends State<GoalsPage> {
       goalsListFuture.then((goalsList) {
         setState(() {
           this.goalsList = goalsList;
-          this.count = goalsList.length;
+          this.len = goalsList.length;
+          if (this.len == 0) {
+            noGoals = true; //if no goals
+          } else {
+            noGoals = false;
+          }
         });
       });
     });
   }
 
-  void navigateToDetail(GoalClass goal, String title) async {
+  void navigateToCreateGoal(GoalClass goal) async {
     await Navigator.push(context, CupertinoPageRoute(builder: (context) {
-      return EditGoal(goal, title);
+      return CreateGoal(goal);
+    }));
+    updateListView();
+  }
+
+  void navigateToEditGoal(GoalClass goal) async {
+    await Navigator.push(context, CupertinoPageRoute(builder: (context) {
+      return EditGoal(goal);
     }));
     updateListView();
   }
@@ -52,7 +64,7 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget buildGoalsList() {
     return Container(
       child: ListView.builder(
-        itemCount: count,
+        itemCount: len,
         itemBuilder: (BuildContext context, int id) {
           return buildTile(
             Padding(
@@ -64,7 +76,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     Column(
                       children: <Widget>[
                         Hero(
-                          tag: "dartIcon$id",
+                          tag: "dartIcon${this.goalsList[id].index}",
                           child: Container(
                               width: 40.0,
                               height: 40.0,
@@ -89,7 +101,7 @@ class _GoalsPageState extends State<GoalsPage> {
                         Text(this.goalsList[id].title,
                             style: TextStyle(
                                 color: invertColors(context),
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 20.0)),
                         SizedBox(
                           height: 3.0,
@@ -101,7 +113,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     Spacer(),
                   ]),
             ),
-            onTap: () => navigateToDetail(this.goalsList[id], "Edit Goal"),
+            onTap: () => navigateToEditGoal(this.goalsList[id]),
           );
         },
       ),
@@ -120,7 +132,7 @@ class _GoalsPageState extends State<GoalsPage> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
-        title: Text('My Goals',
+        title: Text("My Goals",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         actions: <Widget>[
           IconButton(
@@ -128,8 +140,8 @@ class _GoalsPageState extends State<GoalsPage> {
                 ? Icon(EvaIcons.sun) //use sun icon
                 : Icon(EvaIcons.moon), //use moon icon
             tooltip: isThemeCurrentlyDark(context)
-                ? "Switch to light mode"
-                : "Switch to dark mode",
+                ? "BURN YOUR EYES"
+                : "SAVE YOUR EYES",
             onPressed: _changeBrightness,
           ),
         ],
@@ -137,19 +149,20 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == false ? buildEmptyPage(context) : buildGoalsList(),
+          noGoals == true ? buildEmptyPage(context) : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToDetail(GoalClass("", ""), "Add Goal");
+          navigateToCreateGoal(GoalClass("", ""));
         },
-        child: Icon(EvaIcons.plus),
+        child: Icon(Icons.add),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
         elevation: 3.0,
+        heroTag: "fab",
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 15.0,

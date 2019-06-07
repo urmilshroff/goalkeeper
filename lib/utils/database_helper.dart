@@ -84,8 +84,8 @@ class DatabaseHelper {
     List<GoalClass> goalsList = List<GoalClass>();
 
     for (int i = 0; i < goalsMapList.length; i++) {
-      goalsList
-          .add(GoalClass.fromMap(goalsMapList[i])); //converts from map to list
+      goalsList.add(GoalClass.fromMap(goalsMapList[i])); //converts from map
+      // to list
     }
     return goalsList;
   }

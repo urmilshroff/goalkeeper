@@ -1,25 +1,23 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import "package:goalkeeper/utils/colors.dart";
+import "package:goalkeeper/utils/database_helper.dart";
+import "package:goalkeeper/utils/goal.dart";
+import "package:goalkeeper/utils/public.dart";
 
-import 'package:goalkeeper/utils/colors.dart';
-import 'package:goalkeeper/utils/database_helper.dart';
-import 'package:goalkeeper/utils/goal.dart';
-import 'package:goalkeeper/utils/public.dart';
-
-class EditGoal extends StatefulWidget {
+class CreateGoal extends StatefulWidget {
   final GoalClass goal;
 
-  EditGoal(this.goal); //constructor
+  CreateGoal(this.goal); //constructor
 
   @override
   State<StatefulWidget> createState() {
-    return EditGoalState(this.goal);
+    return CreateGoalState(this.goal);
   }
 }
 
-class EditGoalState extends State<EditGoal> {
+class CreateGoalState extends State<CreateGoal> {
   DatabaseHelper helper = DatabaseHelper();
 
   GoalClass goal;
@@ -27,17 +25,16 @@ class EditGoalState extends State<EditGoal> {
   TextEditingController inputGoalTitleController = TextEditingController();
   TextEditingController inputGoalBodyController = TextEditingController();
 
-  EditGoalState(this.goal);
+  CreateGoalState(this.goal);
 
   @override
   Widget build(BuildContext context) {
-    inputGoalTitleController.text = goal.title;
-    inputGoalBodyController.text = goal.body;
+print("dartIcon${goal.id}");
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: MyColors.aqua,
-        title: Text("Edit Goal",
+        backgroundColor: MyColors.purple,
+        title: Text("New Goal",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
       ),
       body: Container(
@@ -50,7 +47,7 @@ class EditGoalState extends State<EditGoal> {
                   height: 40.0,
                 ),
                 Hero(
-                  tag: "dartIcon${goal.id}",
+                  tag: "",
                   child: Container(
                       width: 70.0,
                       height: 70.0,
@@ -62,7 +59,7 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 Center(
-                  child: Text("Edit Goal",
+                  child: Text("New Goal",
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
@@ -72,6 +69,7 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
+                  textAlign: TextAlign.center,
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
@@ -79,13 +77,15 @@ class EditGoalState extends State<EditGoal> {
                   },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: "Goal Title",
+                      labelText: "Goal Title",
+                      hintText: "What\'s your goal for today?",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
                 SizedBox(
                   height: 15.0,
                 ),
                 TextField(
+                  textAlign: TextAlign.center,
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalBodyController,
                   onChanged: (body) {
@@ -93,7 +93,8 @@ class EditGoalState extends State<EditGoal> {
                   },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: "Description",
+                      labelText: "Description",
+                      hintText: "Explain it in a few words",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
               ],
@@ -101,29 +102,15 @@ class EditGoalState extends State<EditGoal> {
           ),
         ),
       ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        heroTag: "fab",
-        closeManually: false,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          saveGoal();
+        },
+        child: Icon(Icons.check),
         foregroundColor: MyColors.light,
-        backgroundColor: MyColors.pink,
+        backgroundColor: MyColors.green,
         elevation: 3.0,
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.save),
-              foregroundColor: MyColors.light,
-              backgroundColor: MyColors.blue,
-              label: "Save",
-              labelStyle: TextStyle(color: MyColors.dark),
-              onTap: () => saveGoal()),
-          SpeedDialChild(
-              child: Icon(Icons.delete_forever),
-              foregroundColor: MyColors.light,
-              backgroundColor: MyColors.red,
-              label: "Delete",
-              labelStyle: TextStyle(color: MyColors.dark),
-              onTap: () => deleteGoal()),
-        ],
+        heroTag: "fab",
       ),
     );
   }
@@ -138,7 +125,6 @@ class EditGoalState extends State<EditGoal> {
 
   void saveGoal() async {
     Navigator.pop(context);
-
     if (goal.title.length > 0) {
       if (goal.id == null) {
         await helper.createGoal(goal);
@@ -148,29 +134,5 @@ class EditGoalState extends State<EditGoal> {
         showSnackBar(context, "Goal updated!");
       }
     }
-  }
-
-  void deleteGoal() async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text("Done with \'${goal.title}\'?"),
-              content: Text("This goal will be deleted!"),
-              actions: <Widget>[
-                FlatButton(
-                    child: Text('CANCEL',
-                        style: TextStyle(color: invertColors(context))),
-                    onPressed: () => Navigator.of(context).pop()),
-                FlatButton(
-                    child:
-                        Text('DELETE', style: TextStyle(color: MyColors.red)),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      await helper.deleteGoal(goal.id);
-                    })
-              ]);
-        });
   }
 }
