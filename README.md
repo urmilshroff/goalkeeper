@@ -1,4 +1,4 @@
-<p align="center"><img height="250px" width="250px" src="./assets/icon/icon.png" alt="Goalkeeper"/></p>
+<p align="center"><img height="250px" width="250px" src="./assets/icon.png" alt="Goalkeeper"/></p>
 
 # Goalkeeper
 
