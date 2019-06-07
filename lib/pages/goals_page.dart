@@ -21,9 +21,8 @@ class GoalsPage extends StatefulWidget {
 
 class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  //TODO: cleanup this part
   List<GoalClass> goalsList;
-  int count = 0;
+  int len = 0;
 
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
@@ -37,7 +36,7 @@ class _GoalsPageState extends State<GoalsPage> {
       goalsListFuture.then((goalsList) {
         setState(() {
           this.goalsList = goalsList;
-          this.count = goalsList.length;
+          this.len = goalsList.length;
         });
       });
     });
@@ -60,7 +59,7 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget buildGoalsList() {
     return Container(
       child: ListView.builder(
-        itemCount: count,
+        itemCount: len,
         itemBuilder: (BuildContext context, int id) {
           return buildTile(
             Padding(

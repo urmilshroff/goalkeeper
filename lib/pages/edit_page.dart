@@ -38,6 +38,12 @@ class EditGoalState extends State<EditGoal> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.aqua,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(EvaIcons.trash),
+            onPressed: deleteGoal,
+          ),
+        ],
         title: Text('Edit Goal',
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
       ),
@@ -67,7 +73,7 @@ class EditGoalState extends State<EditGoal> {
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0)),
+                          fontSize: 22.0)),
                 ),
                 SizedBox(
                   height: 15.0,

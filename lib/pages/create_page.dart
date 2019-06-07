@@ -67,7 +67,7 @@ class CreateGoalState extends State<CreateGoal> {
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0)),
+                          fontSize: 22.0)),
                 ),
                 SizedBox(
                   height: 15.0,
@@ -83,7 +83,7 @@ class CreateGoalState extends State<CreateGoal> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Goal Title",
-                      hintText: "What\"s your goal for today?",
+                      hintText: "What\'s your goal for today?",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
                 SizedBox(
