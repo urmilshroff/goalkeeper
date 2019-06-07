@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
@@ -38,12 +38,6 @@ class EditGoalState extends State<EditGoal> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.aqua,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(EvaIcons.trash),
-            onPressed: deleteGoal,
-          ),
-        ],
         title: Text('Edit Goal',
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
       ),
@@ -107,14 +101,29 @@ class EditGoalState extends State<EditGoal> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          saveGoal();
-        },
-        child: Icon(EvaIcons.checkmark),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        heroTag: "fab",
+        closeManually: false,
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.pink,
         elevation: 3.0,
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.save),
+              foregroundColor: MyColors.light,
+              backgroundColor: MyColors.blue,
+              label: "Save",
+              labelStyle: TextStyle(color: MyColors.dark),
+              onTap: () => saveGoal()),
+          SpeedDialChild(
+              child: Icon(Icons.delete_forever),
+              foregroundColor: MyColors.light,
+              backgroundColor: MyColors.red,
+              label: "Delete",
+              labelStyle: TextStyle(color: MyColors.dark),
+              onTap: () => deleteGoal()),
+        ],
       ),
     );
   }

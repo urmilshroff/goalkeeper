@@ -153,10 +153,11 @@ class _GoalsPageState extends State<GoalsPage> {
         onPressed: () {
           navigateToCreateGoal(GoalClass("", ""));
         },
-        child: Icon(EvaIcons.plus),
+        child: Icon(Icons.add),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
         elevation: 3.0,
+        heroTag: "fab",
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 15.0,

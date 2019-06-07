@@ -1,8 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
-import "package:eva_icons_flutter/eva_icons_flutter.dart";
-
 import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
 import "package:goalkeeper/utils/goal.dart";
@@ -108,10 +106,11 @@ class CreateGoalState extends State<CreateGoal> {
         onPressed: () {
           saveGoal();
         },
-        child: Icon(EvaIcons.checkmark),
+        child: Icon(Icons.check),
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.green,
         elevation: 3.0,
+        heroTag: "fab",
       ),
     );
   }
