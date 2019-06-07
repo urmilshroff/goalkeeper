@@ -37,6 +37,11 @@ class _GoalsPageState extends State<GoalsPage> {
         setState(() {
           this.goalsList = goalsList;
           this.len = goalsList.length;
+          if (this.len == 0) {
+            noGoals = true; //if no goals
+          } else {
+            noGoals = false;
+          }
         });
       });
     });
@@ -71,7 +76,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     Column(
                       children: <Widget>[
                         Hero(
-                          tag: "dartIcon$id",
+                          tag: "dartIcon${this.goalsList[id].index}",
                           child: Container(
                               width: 40.0,
                               height: 40.0,
@@ -135,8 +140,8 @@ class _GoalsPageState extends State<GoalsPage> {
                 ? Icon(EvaIcons.sun) //use sun icon
                 : Icon(EvaIcons.moon), //use moon icon
             tooltip: isThemeCurrentlyDark(context)
-                ? "Switch to light mode"
-                : "Switch to dark mode",
+                ? "BURN YOUR EYES"
+                : "SAVE YOUR EYES",
             onPressed: _changeBrightness,
           ),
         ],
@@ -144,7 +149,7 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == false ? buildEmptyPage(context) : buildGoalsList(),
+          noGoals == true ? buildEmptyPage(context) : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),

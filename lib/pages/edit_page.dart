@@ -33,12 +33,11 @@ class EditGoalState extends State<EditGoal> {
   Widget build(BuildContext context) {
     inputGoalTitleController.text = goal.title;
     inputGoalBodyController.text = goal.body;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.aqua,
-        title: Text('Edit Goal',
+        title: Text("Edit Goal",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
       ),
       body: Container(
@@ -51,7 +50,7 @@ class EditGoalState extends State<EditGoal> {
                   height: 40.0,
                 ),
                 Hero(
-                  tag: "dartIcon${this.goal.id - 1}",
+                  tag: "dartIcon${goal.id}",
                   child: Container(
                       width: 70.0,
                       height: 70.0,
@@ -73,7 +72,6 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  textAlign: TextAlign.center,
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
@@ -88,9 +86,11 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  textAlign: TextAlign.center,
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalBodyController,
+                  onChanged: (body) {
+                    updateBody();
+                  },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Description",
@@ -137,37 +137,40 @@ class EditGoalState extends State<EditGoal> {
   }
 
   void saveGoal() async {
-    int result;
-
     Navigator.pop(context);
 
     if (goal.title.length > 0) {
       if (goal.id == null) {
-        result = await helper.createGoal(goal);
+        await helper.createGoal(goal);
+        showSnackBar(context, "Goal created!");
       } else {
-        result = await helper.updateGoal(goal);
+        await helper.updateGoal(goal);
+        showSnackBar(context, "Goal updated!");
       }
-    }
-
-    if (result != 0) {
-      showSnackBar(context, "Goal saved!");
-    } else {
-      showSnackBar(context, "Error saving goal");
     }
   }
 
   void deleteGoal() async {
-    Navigator.pop(context);
-
-    if (goal.id == null) {
-      showSnackBar(context, "No goal was deleted");
-    }
-
-    int result = await helper.deleteGoal(goal.id);
-    if (result != 0) {
-      showSnackBar(context, "Goal deleted!");
-    } else {
-      showSnackBar(context, "Error deleting goal");
-    }
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Done with \'${goal.title}\'?"),
+              content: Text("This goal will be deleted!"),
+              actions: <Widget>[
+                FlatButton(
+                    child: Text('CANCEL',
+                        style: TextStyle(color: invertColors(context))),
+                    onPressed: () => Navigator.of(context).pop()),
+                FlatButton(
+                    child:
+                        Text('DELETE', style: TextStyle(color: MyColors.red)),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      await helper.deleteGoal(goal.id);
+                    })
+              ]);
+        });
   }
 }

@@ -4,11 +4,6 @@ import 'package:goalkeeper/utils/colors.dart';
 
 //publicly usable methods and variables
 
-List<String> goalTitlesList = [];
-List<String> goalBodiesList = [];
-String inputGoalTitle;
-TextEditingController inputGoalTitleController = new TextEditingController();
-TextEditingController inputGoalBodyController = new TextEditingController();
 bool noGoals = true;
 
 bool isThemeCurrentlyDark(BuildContext context) {

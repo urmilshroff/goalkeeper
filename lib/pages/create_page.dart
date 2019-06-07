@@ -29,9 +29,7 @@ class CreateGoalState extends State<CreateGoal> {
 
   @override
   Widget build(BuildContext context) {
-    inputGoalTitleController.text = goal.title;
-    inputGoalBodyController.text = goal.body;
-
+print("dartIcon${goal.id}");
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
@@ -49,7 +47,7 @@ class CreateGoalState extends State<CreateGoal> {
                   height: 40.0,
                 ),
                 Hero(
-                  tag: "dartIcon${this.goal.index}",
+                  tag: "",
                   child: Container(
                       width: 70.0,
                       height: 70.0,
@@ -75,7 +73,6 @@ class CreateGoalState extends State<CreateGoal> {
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
-                    print("${this.goal.id}"); //TODO: Hero widget identifier
                     updateTitle();
                   },
                   decoration: InputDecoration(
@@ -91,10 +88,13 @@ class CreateGoalState extends State<CreateGoal> {
                   textAlign: TextAlign.center,
                   style: TextStyle(color: invertColors(context)),
                   controller: inputGoalBodyController,
+                  onChanged: (body) {
+                    updateBody();
+                  },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Description",
-                      hintText: "Explain it in a few lines",
+                      hintText: "Explain it in a few words",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
               ],
@@ -124,37 +124,15 @@ class CreateGoalState extends State<CreateGoal> {
   }
 
   void saveGoal() async {
-    int result;
-
     Navigator.pop(context);
-
     if (goal.title.length > 0) {
       if (goal.id == null) {
-        result = await helper.createGoal(goal);
+        await helper.createGoal(goal);
+        showSnackBar(context, "Goal created!");
       } else {
-        result = await helper.updateGoal(goal);
+        await helper.updateGoal(goal);
+        showSnackBar(context, "Goal updated!");
       }
-    }
-
-    if (result != 0) {
-      showSnackBar(context, "Goal saved!");
-    } else {
-      showSnackBar(context, "Error saving goal");
-    }
-  }
-
-  void deleteGoal() async {
-    Navigator.pop(context);
-
-    if (goal.id == null) {
-      showSnackBar(context, "No goal was deleted");
-    }
-
-    int result = await helper.deleteGoal(goal.id);
-    if (result != 0) {
-      showSnackBar(context, "Goal deleted!");
-    } else {
-      showSnackBar(context, "Error deleting goal");
     }
   }
 }

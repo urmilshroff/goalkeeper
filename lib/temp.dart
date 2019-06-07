@@ -11,6 +11,12 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 bool noGoals = true;
 
+List<String> goalTitlesList = [];
+List<String> goalBodiesList = [];
+
+TextEditingController inputGoalTitleController = new TextEditingController();
+TextEditingController inputGoalBodyController = new TextEditingController();
+
 class GoalsPage extends StatefulWidget {
   @override
   _GoalsPageState createState() => _GoalsPageState();

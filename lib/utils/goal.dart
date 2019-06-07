@@ -12,16 +12,16 @@ class GoalClass {
   }
 
   set goalBody(String newBody) {
-    this.title = newBody;
+    this.body = newBody;
   }
 
-  GoalClass(this.title, this.body);
+  GoalClass(this.title, this.body); //constructor
   GoalClass.withId(this.id, this.title, this.body);
 
   GoalClass.fromMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map["title"];
-    body = map["title"];
+    body = map["body"];
   }
 
   Map<String, dynamic> toMap() {
