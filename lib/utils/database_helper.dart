@@ -1,11 +1,11 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
-import 'package:goalkeeper/my_goal.dart';
-
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'package:goalkeeper/utils/goal.dart';
 
 class DatabaseHelper {
   static Database _database; //singleton database object
@@ -52,13 +52,13 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> createGoal(MyGoal goal) async {
+  Future<int> createGoal(GoalClass goal) async {
     Database db = await this.database;
     var result = await db.insert(goalsTable, goal.toMap());
     return result;
   }
 
-  Future<int> updateGoal(MyGoal goal) async {
+  Future<int> updateGoal(GoalClass goal) async {
     Database db = await this.database;
     var result = await db.update(goalsTable, goal.toMap(),
         where: "$colId=?", whereArgs: [goal.id]);
@@ -72,19 +72,20 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> getCount(MyGoal goal) async {
+  Future<int> getCount(GoalClass goal) async {
     Database db = await this.database;
     List<Map<String, dynamic>> num = await db.query(goalsTable);
     var result = Sqflite.firstIntValue(num);
     return result;
   }
 
-  Future<List<MyGoal>> getGoalsList() async {
+  Future<List<GoalClass>> getGoalsList() async {
     var goalsMapList = await getGoalsMapList();
-    List<MyGoal> goalsList = List<MyGoal>();
+    List<GoalClass> goalsList = List<GoalClass>();
 
     for (int i = 0; i < goalsMapList.length; i++) {
-      goalsList.add(MyGoal.fromMap(goalsMapList[i]));
+      goalsList
+          .add(GoalClass.fromMap(goalsMapList[i])); //converts from map to list
     }
     return goalsList;
   }

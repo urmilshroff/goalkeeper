@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/goals_page.dart';
-
 import 'package:dynamic_theme/dynamic_theme.dart';
+
+import 'package:goalkeeper/pages/goals_page.dart';
+import 'package:goalkeeper/utils/colors.dart';
 
 void main() => runApp(MyApp());
 

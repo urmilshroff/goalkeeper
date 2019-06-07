@@ -1,38 +1,32 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/my_goal.dart';
-import 'package:goalkeeper/database_helper.dart';
-import 'package:goalkeeper/public.dart';
-import 'package:goalkeeper/about_page.dart';
-import 'package:goalkeeper/no_goals.dart';
+import 'package:goalkeeper/utils/database_helper.dart';
+import 'package:goalkeeper/utils/goal.dart';
+import 'package:goalkeeper/utils/public.dart';
 
-import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-
-class GoalDetail extends StatefulWidget {
+class EditGoal extends StatefulWidget {
   final String appBarTitle;
-  final MyGoal goal;
+  final GoalClass goal;
 
-  GoalDetail(this.goal, this.appBarTitle);
+  EditGoal(this.goal, this.appBarTitle);
 
   @override
   State<StatefulWidget> createState() {
-    return GoalDetailState(this.goal, this.appBarTitle);
+    return EditGoalState(this.goal, this.appBarTitle);
   }
 }
 
-class GoalDetailState extends State<GoalDetail> {
+class EditGoalState extends State<EditGoal> {
   DatabaseHelper helper = DatabaseHelper();
 
   String appBarTitle;
-  MyGoal goal;
+  GoalClass goal;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
 
-  GoalDetailState(this.goal, this.appBarTitle);
+  EditGoalState(this.goal, this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +36,7 @@ class GoalDetailState extends State<GoalDetail> {
     bodyController.text = goal.body;
 
     return WillPopScope(
+        //TODO fuck this off
         child: Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
@@ -98,7 +93,7 @@ class GoalDetailState extends State<GoalDetail> {
                       onPressed: () {
                         setState(() {
                           debugPrint("Save button clicked");
-                          _save();
+                          saveGoal();
                         });
                       },
                     ),
@@ -117,7 +112,7 @@ class GoalDetailState extends State<GoalDetail> {
                       onPressed: () {
                         setState(() {
                           debugPrint("Delete button clicked");
-                          _delete();
+                          deleteGoal();
                         });
                       },
                     ),
@@ -131,53 +126,44 @@ class GoalDetailState extends State<GoalDetail> {
     ));
   }
 
-  // Update the title of Goal object
   void updateTitle() {
     goal.title = titleController.text;
   }
 
-  // Update the body of Goal object
   void updateBody() {
     goal.body = bodyController.text;
   }
 
-  // Save data to database
-  void _save() async {
+  void saveGoal() async {
+    int result;
+
     Navigator.pop(context);
 
-    int result;
     if (goal.id != null) {
-      // Case 1: Update operation
       result = await helper.updateGoal(goal);
     } else {
-      // Case 2: Insert Operation
       result = await helper.createGoal(goal);
     }
 
     if (result != 0) {
-      // Success
-        print("Goal saved");
-//      _showAlertDialog('Status', 'Goal Saved Successfully');
+      showSnackBar(context, "Goal saved!");
     } else {
-      // Failure
-        print("An error occurred");
-//      _showAlertDialog('Status', 'Problem Saving Goal');
+      showSnackBar(context, "Error saving goal");
     }
   }
 
-  void _delete() async {
+  void deleteGoal() async {
     Navigator.pop(context);
 
     if (goal.id == null) {
-//      _showAlertDialog('Status', 'No Goal was deleted');
-      return;
+      showSnackBar(context, "No goal was deleted");
     }
 
     int result = await helper.deleteGoal(goal.id);
     if (result != 0) {
-//      _showAlertDialog('Status', 'Goal Deleted Successfully');
+      showSnackBar(context, "Goal deleted!");
     } else {
-//      _showAlertDialog('Status', 'Error Occured while Deleting Goal');
+      showSnackBar(context, "Error deleting goal");
     }
   }
 }

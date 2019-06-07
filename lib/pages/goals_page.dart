@@ -1,20 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/my_goal.dart';
-import 'package:goalkeeper/database_helper.dart';
-import 'package:goalkeeper/public.dart';
-import 'package:goalkeeper/about_page.dart';
-import 'package:goalkeeper/no_goals.dart';
-import 'package:goalkeeper/goal_details.dart';
+import 'package:flutter/material.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-
 import 'package:sqflite/sqflite.dart';
-//import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'package:goalkeeper/pages/about_page.dart';
+import 'package:goalkeeper/pages/edit_page.dart';
+import 'package:goalkeeper/pages/empty_page.dart';
+import 'package:goalkeeper/utils/colors.dart';
+import 'package:goalkeeper/utils/database_helper.dart';
+import 'package:goalkeeper/utils/goal.dart';
+import 'package:goalkeeper/utils/public.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -23,31 +20,19 @@ class GoalsPage extends StatefulWidget {
 
 class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<MyGoal> goalsList;
+  //TODO: cleanup
+  List<GoalClass> goalsList;
   int count = 0;
+
   void _changeBrightness() {
     DynamicTheme.of(context).setBrightness(
         isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
   } //switch between light & dark modes
 
-  void _delete(BuildContext context, MyGoal goal) async {
-    int result = await databaseHelper.deleteGoal(goal.id);
-    if (result != 0) {
-      _showSnackBar(context, 'Note Deleted');
-      updateListView();
-    }
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
   void updateListView() {
-      print("updateListView() called");
     final Future<Database> dbFuture = databaseHelper.initDatabase();
     dbFuture.then((database) {
-      Future<List<MyGoal>> goalsListFuture = databaseHelper.getGoalsList();
+      Future<List<GoalClass>> goalsListFuture = databaseHelper.getGoalsList();
       goalsListFuture.then((goalsList) {
         setState(() {
           this.goalsList = goalsList;
@@ -57,22 +42,18 @@ class _GoalsPageState extends State<GoalsPage> {
     });
   }
 
-  void navigateToDetail(MyGoal goal, String title) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return GoalDetail(goal, title);
+  void navigateToDetail(GoalClass goal, String title) async {
+    await Navigator.push(context, CupertinoPageRoute(builder: (context) {
+      return EditGoal(goal, title);
     }));
-
-//    if (result == true) {
-      updateListView();
-//    }
+    updateListView();
   }
 
   Widget buildGoalsList() {
     return Container(
       child: ListView.builder(
         itemCount: count,
-        itemBuilder: (BuildContext context, int pos) {
+        itemBuilder: (BuildContext context, int id) {
           return buildTile(
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -83,7 +64,7 @@ class _GoalsPageState extends State<GoalsPage> {
                     Column(
                       children: <Widget>[
                         Hero(
-                          tag: "dartIcon${pos}",
+                          tag: "dartIcon$id",
                           child: Container(
                               width: 40.0,
                               height: 40.0,
@@ -100,12 +81,12 @@ class _GoalsPageState extends State<GoalsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Goal #$pos+1",
+                        Text("Goal #${id + 1}",
                             style: TextStyle(color: MyColors.accentColor)),
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text(this.goalsList[pos].title,
+                        Text(this.goalsList[id].title,
                             style: TextStyle(
                                 color: invertColors(context),
                                 fontWeight: FontWeight.w700,
@@ -113,14 +94,14 @@ class _GoalsPageState extends State<GoalsPage> {
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text(this.goalsList[pos].body,
+                        Text(this.goalsList[id].body,
                             style: TextStyle(color: invertColors(context))),
                       ],
                     ),
                     Spacer(),
                   ]),
             ),
-            onTap: () => navigateToDetail(this.goalsList[pos], 'Edit Note'),
+            onTap: () => navigateToDetail(this.goalsList[id], "Edit Goal"),
           );
         },
       ),
@@ -131,7 +112,7 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget build(BuildContext context) {
     PageController _myPage = PageController(initialPage: 0);
     if (goalsList == null) {
-      goalsList = List<MyGoal>();
+      goalsList = List<GoalClass>();
       updateListView();
     }
 
@@ -156,15 +137,14 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == false ? buildNoGoals(context) : buildGoalsList(),
+          noGoals == false ? buildEmptyPage(context) : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-//          createGoal();
-          navigateToDetail(MyGoal("", ""), 'Add Note');
+          navigateToDetail(GoalClass("", ""), "Add Goal");
         },
         child: Icon(EvaIcons.plus),
         foregroundColor: MyColors.light,

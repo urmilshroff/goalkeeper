@@ -1,4 +1,4 @@
-class MyGoal {
+class GoalClass {
   int id;
   String title;
   String body;
@@ -15,10 +15,10 @@ class MyGoal {
     this.title = newBody;
   }
 
-  MyGoal(this.title, this.body);
-  MyGoal.withId(this.id, this.title, this.body);
+  GoalClass(this.title, this.body);
+  GoalClass.withId(this.id, this.title, this.body);
 
-  MyGoal.fromMap(Map<String, dynamic> map) {
+  GoalClass.fromMap(Map<String, dynamic> map) {
     id = map["id"];
     title = map["title"];
     body = map["title"];

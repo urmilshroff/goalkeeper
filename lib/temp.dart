@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:goalkeeper/colors.dart';
-import 'package:goalkeeper/my_goal.dart';
-import 'package:goalkeeper/database_helper.dart';
-import 'package:goalkeeper/public.dart';
+import 'package:goalkeeper/utils/colors.dart';
+import 'package:goalkeeper/utils/goal.dart';
+import 'package:goalkeeper/utils/database_helper.dart';
+import 'package:goalkeeper/utils/public.dart';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -18,7 +18,7 @@ class GoalsPage extends StatefulWidget {
 
 class _GoalsPageState extends State<GoalsPage> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<MyGoal> goalsList;
+  List<GoalClass> goalsList;
   int count = 0;
 
   void _changeBrightness() {
@@ -351,7 +351,7 @@ class _GoalsPageState extends State<GoalsPage> {
     PageController _myPage = PageController(initialPage: 0);
 
     if (goalsList == null) {
-      goalsList = List<MyGoal>();
+      goalsList = List<GoalClass>();
     }
 
     return Scaffold(
