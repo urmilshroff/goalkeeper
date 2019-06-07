@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import "package:eva_icons_flutter/eva_icons_flutter.dart";
 
-import 'package:goalkeeper/utils/colors.dart';
-import 'package:goalkeeper/utils/database_helper.dart';
-import 'package:goalkeeper/utils/goal.dart';
-import 'package:goalkeeper/utils/public.dart';
+import "package:goalkeeper/utils/colors.dart";
+import "package:goalkeeper/utils/database_helper.dart";
+import "package:goalkeeper/utils/goal.dart";
+import "package:goalkeeper/utils/public.dart";
 
 class CreateGoal extends StatefulWidget {
   final GoalClass goal;
@@ -38,7 +38,7 @@ class CreateGoalState extends State<CreateGoal> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.purple,
-        title: Text('New Goal',
+        title: Text("New Goal",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
       ),
       body: Container(
@@ -63,7 +63,7 @@ class CreateGoalState extends State<CreateGoal> {
                   height: 15.0,
                 ),
                 Center(
-                  child: Text('New Goal',
+                  child: Text("New Goal",
                       style: TextStyle(
                           color: invertColors(context),
                           fontWeight: FontWeight.w700,
@@ -82,8 +82,8 @@ class CreateGoalState extends State<CreateGoal> {
                   },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Goal Title',
-                      hintText: 'What\'s your goal for today?',
+                      labelText: "Goal Title",
+                      hintText: "What\"s your goal for today?",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
                 SizedBox(
@@ -95,8 +95,8 @@ class CreateGoalState extends State<CreateGoal> {
                   controller: inputGoalBodyController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Description',
-                      hintText: 'Explain it in a few lines',
+                      labelText: "Description",
+                      hintText: "Explain it in a few lines",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
               ],
@@ -110,7 +110,7 @@ class CreateGoalState extends State<CreateGoal> {
         },
         child: Icon(EvaIcons.checkmark),
         foregroundColor: MyColors.light,
-        backgroundColor: MyColors.pink,
+        backgroundColor: MyColors.green,
         elevation: 3.0,
       ),
     );

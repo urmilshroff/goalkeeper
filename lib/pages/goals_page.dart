@@ -52,7 +52,7 @@ class _GoalsPageState extends State<GoalsPage> {
 
   void navigateToEditGoal(GoalClass goal) async {
     await Navigator.push(context, CupertinoPageRoute(builder: (context) {
-//      return EditGoal(goal);
+      return EditGoal(goal);
     }));
     updateListView();
   }
@@ -128,7 +128,7 @@ class _GoalsPageState extends State<GoalsPage> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
-        title: Text('My Goals',
+        title: Text("My Goals",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         actions: <Widget>[
           IconButton(

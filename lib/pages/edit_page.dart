@@ -1,137 +1,124 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
+import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
 import 'package:goalkeeper/utils/goal.dart';
 import 'package:goalkeeper/utils/public.dart';
 
 class EditGoal extends StatefulWidget {
-  final String appBarTitle;
   final GoalClass goal;
 
-  EditGoal(this.goal, this.appBarTitle);
+  EditGoal(this.goal); //constructor
 
   @override
   State<StatefulWidget> createState() {
-    return EditGoalState(this.goal, this.appBarTitle);
+    return EditGoalState(this.goal);
   }
 }
 
 class EditGoalState extends State<EditGoal> {
   DatabaseHelper helper = DatabaseHelper();
 
-  String appBarTitle;
   GoalClass goal;
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController bodyController = TextEditingController();
+  TextEditingController inputGoalTitleController = TextEditingController();
+  TextEditingController inputGoalBodyController = TextEditingController();
 
-  EditGoalState(this.goal, this.appBarTitle);
+  EditGoalState(this.goal);
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    inputGoalTitleController.text = goal.title;
+    inputGoalBodyController.text = goal.body;
 
-    titleController.text = goal.title;
-    bodyController.text = goal.body;
-
-    return WillPopScope(
-        //TODO fuck this off
-        child: Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: TextField(
-                controller: titleController,
-                style: textStyle,
-                onChanged: (value) {
-                  debugPrint('Something changed in Title Text Field');
-                  updateTitle();
-                },
-                decoration: InputDecoration(
-                    labelText: 'Title',
-                    labelStyle: textStyle,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 5.0,
+        backgroundColor: MyColors.aqua,
+        title: Text('Edit Goal',
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
+      ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Form(
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 40.0,
+                ),
+                Hero(
+                  tag: "dartIcon${this.goal.id - 1}",
+                  child: Container(
+                      width: 70.0,
+                      height: 70.0,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/icon.png")))),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Center(
+                  child: Text("Edit Goal",
+                      style: TextStyle(
+                          color: invertColors(context),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26.0)),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: invertColors(context)),
+                  controller: inputGoalTitleController,
+                  onChanged: (title) {
+                    updateTitle();
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Goal Title",
+                      contentPadding: const EdgeInsets.all(15.0)),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: invertColors(context)),
+                  controller: inputGoalBodyController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Description",
+                      contentPadding: const EdgeInsets.all(15.0)),
+                ),
+              ],
             ),
-
-            // Third Element
-            Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: TextField(
-                controller: bodyController,
-                style: textStyle,
-                onChanged: (value) {
-                  debugPrint('Something changed in Body Text Field');
-                  updateBody();
-                },
-                decoration: InputDecoration(
-                    labelText: 'Body',
-                    labelStyle: textStyle,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-              ),
-            ),
-
-            // Fourth Element
-            Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColorDark,
-                      textColor: Theme.of(context).primaryColorLight,
-                      child: Text(
-                        'Save',
-                        textScaleFactor: 1.5,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          debugPrint("Save button clicked");
-                          saveGoal();
-                        });
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 5.0,
-                  ),
-                  Expanded(
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColorDark,
-                      textColor: Theme.of(context).primaryColorLight,
-                      child: Text(
-                        'Delete',
-                        textScaleFactor: 1.5,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          debugPrint("Delete button clicked");
-                          deleteGoal();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
-    ));
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          saveGoal();
+        },
+        child: Icon(EvaIcons.checkmark),
+        foregroundColor: MyColors.light,
+        backgroundColor: MyColors.pink,
+        elevation: 3.0,
+      ),
+    );
   }
 
   void updateTitle() {
-    goal.title = titleController.text;
+    goal.title = inputGoalTitleController.text;
   }
 
   void updateBody() {
-    goal.body = bodyController.text;
+    goal.body = inputGoalBodyController.text;
   }
 
   void saveGoal() async {
@@ -139,10 +126,12 @@ class EditGoalState extends State<EditGoal> {
 
     Navigator.pop(context);
 
-    if (goal.id != null) {
-      result = await helper.updateGoal(goal);
-    } else {
-      result = await helper.createGoal(goal);
+    if (goal.title.length > 0) {
+      if (goal.id == null) {
+        result = await helper.createGoal(goal);
+      } else {
+        result = await helper.updateGoal(goal);
+      }
     }
 
     if (result != 0) {
