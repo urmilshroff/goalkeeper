@@ -145,7 +145,7 @@ class _GoalsPageState extends State<GoalsPage> {
       return Scaffold(
         appBar: AppBar(
           elevation: 5.0,
-          backgroundColor: MyColors.aqua,
+          backgroundColor: MyColors.green,
           title: Text('Edit Goal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
         ),
