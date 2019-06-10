@@ -21,8 +21,9 @@ Widget buildEmptyPage(BuildContext context) {
             padding: const EdgeInsets.all(16.0),
             child: Text("No goals yet",
                 style: TextStyle(
-                    color: invertColors(context),
-                    fontSize: 18.0,)),
+                  color: invertColors(context),
+                  fontSize: 18.0,
+                )),
           ),
         ],
       ),

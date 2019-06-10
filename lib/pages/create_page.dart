@@ -71,7 +71,8 @@ class CreateGoalState extends State<CreateGoal> {
                 TextField(
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: invertColors(context),),
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
                     updateTitle();
@@ -88,7 +89,8 @@ class CreateGoalState extends State<CreateGoal> {
                 TextField(
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: invertColors(context),),
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalBodyController,
                   onChanged: (body) {
                     updateBody();
