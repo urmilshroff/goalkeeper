@@ -22,8 +22,7 @@ Widget buildEmptyPage(BuildContext context) {
             child: Text("No goals yet",
                 style: TextStyle(
                     color: invertColors(context),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500)),
+                    fontSize: 18.0,)),
           ),
         ],
       ),

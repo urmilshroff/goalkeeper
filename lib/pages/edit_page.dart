@@ -73,8 +73,8 @@ class EditGoalState extends State<EditGoal> {
                 ),
                 TextField(
                   style: TextStyle(
-                      color: invertColors(context),
-                      fontWeight: FontWeight.w500),
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
                     updateTitle();
@@ -89,8 +89,8 @@ class EditGoalState extends State<EditGoal> {
                 ),
                 TextField(
                   style: TextStyle(
-                      color: invertColors(context),
-                      fontWeight: FontWeight.w500),
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalBodyController,
                   onChanged: (body) {
                     updateBody();
@@ -161,8 +161,14 @@ class EditGoalState extends State<EditGoal> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text("Done with \'${goal.title}\'?"),
-              content: Text("This goal will be deleted!"),
+              title: Text("Done with \'${goal.title}\'?",
+                  style: TextStyle(
+                      color: invertColors(context),
+                      fontWeight: FontWeight.w600)),
+              content: Text("This goal will be deleted!",
+                  style: TextStyle(
+                    color: invertColors(context),
+                  )),
               actions: <Widget>[
                 FlatButton(
                     child: Text('CANCEL',

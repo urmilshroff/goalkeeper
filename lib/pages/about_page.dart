@@ -6,7 +6,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:goalkeeper/utils/public.dart';
 
 Widget buildAboutPage(BuildContext context) {
-  double c_width = MediaQuery.of(context).size.width * 0.8;
+  double _width = MediaQuery.of(context).size.width * 0.75;
 
   return Container(
     child: ListView(
@@ -114,7 +114,7 @@ Widget buildAboutPage(BuildContext context) {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: c_width,
+                          width: _width,
                           child: Column(
                             children: <Widget>[
                               Text(
@@ -124,7 +124,6 @@ Widget buildAboutPage(BuildContext context) {
                                   "PR!",
                                   style: TextStyle(
                                       color: invertColors(context),
-                                      fontWeight: FontWeight.w500,
                                       fontSize: 16.0)),
                               GestureDetector(
                                 child: IconButton(
@@ -141,118 +140,118 @@ Widget buildAboutPage(BuildContext context) {
                 ]),
           ),
         ),
-        buildTile(
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Text("Open Source usages",
-                        style: TextStyle(
-                            color: invertColors(context),
-                            fontWeight: FontWeight.w500)),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Flutter",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0)),
-                            GestureDetector(
-                              child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => doNothing()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Dashboard UI",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0)),
-                            GestureDetector(
-                              child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => doNothing()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Dynamic Theme",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0)),
-                            GestureDetector(
-                              child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => doNothing()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Eva Icons",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0)),
-                            GestureDetector(
-                              child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => doNothing()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Speed Dial",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0)),
-                            GestureDetector(
-                              child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => doNothing()),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-          ),
-        ),
+//        buildTile(
+//          Padding(
+//            padding: const EdgeInsets.all(10.0),
+//            child: Column(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  Center(
+//                    child: Text("Open Source usages",
+//                        style: TextStyle(
+//                            color: invertColors(context),
+//                            fontWeight: FontWeight.w500)),
+//                  ),
+//                  SizedBox(
+//                    height: 5,
+//                  ),
+//                  Center(
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.center,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      children: <Widget>[
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text("Flutter",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontWeight: FontWeight.w500,
+//                                    fontSize: 16.0)),
+//                            GestureDetector(
+//                              child: IconButton(
+//                                  icon: Icon(EvaIcons.github),
+//                                  color: invertColors(context),
+//                                  onPressed: () => doNothing()),
+//                            ),
+//                          ],
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text("Dashboard UI",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontWeight: FontWeight.w500,
+//                                    fontSize: 16.0)),
+//                            GestureDetector(
+//                              child: IconButton(
+//                                  icon: Icon(EvaIcons.github),
+//                                  color: invertColors(context),
+//                                  onPressed: () => doNothing()),
+//                            ),
+//                          ],
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text("Dynamic Theme",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontWeight: FontWeight.w500,
+//                                    fontSize: 16.0)),
+//                            GestureDetector(
+//                              child: IconButton(
+//                                  icon: Icon(EvaIcons.github),
+//                                  color: invertColors(context),
+//                                  onPressed: () => doNothing()),
+//                            ),
+//                          ],
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text("Eva Icons",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontWeight: FontWeight.w500,
+//                                    fontSize: 16.0)),
+//                            GestureDetector(
+//                              child: IconButton(
+//                                  icon: Icon(EvaIcons.github),
+//                                  color: invertColors(context),
+//                                  onPressed: () => doNothing()),
+//                            ),
+//                          ],
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text("Speed Dial",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontWeight: FontWeight.w500,
+//                                    fontSize: 16.0)),
+//                            GestureDetector(
+//                              child: IconButton(
+//                                  icon: Icon(EvaIcons.github),
+//                                  color: invertColors(context),
+//                                  onPressed: () => doNothing()),
+//                            ),
+//                          ],
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                ]),
+//          ),
+//        ),
       ],
     ),
   );

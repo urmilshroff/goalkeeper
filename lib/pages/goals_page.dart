@@ -62,6 +62,8 @@ class _GoalsPageState extends State<GoalsPage> {
   }
 
   Widget buildGoalsList() {
+    double _width = MediaQuery.of(context).size.width * 0.75;
+
     return Container(
       child: ListView.builder(
         itemCount: len,
@@ -100,18 +102,27 @@ class _GoalsPageState extends State<GoalsPage> {
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text(this.goalsList[id].title,
-                            style: TextStyle(
-                                color: invertColors(context),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.0)),
-                        SizedBox(
-                          height: 3.0,
+                        Container(
+                          width: _width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(this.goalsList[id].title,
+                                  style: TextStyle(
+                                      color: invertColors(context),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.0)),
+                              SizedBox(
+                                height: 3.0,
+                              ),
+                              Text(this.goalsList[id].body,
+                                  style: TextStyle(
+                                      color: invertColors(context),
+                                      fontSize: 16.0)),
+                            ],
+                          ),
                         ),
-                        Text(this.goalsList[id].body,
-                            style: TextStyle(
-                                color: invertColors(context),
-                                fontWeight: FontWeight.w500)),
                       ],
                     ),
                     Spacer(),
