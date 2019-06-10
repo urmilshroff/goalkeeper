@@ -6,6 +6,10 @@ import 'package:goalkeeper/utils/colors.dart';
 
 bool noGoals = true;
 
+void doNothing() {
+  print("Nothing is happening here");
+}
+
 bool isThemeCurrentlyDark(BuildContext context) {
   if (Theme.of(context).brightness == Brightness.dark) {
     return true; //if currently in dark mode

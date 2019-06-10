@@ -94,7 +94,9 @@ class _GoalsPageState extends State<GoalsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Goal #${id + 1}",
-                            style: TextStyle(color: MyColors.accentColor)),
+                            style: TextStyle(
+                                color: MyColors.accentColor,
+                                fontWeight: FontWeight.w500)),
                         SizedBox(
                           height: 3.0,
                         ),
@@ -107,7 +109,9 @@ class _GoalsPageState extends State<GoalsPage> {
                           height: 3.0,
                         ),
                         Text(this.goalsList[id].body,
-                            style: TextStyle(color: invertColors(context))),
+                            style: TextStyle(
+                                color: invertColors(context),
+                                fontWeight: FontWeight.w500)),
                       ],
                     ),
                     Spacer(),

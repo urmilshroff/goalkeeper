@@ -72,7 +72,9 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  style: TextStyle(color: invertColors(context)),
+                  style: TextStyle(
+                      color: invertColors(context),
+                      fontWeight: FontWeight.w500),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
                     updateTitle();
@@ -86,7 +88,9 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  style: TextStyle(color: invertColors(context)),
+                  style: TextStyle(
+                      color: invertColors(context),
+                      fontWeight: FontWeight.w500),
                   controller: inputGoalBodyController,
                   onChanged: (body) {
                     updateBody();
@@ -114,14 +118,16 @@ class EditGoalState extends State<EditGoal> {
               foregroundColor: MyColors.light,
               backgroundColor: MyColors.blue,
               label: "Save",
-              labelStyle: TextStyle(color: MyColors.dark),
+              labelStyle:
+                  TextStyle(color: MyColors.dark, fontWeight: FontWeight.w500),
               onTap: () => saveGoal()),
           SpeedDialChild(
               child: Icon(Icons.delete_forever),
               foregroundColor: MyColors.light,
               backgroundColor: MyColors.red,
               label: "Delete",
-              labelStyle: TextStyle(color: MyColors.dark),
+              labelStyle:
+                  TextStyle(color: MyColors.dark, fontWeight: FontWeight.w500),
               onTap: () => deleteGoal()),
         ],
       ),
@@ -160,11 +166,14 @@ class EditGoalState extends State<EditGoal> {
               actions: <Widget>[
                 FlatButton(
                     child: Text('CANCEL',
-                        style: TextStyle(color: invertColors(context))),
+                        style: TextStyle(
+                            color: invertColors(context),
+                            fontWeight: FontWeight.w500)),
                     onPressed: () => Navigator.of(context).pop()),
                 FlatButton(
-                    child:
-                        Text('DELETE', style: TextStyle(color: MyColors.red)),
+                    child: Text('DELETE',
+                        style: TextStyle(
+                            color: MyColors.red, fontWeight: FontWeight.w500)),
                     onPressed: () async {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
