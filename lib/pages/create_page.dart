@@ -29,7 +29,7 @@ class CreateGoalState extends State<CreateGoal> {
 
   @override
   Widget build(BuildContext context) {
-print("dartIcon${goal.id}");
+    print("dartIcon${goal.id}");
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
@@ -70,7 +70,9 @@ print("dartIcon${goal.id}");
                 ),
                 TextField(
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: invertColors(context)),
+                  style: TextStyle(
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalTitleController,
                   onChanged: (title) {
                     updateTitle();
@@ -86,7 +88,9 @@ print("dartIcon${goal.id}");
                 ),
                 TextField(
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: invertColors(context)),
+                  style: TextStyle(
+                    color: invertColors(context),
+                  ),
                   controller: inputGoalBodyController,
                   onChanged: (body) {
                     updateBody();
