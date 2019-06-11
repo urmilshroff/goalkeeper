@@ -3,6 +3,7 @@ import 'dart:async';
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import "package:goalkeeper/utils/colors.dart";
@@ -25,6 +26,9 @@ class CreateGoalState extends State<CreateGoal> {
   DatabaseHelper helper = DatabaseHelper();
 
   GoalClass goal;
+
+  bool isDeadlineSet = false;
+  String buttonText = "ADD DEADLINE";
 
   TextEditingController inputGoalTitleController = TextEditingController();
   TextEditingController inputGoalBodyController = TextEditingController();
@@ -138,13 +142,15 @@ class CreateGoalState extends State<CreateGoal> {
                 SizedBox(
                   height: 15.0,
                 ),
+//                isDeadlineSet == false
+//                    ?
                 Theme(
                   data: Theme.of(context).copyWith(
                       primaryColor: MyColors.purple,
                       accentColor: MyColors.yellow),
                   child: Builder(
                     builder: (context) => OutlineButton(
-                          child: Text("ADD DEADLINE",
+                          child: Text("${buttonText}",
                               style: TextStyle(
                                 color: invertColors(context),
                                 fontWeight: FontWeight.w500,
@@ -160,6 +166,24 @@ class CreateGoalState extends State<CreateGoal> {
                         ),
                   ),
                 )
+//                    : Container(
+//                        child: Row(
+//                            mainAxisSize: MainAxisSize.max,
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            children: <Widget>[
+//                            Icon(
+//                              EvaIcons.bell,
+//                              color: invertColors(context),
+//                              size: 18.0,
+//                            ),
+//                            SizedBox(
+//                              width: 5.0,
+//                            ),
+//                            Text("Deadline set!",
+//                                style: TextStyle(
+//                                    color: invertColors(context),
+//                                    fontSize: 18.0)),
+//                          ])),
               ],
             ),
           ),
@@ -199,6 +223,8 @@ class CreateGoalState extends State<CreateGoal> {
     }
   }
 
+  void createDeadline() {}
+
   Future<Null> pickDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -216,12 +242,14 @@ class CreateGoalState extends State<CreateGoal> {
       context: context,
       initialTime: selectedTime,
     );
-    if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-      });
+    if (picked != null) {
+      selectedTime = picked;
       print("PICKED DATE IS ${selectedDate}");
       print("PICKED TIME IS ${selectedTime}");
+      setState(() {
+        isDeadlineSet = true;
+        buttonText = "EDIT DEADLINE";
+      });
     }
   }
 
