@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
@@ -24,6 +28,9 @@ class CreateGoalState extends State<CreateGoal> {
 
   TextEditingController inputGoalTitleController = TextEditingController();
   TextEditingController inputGoalBodyController = TextEditingController();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      new FlutterLocalNotificationsPlugin();
 
   CreateGoalState(this.goal);
 
@@ -101,6 +108,11 @@ class CreateGoalState extends State<CreateGoal> {
                       hintText: "Explain it in a few words",
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
+                RaisedButton(
+                  onPressed: () {
+                    displayNotification();
+                  },
+                )
               ],
             ),
           ),
@@ -138,5 +150,40 @@ class CreateGoalState extends State<CreateGoal> {
         showSnackBar(context, "Goal updated!");
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    var initNotificationAndroid =
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initNotificationIOS = new IOSInitializationSettings();
+    var initNotificationSettings = new InitializationSettings(
+        initNotificationAndroid, initNotificationIOS);
+
+    flutterLocalNotificationsPlugin.initialize(initNotificationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      print('notification payload: ' + payload);
+    }
+    await Navigator.pop(context);
+  }
+
+  displayNotification() async {
+    var displayNotificationAndroid = new AndroidNotificationDetails(
+        "channelId", "channelName", "channelDescription");
+    var displayNotificationIOS = new IOSNotificationDetails();
+
+    var displayNotificationPlatform = new NotificationDetails(
+        displayNotificationAndroid, displayNotificationIOS);
+
+    await flutterLocalNotificationsPlugin.show(0, "Hello World!",
+        "This is from Goalkeeper", displayNotificationPlatform,
+        payload: "Thi"
+            "s is a payload");
   }
 }
