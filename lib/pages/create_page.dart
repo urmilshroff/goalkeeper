@@ -244,8 +244,7 @@ class CreateGoalState extends State<CreateGoal> {
     );
     if (picked != null) {
       selectedTime = picked;
-      print("PICKED DATE IS ${selectedDate}");
-      print("PICKED TIME IS ${selectedTime}");
+      showSnackBar(context, "Deadline set for $selectedTime at $selectedDate!");
       setState(() {
         isDeadlineSet = true;
         buttonText = "EDIT DEADLINE";
