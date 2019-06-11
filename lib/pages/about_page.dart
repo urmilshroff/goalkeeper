@@ -100,6 +100,72 @@ Widget buildAboutPage(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Center(
+                    child: Text("Support",
+                        style: TextStyle(
+                            color: invertColors(context),
+                            fontWeight: FontWeight.w500)),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: _width,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                  "Like the app? Show your support by writing"
+                                  " a review on the Play Store, starring it on"
+                                  " GitHub and sharing it with your "
+                                  "friends!",
+                                  style: TextStyle(
+                                      color: invertColors(context),
+                                      fontSize: 16.0)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    child: IconButton(
+                                        icon: Icon(EvaIcons.edit),
+                                        color: invertColors(context),
+                                        onPressed: () => doNothing()),
+                                  ),
+                                  GestureDetector(
+                                    child: IconButton(
+                                        icon: Icon(EvaIcons.star),
+                                        color: invertColors(context),
+                                        onPressed: () => doNothing()),
+                                  ),
+                                  GestureDetector(
+                                    child: IconButton(
+                                        icon: Icon(EvaIcons.share),
+                                        color: invertColors(context),
+                                        onPressed: () => doNothing()),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+        buildTile(
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
                     child: Text("Feedback",
                         style: TextStyle(
                             color: invertColors(context),
