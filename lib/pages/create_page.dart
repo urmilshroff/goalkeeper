@@ -29,6 +29,9 @@ class CreateGoalState extends State<CreateGoal> {
   TextEditingController inputGoalTitleController = TextEditingController();
   TextEditingController inputGoalBodyController = TextEditingController();
 
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
 
@@ -85,9 +88,21 @@ class CreateGoalState extends State<CreateGoal> {
                     updateTitle();
                   },
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: invertColors(context)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColors.purple),
+                      ),
                       border: OutlineInputBorder(),
                       labelText: "Goal Title",
                       hintText: "What\'s your goal for today?",
+                      labelStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
+                      hintStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
                 SizedBox(
@@ -103,15 +118,47 @@ class CreateGoalState extends State<CreateGoal> {
                     updateBody();
                   },
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: invertColors(context)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColors.purple),
+                      ),
                       border: OutlineInputBorder(),
                       labelText: "Description",
                       hintText: "Explain it in a few words",
+                      labelStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
+                      hintStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    displayNotification();
-                  },
+                SizedBox(
+                  height: 15.0,
+                ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                      primaryColor: MyColors.purple,
+                      accentColor: MyColors.yellow),
+                  child: Builder(
+                    builder: (context) => OutlineButton(
+                          child: Text("ADD DEADLINE",
+                              style: TextStyle(
+                                color: invertColors(context),
+                                fontWeight: FontWeight.w500,
+                              )),
+                          onPressed: () {
+                            pickDate(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          borderSide: BorderSide(color: MyColors.purple),
+                          highlightedBorderColor: MyColors.yellow,
+                          splashColor: MyColors.yellow,
+                        ),
+                  ),
                 )
               ],
             ),
@@ -149,6 +196,32 @@ class CreateGoalState extends State<CreateGoal> {
         await helper.updateGoal(goal);
         showSnackBar(context, "Goal updated!");
       }
+    }
+  }
+
+  Future<Null> pickDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: selectedDate,
+        lastDate: DateTime(2099));
+    if (picked != null) {
+      selectedDate = picked;
+      pickTime(context);
+    }
+  }
+
+  Future<Null> pickTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+      });
+      print("PICKED DATE IS ${selectedDate}");
+      print("PICKED TIME IS ${selectedTime}");
     }
   }
 

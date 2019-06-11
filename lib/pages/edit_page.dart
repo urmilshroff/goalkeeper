@@ -80,8 +80,17 @@ class EditGoalState extends State<EditGoal> {
                     updateTitle();
                   },
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: invertColors(context)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColors.green),
+                      ),
                       border: OutlineInputBorder(),
                       hintText: "Goal Title",
+                      hintStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
                 SizedBox(
@@ -96,8 +105,17 @@ class EditGoalState extends State<EditGoal> {
                     updateBody();
                   },
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: invertColors(context)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColors.green),
+                      ),
                       border: OutlineInputBorder(),
                       hintText: "Description",
+                      hintStyle: TextStyle(
+                        color: invertColors(context),
+                      ),
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
               ],
