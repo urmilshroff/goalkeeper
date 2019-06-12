@@ -27,7 +27,6 @@ class CreateGoalState extends State<CreateGoal> {
   GoalClass goal;
 
   bool isDeadlineSet = false;
-  int id = 0;
   String buttonText = "ADD DEADLINE";
 
   TextEditingController inputGoalTitleController = TextEditingController();
@@ -43,7 +42,6 @@ class CreateGoalState extends State<CreateGoal> {
 
   @override
   Widget build(BuildContext context) {
-    print("dartIcon${goal.id}");
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
@@ -142,8 +140,6 @@ class CreateGoalState extends State<CreateGoal> {
                 SizedBox(
                   height: 15.0,
                 ),
-//                isDeadlineSet == false
-//                    ?
                 Theme(
                   data: Theme.of(context).copyWith(
                       primaryColor: MyColors.purple,
@@ -166,24 +162,6 @@ class CreateGoalState extends State<CreateGoal> {
                         ),
                   ),
                 )
-//                    : Container(
-//                        child: Row(
-//                            mainAxisSize: MainAxisSize.max,
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                            Icon(
-//                              EvaIcons.bell,
-//                              color: invertColors(context),
-//                              size: 18.0,
-//                            ),
-//                            SizedBox(
-//                              width: 5.0,
-//                            ),
-//                            Text("Deadline set!",
-//                                style: TextStyle(
-//                                    color: invertColors(context),
-//                                    fontSize: 18.0)),
-//                          ])),
               ],
             ),
           ),
@@ -215,10 +193,11 @@ class CreateGoalState extends State<CreateGoal> {
     if (goal.title.length > 0) {
       if (goal.id == null) {
         await helper.createGoal(goal);
-        await scheduleNotification(goal.title, goal.body);
+        await showWeeklyAtDayAndTime(goal.id, goal.title, goal.body);
         showSnackBar(context, "Goal created!");
       } else {
         await helper.updateGoal(goal);
+        await showWeeklyAtDayAndTime(goal.id, goal.title, goal.body);
         showSnackBar(context, "Goal updated!");
       }
     }
@@ -251,6 +230,8 @@ class CreateGoalState extends State<CreateGoal> {
           selectedTime.toString().replaceAll(RegExp(r"TimeOfDay\("), "");
       selectedTimeClean =
           selectedTimeClean.toString().replaceAll(RegExp(r"\)"), "");
+      var selectedHoursClean = selectedTimeClean.substring(0, 2);
+      var selectedMinutesClean = selectedTimeClean.substring(3, 5);
       var selectedDateClean =
           selectedDate.toString().replaceAll(RegExp(r" 00:00:00.000"), "");
 
@@ -281,32 +262,34 @@ class CreateGoalState extends State<CreateGoal> {
     if (payload != null) {
       print('notification payload: ' + payload); //TODO: add goal edit page
     }
-    await Navigator.pop(context);
+    Navigator.pop(context);
   }
 
-//  displayNotification() async {
-//    var displayNotificationAndroid = new AndroidNotificationDetails(
-//        "channelId", "channelName", "channelDescription");
-//    var displayNotificationIOS = new IOSNotificationDetails();
-//
-//    var displayNotificationPlatform = new NotificationDetails(
-//        displayNotificationAndroid, displayNotificationIOS);
-//
-//    await flutterLocalNotificationsPlugin.show(0, "Hello World!",
-//        "This is from Goalkeeper", displayNotificationPlatform,
-//        payload: "This is a payload");
-//  }
-
-  Future<void> scheduleNotification(String goalTitle, String goalBody) async {
-//    var scheduledNotificationDate = selectedDate;
-//    var scheduledNotificationTime = selectedTime;
-
-    var scheduledNotificationDate = DateTime.now().add(Duration(seconds: 5));
+  Future<void> showWeeklyAtDayAndTime(
+      int id, String goalTitle, String goalBody) async {
+    if (id == 0) {
+      print("ID IS $id");
+    }
+    print("SHIT ID IS $id");
+    var scheduledNotificationDate = selectedDate;
+    var selectedTimeClean =
+        selectedTime.toString().replaceAll(RegExp(r"TimeOfDay\("), "");
+    selectedTimeClean =
+        selectedTimeClean.toString().replaceAll(RegExp(r"\)"), "");
+    var selectedHoursClean = selectedTimeClean.substring(0, 2);
+    var selectedMinutesClean = selectedTimeClean.substring(3, 5);
+    print(int.parse("$selectedHoursClean"));
+    print(int.parse("$selectedMinutesClean"));
+    var scheduledNotificationTime = Time(int.parse("$selectedHoursClean"),
+        int.parse("$selectedMinutesClean"), 0);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         "goalNotificationChannelId",
-        "Goals",
+        "Goal Deadlines",
         "Reminders to complete your goals in time",
+        importance: Importance.Max,
+        priority: Priority.High,
+        ticker: 'ticker',
         icon: '@mipmap/ic_launcher',
         largeIcon: '@mipmap/ic_launcher',
         largeIconBitmapSource: BitmapSource.Drawable);
@@ -315,8 +298,13 @@ class CreateGoalState extends State<CreateGoal> {
 
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(0, "$goalTitle", "$goalBody",
-        scheduledNotificationDate, platformChannelSpecifics);
-    id = id + 1;
+
+    await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(
+        0,
+        "Reminder: $goalTitle",
+        "Hope you're working on completing your goal!",
+        Day.Wednesday,
+        scheduledNotificationTime,
+        platformChannelSpecifics);
   }
 }
