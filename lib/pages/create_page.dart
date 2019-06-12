@@ -150,7 +150,7 @@ class CreateGoalState extends State<CreateGoal> {
                       accentColor: MyColors.yellow),
                   child: Builder(
                     builder: (context) => OutlineButton(
-                          child: Text("${buttonText}",
+                          child: Text("$buttonText",
                               style: TextStyle(
                                 color: invertColors(context),
                                 fontWeight: FontWeight.w500,
@@ -215,6 +215,7 @@ class CreateGoalState extends State<CreateGoal> {
     if (goal.title.length > 0) {
       if (goal.id == null) {
         await helper.createGoal(goal);
+        scheduleNotification(goal.title, goal.body);
         showSnackBar(context, "Goal created!");
       } else {
         await helper.updateGoal(goal);
@@ -223,14 +224,16 @@ class CreateGoalState extends State<CreateGoal> {
     }
   }
 
-  void createDeadline() {}
+  void createNewDeadline() {
+    pickDate(context);
+  }
 
   Future<Null> pickDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: selectedDate,
-        lastDate: DateTime(2099));
+        lastDate: selectedDate.add(Duration(days: 3650)));
     if (picked != null) {
       selectedDate = picked;
       pickTime(context);
@@ -244,11 +247,19 @@ class CreateGoalState extends State<CreateGoal> {
     );
     if (picked != null) {
       selectedTime = picked;
-      showSnackBar(context, "Deadline set for $selectedTime at $selectedDate!");
+      var selectedTimeClean =
+          selectedTime.toString().replaceAll(RegExp(r"TimeOfDay\("), "");
+      selectedTimeClean =
+          selectedTimeClean.toString().replaceAll(RegExp(r"\)"), "");
+      var selectedDateClean =
+          selectedDate.toString().replaceAll(RegExp(r" 00:00:00.000"), "");
+
       setState(() {
         isDeadlineSet = true;
         buttonText = "EDIT DEADLINE";
       });
+      showSnackBar(context,
+          "Deadline set for $selectedTimeClean on $selectedDateClean!");
     }
   }
 
@@ -268,22 +279,47 @@ class CreateGoalState extends State<CreateGoal> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-      print('notification payload: ' + payload);
+      print('notification payload: ' + payload); //TODO: add goal edit page
     }
     await Navigator.pop(context);
   }
 
-  displayNotification() async {
-    var displayNotificationAndroid = new AndroidNotificationDetails(
-        "channelId", "channelName", "channelDescription");
-    var displayNotificationIOS = new IOSNotificationDetails();
+//  displayNotification() async {
+//    var displayNotificationAndroid = new AndroidNotificationDetails(
+//        "channelId", "channelName", "channelDescription");
+//    var displayNotificationIOS = new IOSNotificationDetails();
+//
+//    var displayNotificationPlatform = new NotificationDetails(
+//        displayNotificationAndroid, displayNotificationIOS);
+//
+//    await flutterLocalNotificationsPlugin.show(0, "Hello World!",
+//        "This is from Goalkeeper", displayNotificationPlatform,
+//        payload: "This is a payload");
+//  }
 
-    var displayNotificationPlatform = new NotificationDetails(
-        displayNotificationAndroid, displayNotificationIOS);
+  Future<void> scheduleNotification(String goalTitle, String goalBody) async {
+//    var scheduledNotificationDate = selectedDate;
+//    var scheduledNotificationTime = selectedTime;
 
-    await flutterLocalNotificationsPlugin.show(0, "Hello World!",
-        "This is from Goalkeeper", displayNotificationPlatform,
-        payload: "Thi"
-            "s is a payload");
+    var scheduledNotificationDate = DateTime.now().add(Duration(seconds: 5));
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'custom channel id',
+        'custom channel name',
+        'custom channel description',
+        icon: '@mipmap/ic_launcher',
+        largeIcon: '@mipmap/ic_launcher',
+        largeIconBitmapSource: BitmapSource.Drawable,
+        enableLights: true,
+        ledOnMs: 1000,
+        ledOffMs: 500);
+
+    var iosPlatformChannelSpecifics = IOSNotificationDetails();
+
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.schedule(0, "$goalTitle", "$goalBody",
+        scheduledNotificationDate, platformChannelSpecifics);
   }
 }
