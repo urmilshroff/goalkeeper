@@ -3,7 +3,6 @@ import 'dart:async';
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import "package:goalkeeper/utils/colors.dart";
@@ -28,6 +27,7 @@ class CreateGoalState extends State<CreateGoal> {
   GoalClass goal;
 
   bool isDeadlineSet = false;
+  int id = 0;
   String buttonText = "ADD DEADLINE";
 
   TextEditingController inputGoalTitleController = TextEditingController();
@@ -215,7 +215,7 @@ class CreateGoalState extends State<CreateGoal> {
     if (goal.title.length > 0) {
       if (goal.id == null) {
         await helper.createGoal(goal);
-        scheduleNotification(goal.title, goal.body);
+        await scheduleNotification(goal.title, goal.body);
         showSnackBar(context, "Goal created!");
       } else {
         await helper.updateGoal(goal);
@@ -304,22 +304,19 @@ class CreateGoalState extends State<CreateGoal> {
     var scheduledNotificationDate = DateTime.now().add(Duration(seconds: 5));
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'custom channel id',
-        'custom channel name',
-        'custom channel description',
+        "goalNotificationChannelId",
+        "Goals",
+        "Reminders to complete your goals in time",
         icon: '@mipmap/ic_launcher',
         largeIcon: '@mipmap/ic_launcher',
-        largeIconBitmapSource: BitmapSource.Drawable,
-        enableLights: true,
-        ledOnMs: 1000,
-        ledOffMs: 500);
+        largeIconBitmapSource: BitmapSource.Drawable);
 
     var iosPlatformChannelSpecifics = IOSNotificationDetails();
 
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
-
     await flutterLocalNotificationsPlugin.schedule(0, "$goalTitle", "$goalBody",
         scheduledNotificationDate, platformChannelSpecifics);
+    id = id + 1;
   }
 }
