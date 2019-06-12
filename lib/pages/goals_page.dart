@@ -108,18 +108,28 @@ class _GoalsPageState extends State<GoalsPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(this.goalsList[id].title,
-                                  style: TextStyle(
-                                      color: invertColors(context),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.0)),
+                              Text(
+                                this.goalsList[id].title,
+                                style: TextStyle(
+                                    color: invertColors(context),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.0),
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                               SizedBox(
                                 height: 3.0,
                               ),
-                              Text(this.goalsList[id].body,
-                                  style: TextStyle(
-                                      color: invertColors(context),
-                                      fontSize: 16.0)),
+                              Text(
+                                this.goalsList[id].body,
+                                style: TextStyle(
+                                    color: invertColors(context),
+                                    fontSize: 16.0),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 5,
+                              ),
                             ],
                           ),
                         ),
