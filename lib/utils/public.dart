@@ -29,7 +29,7 @@ Color invertColors(BuildContext context) {
 void showSnackBar(BuildContext context, String message) {
   final snackBar = SnackBar(content: Text(message));
   Scaffold.of(context).showSnackBar(snackBar);
-} //easily display a snackbar
+} //easily show a snackbar
 
 Widget buildTile(Widget widgetContent, {Function() onTap}) {
   return Container(
