@@ -81,7 +81,8 @@ class CreateGoalState extends State<CreateGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: invertColors(context),
                   ),
@@ -111,7 +112,8 @@ class CreateGoalState extends State<CreateGoal> {
                   height: 15.0,
                 ),
                 TextField(
-                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: invertColors(context),
                   ),
