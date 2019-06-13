@@ -72,6 +72,8 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: invertColors(context),
                   ),
@@ -97,6 +99,8 @@ class EditGoalState extends State<EditGoal> {
                   height: 15.0,
                 ),
                 TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: invertColors(context),
                   ),
