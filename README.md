@@ -1,4 +1,4 @@
-<p align="center"><img height="150px" width="150px" src="./assets/icon.png" alt="Goalkeeper"/></p>
+<p align="center"><img height="170px" width="170px" src="./assets/icon.png" alt="Goalkeeper"/></p>
 
 # Goalkeeper
 
@@ -21,6 +21,11 @@ To build and run the app on your device, do the following:
 ## Contributing
 
 Found any bugs? Have any suggestions or feature requests? [Submit an issue](https://github.com/urmilshroff/goalkeeper/issues) or fork and [send a pull request](https://github.com/urmilshroff/goalkeeper/pulls) with your own changes! All contributions are more than welcome, and will be merged into `flutter` (that's the primary branch) if satisfactory.
+
+## Credits
+
+Shoutout to [Arabi Ishaque](https://dribbble.com/Arabi) for updating the icon and banner!
+Take a look at the list of [contributors](https://github.com/urmilshroff/goalkeeper/graphs/contributors) to see who all have helped in the project.
 
 ## License
 
