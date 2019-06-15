@@ -228,21 +228,16 @@ class CreateGoalState extends State<CreateGoal> {
     );
     if (picked != null) {
       selectedTime = picked;
-      var selectedTimeClean =
-          selectedTime.toString().replaceAll(RegExp(r"TimeOfDay\("), "");
-      selectedTimeClean =
-          selectedTimeClean.toString().replaceAll(RegExp(r"\)"), "");
-      var selectedHoursClean = selectedTimeClean.substring(0, 2);
-      var selectedMinutesClean = selectedTimeClean.substring(3, 5);
-      var selectedDateClean =
-          selectedDate.toString().replaceAll(RegExp(r" 00:00:00.000"), "");
 
       setState(() {
         isDeadlineSet = true;
         buttonText = "EDIT DEADLINE";
       });
-      showSnackBar(context,
-          "Deadline set for $selectedTimeClean on $selectedDateClean!");
+
+      showSnackBar(
+          context,
+          "Deadline set for ${selectedTime.hour}:${selectedTime.minute} on "
+          "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}!");
     }
   }
 
@@ -272,18 +267,9 @@ class CreateGoalState extends State<CreateGoal> {
     if (id == 0) {
       print("ID IS $id");
     }
-    print("SHIT ID IS $id");
-    var scheduledNotificationDate = selectedDate;
-    var selectedTimeClean =
-        selectedTime.toString().replaceAll(RegExp(r"TimeOfDay\("), "");
-    selectedTimeClean =
-        selectedTimeClean.toString().replaceAll(RegExp(r"\)"), "");
-    var selectedHoursClean = selectedTimeClean.substring(0, 2);
-    var selectedMinutesClean = selectedTimeClean.substring(3, 5);
-    print(int.parse("$selectedHoursClean"));
-    print(int.parse("$selectedMinutesClean"));
-    var scheduledNotificationTime = Time(int.parse("$selectedHoursClean"),
-        int.parse("$selectedMinutesClean"), 0);
+    print("WRONG ID IS $id");
+    var scheduledNotificationTime =
+        Time(selectedTime.hour, selectedTime.minute, 0);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         "goalNotificationChannelId",
