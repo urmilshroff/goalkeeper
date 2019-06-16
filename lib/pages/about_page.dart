@@ -318,6 +318,9 @@ Widget buildAboutPage(BuildContext context) {
 //                ]),
 //          ),
 //        ),
+        SizedBox(
+          height: 30,
+        ),
       ],
     ),
   );

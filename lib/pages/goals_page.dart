@@ -174,7 +174,7 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == true ? buildEmptyPage(context) : buildGoalsList(),
+          noGoals == true ? FlagFade() : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),
