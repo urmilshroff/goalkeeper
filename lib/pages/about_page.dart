@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+//import 'package:simple_share/simple_share.dart';
 
 import 'package:goalkeeper/utils/public.dart';
 
@@ -70,21 +71,10 @@ Widget buildAboutPage(BuildContext context) {
                       children: <Widget>[
                         GestureDetector(
                           child: IconButton(
-                              icon: Icon(EvaIcons.google),
-                              color: invertColors(context),
-                              onPressed: () => doNothing()),
-                        ),
-                        GestureDetector(
-                          child: IconButton(
-                              icon: Icon(EvaIcons.email),
-                              color: invertColors(context),
-                              onPressed: () => doNothing()),
-                        ),
-                        GestureDetector(
-                          child: IconButton(
                               icon: Icon(EvaIcons.twitter),
                               color: invertColors(context),
-                              onPressed: () => doNothing()),
+                              onPressed: () =>
+                                  launchURL('https://twitter.com/urmilshroff')),
                         ),
                       ],
                     ),
@@ -133,19 +123,32 @@ Widget buildAboutPage(BuildContext context) {
                                     child: IconButton(
                                         icon: Icon(EvaIcons.edit),
                                         color: invertColors(context),
-                                        onPressed: () => doNothing()),
+                                        onPressed: () => launchURL(
+                                            'https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper')),
                                   ),
                                   GestureDetector(
                                     child: IconButton(
                                         icon: Icon(EvaIcons.star),
                                         color: invertColors(context),
-                                        onPressed: () => doNothing()),
+                                        onPressed: () => launchURL(
+                                            'https://github.com/urmilshroff/goalkeeper')),
                                   ),
                                   GestureDetector(
                                     child: IconButton(
-                                        icon: Icon(EvaIcons.share),
-                                        color: invertColors(context),
-                                        onPressed: () => doNothing()),
+                                      icon: Icon(EvaIcons.share),
+                                      color: invertColors(context),
+                                      onPressed: () => doNothing(),
+//                                      onPressed: () => SimpleShare.share(
+//                                          msg: 'Checkout Goalkeeper, a '
+//                                              'clean and simple todo list '
+//                                              'app to help you achieve your goals!\n'
+//                                              '\nPlay Store: https://play'
+//                                              '.google.com/store/apps/details?id=tech'
+//                                              '.urmilshroff.goalkeeper\n'
+//                                              '\nGitHub: https://github'
+//                                              ''
+//                                              '.com/urmilshroff/goalkeeper'),
+                                    ),
                                   ),
                                 ],
                               )
@@ -195,7 +198,8 @@ Widget buildAboutPage(BuildContext context) {
                                 child: IconButton(
                                     icon: Icon(EvaIcons.github),
                                     color: invertColors(context),
-                                    onPressed: () => doNothing()),
+                                    onPressed: () => launchURL(
+                                        'https://github.com/urmilshroff/goalkeeper')),
                               ),
                             ],
                           ),

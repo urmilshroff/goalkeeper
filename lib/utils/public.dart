@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:goalkeeper/utils/colors.dart';
 
 //publicly usable methods and variables
@@ -48,3 +50,12 @@ Widget buildTile(Widget widgetContent, {Function() onTap}) {
         )),
   );
 } //build material goal card
+
+launchURL(String url) async {
+  if (await canLaunch(url)) {
+    print('Launching $url...');
+    await launch(url);
+  } else {
+    print('Error launching $url!');
+  }
+} //opens up a webpage
