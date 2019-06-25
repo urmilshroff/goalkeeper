@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:goalkeeper/utils/goal.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:goalkeeper/utils/goal.dart';
 
 class DatabaseHelper {
   static Database _database; //singleton database object

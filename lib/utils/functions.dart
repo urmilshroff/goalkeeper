@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:goalkeeper/utils/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //publicly usable methods and variables
 
@@ -32,24 +30,6 @@ void showSnackBar(BuildContext context, String message) {
   final snackBar = SnackBar(content: Text(message));
   Scaffold.of(context).showSnackBar(snackBar);
 } //easily show a snackbar
-
-Widget buildTile(Widget widgetContent, {Function() onTap}) {
-  return Container(
-    margin: const EdgeInsets.all(5.0),
-    child: Material(
-        elevation: 3.0,
-        borderRadius: BorderRadius.circular(8.0),
-        child: InkWell(
-          onTap: onTap != null
-              ? () => onTap()
-              : () {
-                  print("Nothing set");
-                },
-          child: widgetContent,
-          splashColor: MyColors.accentColor,
-        )),
-  );
-} //build material goal card
 
 launchURL(String url) async {
   if (await canLaunch(url)) {

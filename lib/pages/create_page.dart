@@ -2,13 +2,11 @@ import 'dart:async';
 
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
+import "package:goalkeeper/utils/functions.dart";
 import "package:goalkeeper/utils/goal.dart";
-import "package:goalkeeper/utils/public.dart";
 
 class CreateGoal extends StatefulWidget {
   final GoalClass goal;
@@ -196,11 +194,11 @@ class CreateGoalState extends State<CreateGoal> {
       if (goal.id == null) {
         await helper.createGoal(goal);
         await showWeeklyAtDayAndTime(goal.id, goal.title, goal.body);
-        showSnackBar(context, "Goal created!");
+//        showSnackBar(context, "Goal created!");
       } else {
         await helper.updateGoal(goal);
         await showWeeklyAtDayAndTime(goal.id, goal.title, goal.body);
-        showSnackBar(context, "Goal updated!");
+//        showSnackBar(context, "Goal updated!");
       }
     }
   }
@@ -291,7 +289,9 @@ class CreateGoalState extends State<CreateGoal> {
         0,
         "Reminder: $goalTitle",
         "Hope you're working on completing your goal!",
-        Day.Wednesday,
+        selectedDate.weekday == 7
+            ? Day(1) //if Sunday
+            : Day(selectedDate.weekday + 1), //if any other day
         scheduledNotificationTime,
         platformChannelSpecifics);
   }
