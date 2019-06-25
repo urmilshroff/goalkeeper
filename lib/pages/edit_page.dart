@@ -168,10 +168,10 @@ class EditGoalState extends State<EditGoal> {
     if (goal.title.length > 0) {
       if (goal.id == null) {
         await helper.createGoal(goal);
-        showSnackBar(context, "Goal created!");
+//        showSnackBar(context, "Goal created!");
       } else {
         await helper.updateGoal(goal);
-        showSnackBar(context, "Goal updated!");
+//        showSnackBar(context, "Goal updated!");
       }
     }
   }
