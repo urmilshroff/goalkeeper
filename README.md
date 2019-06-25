@@ -2,6 +2,11 @@
 
 # Goalkeeper
 
+[[Issues](https://img.shields.io/github/issues/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/issues)
+[[Forks](https://img.shields.io/github/forks/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/network/members)
+[[Stars](https://img.shields.io/github/stars/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/stargazers)
+[[License](https://img.shields.io/github/license/urmilshroff/goalkeeper.svg)](https://opensource.org/licenses/MIT)
+
 A simple Flutter app to keep track of your goals! Can be built for iOS and Android, and available for free on the [Play Store](https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper).
 
 [<img height="75" width="200" src="./branding/other/google-play-badge.png" alt="Play Store"/>](https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper)
