@@ -2,9 +2,7 @@ import 'dart:async';
 
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
 import "package:goalkeeper/utils/goal.dart";

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:goalkeeper/utils/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //publicly usable methods and variables
 

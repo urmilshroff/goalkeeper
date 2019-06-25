@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:sqflite/sqflite.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:goalkeeper/pages/about_page.dart';
 import 'package:goalkeeper/pages/create_page.dart';
 import 'package:goalkeeper/pages/edit_page.dart';
@@ -13,6 +10,7 @@ import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
 import 'package:goalkeeper/utils/goal.dart';
 import 'package:goalkeeper/utils/public.dart';
+import 'package:sqflite/sqflite.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
