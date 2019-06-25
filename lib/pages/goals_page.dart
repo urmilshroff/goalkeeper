@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:goalkeeper/pages/about_page.dart';
 import 'package:goalkeeper/pages/create_page.dart';
 import 'package:goalkeeper/pages/edit_page.dart';
-import 'package:goalkeeper/pages/empty_page.dart';
 import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
+import 'package:goalkeeper/utils/functions.dart';
 import 'package:goalkeeper/utils/goal.dart';
-import 'package:goalkeeper/utils/public.dart';
+import 'package:goalkeeper/utils/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 
 class GoalsPage extends StatefulWidget {
@@ -172,7 +172,7 @@ class _GoalsPageState extends State<GoalsPage> {
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == true ? FlagFade() : buildGoalsList(),
+          noGoals == true ? buildEmptyPage(context) : buildGoalsList(),
           buildAboutPage(context),
         ],
       ),

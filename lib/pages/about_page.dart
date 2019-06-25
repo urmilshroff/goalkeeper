@@ -1,7 +1,8 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goalkeeper/utils/public.dart';
+import 'package:goalkeeper/utils/functions.dart';
+import 'package:goalkeeper/utils/widgets.dart';
 
 Widget buildAboutPage(BuildContext context) {
   double _width = MediaQuery.of(context).size.width * 0.75;

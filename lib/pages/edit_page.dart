@@ -4,7 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
 import 'package:goalkeeper/utils/goal.dart';
-import 'package:goalkeeper/utils/public.dart';
+import 'package:goalkeeper/utils/functions.dart';
 
 class EditGoal extends StatefulWidget {
   final GoalClass goal;

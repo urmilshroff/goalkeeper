@@ -5,8 +5,8 @@ import "package:flutter/material.dart";
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
+import "package:goalkeeper/utils/functions.dart";
 import "package:goalkeeper/utils/goal.dart";
-import "package:goalkeeper/utils/public.dart";
 
 class CreateGoal extends StatefulWidget {
   final GoalClass goal;
