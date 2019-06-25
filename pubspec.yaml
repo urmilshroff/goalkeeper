@@ -13,12 +13,11 @@ dependencies:
   cupertino_icons: ^0.1.2
   dynamic_theme:
   eva_icons_flutter:
-  flutter_local_notifications: ^0.7.1
+  flutter_local_notifications:
   flutter_speed_dial:
   path_provider:
-  sqflite: ^1.1.5
+  sqflite:
   url_launcher:
-#  simple_share:
 
 dev_dependencies:
   flutter_test:
