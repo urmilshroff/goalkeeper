@@ -70,71 +70,71 @@ class _GoalsPageState extends State<GoalsPage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Hero(
-                          tag: "dartIcon${this.goalsList[id].index}",
-                          child: Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage("assets/icon.png")))),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Hero(
+                        tag: "dartIcon${this.goalsList[id].index}",
+                        child: Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("assets/icon.png")))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Goal #${id + 1}",
+                          style: TextStyle(
+                              color: MyColors.accentColor,
+                              fontWeight: FontWeight.w500)),
+                      SizedBox(
+                        height: 3.0,
+                      ),
+                      Container(
+                        width: _width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              this.goalsList[id].title,
+                              style: TextStyle(
+                                  color: invertColors(context),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20.0),
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            SizedBox(
+                              height: 3.0,
+                            ),
+                            Text(
+                              this.goalsList[id].body,
+                              style: TextStyle(
+                                  color: invertColors(context), fontSize: 16.0),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Goal #${id + 1}",
-                            style: TextStyle(
-                                color: MyColors.accentColor,
-                                fontWeight: FontWeight.w500)),
-                        SizedBox(
-                          height: 3.0,
-                        ),
-                        Container(
-                          width: _width,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                this.goalsList[id].title,
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.0),
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 3.0,
-                              ),
-                              Text(
-                                this.goalsList[id].body,
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontSize: 16.0),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                  ]),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
             onTap: () => navigateToEditGoal(this.goalsList[id]),
           );

@@ -9,18 +9,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.light,
-        data: (brightness) => new ThemeData(
-              primaryColor: MyColors.primaryColor,
-              accentColor: MyColors.accentColor,
-              brightness: brightness,
-            ),
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: "Goalkeeper",
-            theme: theme,
-            home: GoalsPage(),
-          );
-        });
+      defaultBrightness: Brightness.light,
+      data: (brightness) => new ThemeData(
+            primaryColor: MyColors.primaryColor,
+            accentColor: MyColors.accentColor,
+            brightness: brightness,
+          ),
+      themedWidgetBuilder: (context, theme) {
+        return MaterialApp(
+          title: "Goalkeeper",
+          theme: theme,
+          home: GoalsPage(),
+        );
+      },
+    );
   }
 }

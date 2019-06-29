@@ -178,34 +178,36 @@ class EditGoalState extends State<EditGoal> {
 
   void deleteGoal() async {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text("Done with \'${goal.title}\'?",
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Done with \'${goal.title}\'?",
+              style: TextStyle(
+                  color: invertColors(context), fontWeight: FontWeight.w600)),
+          content: Text("This goal will be deleted!",
+              style: TextStyle(
+                color: invertColors(context),
+              )),
+          actions: <Widget>[
+            FlatButton(
+                child: Text('CANCEL',
+                    style: TextStyle(
+                        color: invertColors(context),
+                        fontWeight: FontWeight.w500)),
+                onPressed: () => Navigator.of(context).pop()),
+            FlatButton(
+              child: Text('DELETE',
                   style: TextStyle(
-                      color: invertColors(context),
-                      fontWeight: FontWeight.w600)),
-              content: Text("This goal will be deleted!",
-                  style: TextStyle(
-                    color: invertColors(context),
-                  )),
-              actions: <Widget>[
-                FlatButton(
-                    child: Text('CANCEL',
-                        style: TextStyle(
-                            color: invertColors(context),
-                            fontWeight: FontWeight.w500)),
-                    onPressed: () => Navigator.of(context).pop()),
-                FlatButton(
-                    child: Text('DELETE',
-                        style: TextStyle(
-                            color: MyColors.red, fontWeight: FontWeight.w500)),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      await helper.deleteGoal(goal.id);
-                    })
-              ]);
-        });
+                      color: MyColors.red, fontWeight: FontWeight.w500)),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                await helper.deleteGoal(goal.id);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
