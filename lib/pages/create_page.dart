@@ -24,14 +24,8 @@ class CreateGoalState extends State<CreateGoal> {
 
   GoalClass goal;
 
-  bool isDeadlineSet = false;
-  String buttonText = "ADD DEADLINE";
-
   TextEditingController inputGoalTitleController = TextEditingController();
   TextEditingController inputGoalBodyController = TextEditingController();
-
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
@@ -146,20 +140,23 @@ class CreateGoalState extends State<CreateGoal> {
                       accentColor: MyColors.yellow),
                   child: Builder(
                     builder: (context) => OutlineButton(
-                          child: Text("$buttonText",
-                              style: TextStyle(
-                                color: invertColors(context),
-                                fontWeight: FontWeight.w500,
-                              )),
-                          onPressed: () {
-                            pickDate(context);
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0)),
-                          borderSide: BorderSide(color: MyColors.purple),
-                          highlightedBorderColor: MyColors.yellow,
-                          splashColor: MyColors.yellow,
-                        ),
+                      child: Text(
+                          goal.deadLine == null
+                              ? "ADD DEADLINE"
+                              : "EDIT DEADLINE",
+                          style: TextStyle(
+                            color: invertColors(context),
+                            fontWeight: FontWeight.w500,
+                          )),
+                      onPressed: () {
+                        createNewDeadline(context);
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      borderSide: BorderSide(color: MyColors.purple),
+                      highlightedBorderColor: MyColors.yellow,
+                      splashColor: MyColors.yellow,
+                    ),
                   ),
                 )
               ],
@@ -203,40 +200,43 @@ class CreateGoalState extends State<CreateGoal> {
     }
   }
 
-  void createNewDeadline() {
-    pickDate(context);
+  void createNewDeadline(context) async {
+    DateTime dueDate = await pickDate(context);
+    if (dueDate == null) return;
+
+    TimeOfDay dueTime = await pickTime(context);
+    if (dueTime == null) return;
+
+    DateTime deadLine = DateTime.utc(dueDate.year, dueDate.month, dueDate.day,
+        dueTime.hour, dueDate.minute, dueDate.second);
+
+    setState(() {
+      goal.deadLine = deadLine;
+    });
+
+    showSnackBar(context, "Deadline set for ${deadLine.toLocal()}!");
   }
 
-  Future<Null> pickDate(BuildContext context) async {
+  Future<DateTime> pickDate(BuildContext context) async {
+    var initialDate = goal.deadLine ?? DateTime.now();
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-        firstDate: selectedDate,
-        lastDate: selectedDate.add(Duration(days: 3650)));
-    if (picked != null) {
-      selectedDate = picked;
-      pickTime(context);
-    }
+        initialDate: initialDate,
+        firstDate: initialDate,
+        lastDate: initialDate.add(Duration(days: 365)));
+    return picked;
   }
 
-  Future<Null> pickTime(BuildContext context) async {
+  Future<TimeOfDay> pickTime(BuildContext context) async {
+    final initialTime = goal.deadLine == null
+        ? TimeOfDay.now()
+        : TimeOfDay(hour: goal.deadLine.hour, minute: goal.deadLine.minute);
+
     final TimeOfDay picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: initialTime,
     );
-    if (picked != null) {
-      selectedTime = picked;
-
-      setState(() {
-        isDeadlineSet = true;
-        buttonText = "EDIT DEADLINE";
-      });
-
-      showSnackBar(
-          context,
-          "Deadline set for ${selectedTime.hour}:${selectedTime.minute} on "
-          "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}!");
-    }
+    return picked;
   }
 
   @override
@@ -267,7 +267,7 @@ class CreateGoalState extends State<CreateGoal> {
     }
     print("WRONG ID IS $id");
     var scheduledNotificationTime =
-        Time(selectedTime.hour, selectedTime.minute, 0);
+        Time(goal.deadLine.hour, goal.deadLine.minute, 0);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         "goalNotificationChannelId",
@@ -289,9 +289,9 @@ class CreateGoalState extends State<CreateGoal> {
         0,
         "Reminder: $goalTitle",
         "Hope you're working on completing your goal!",
-        selectedDate.weekday == 7
+        goal.deadLine.weekday == 7
             ? Day(1) //if Sunday
-            : Day(selectedDate.weekday + 1), //if any other day
+            : Day(goal.deadLine.weekday + 1), //if any other day
         scheduledNotificationTime,
         platformChannelSpecifics);
   }
