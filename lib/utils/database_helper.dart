@@ -10,10 +10,11 @@ class DatabaseHelper {
   static Database _database; //singleton database object
   static DatabaseHelper _databaseHelper; //singleton database helper object
 
-  String goalsTable = "goal_table";
-  String colId = "id";
-  String colTitle = "title";
-  String colBody = "body";
+  final String goalsTable = "goal_table";
+  final String colId = "id";
+  final String colTitle = "title";
+  final String colBody = "body";
+  final String colDeadLine = "deadLine";
 
   DatabaseHelper._createInstance();
 
@@ -26,10 +27,13 @@ class DatabaseHelper {
   }
 
   void _createDb(Database db, int newVersion) async {
-    await db.execute('''CREATE TABLE $goalsTable (
+    await db.execute('''
+        CREATE TABLE $goalsTable (
         $colId INTEGER PRIMARY KEY AUTOINCREMENT,
         $colTitle TEXT NOT NULL,
-        $colBody TEXT NOT NULL)''');
+        $colBody TEXT NOT NULL,
+        $colDeadLine DATETIME)
+        ''');
   }
 
   Future<Database> initDatabase() async {
@@ -80,12 +84,7 @@ class DatabaseHelper {
 
   Future<List<GoalClass>> getGoalsList() async {
     var goalsMapList = await getGoalsMapList();
-    List<GoalClass> goalsList = List<GoalClass>();
-
-    for (int i = 0; i < goalsMapList.length; i++) {
-      goalsList.add(GoalClass.fromMap(goalsMapList[i])); //converts from map
-      // to list
-    }
-    return goalsList;
+    var goalsList = goalsMapList.map((e) => GoalClass.fromMap(e)).toList();
+    return Future.value(goalsList);
   }
 }
