@@ -7,6 +7,7 @@ import "package:goalkeeper/utils/colors.dart";
 import "package:goalkeeper/utils/database_helper.dart";
 import "package:goalkeeper/utils/functions.dart";
 import "package:goalkeeper/utils/goal.dart";
+import "package:goalkeeper/utils/pickers.dart";
 
 class CreateGoal extends StatefulWidget {
   final GoalClass goal;
@@ -209,34 +210,11 @@ class CreateGoalState extends State<CreateGoal> {
 
     DateTime deadLine = DateTime.utc(dueDate.year, dueDate.month, dueDate.day,
         dueTime.hour, dueDate.minute, dueDate.second);
-
     setState(() {
       goal.deadLine = deadLine;
     });
 
-    showSnackBar(context, "Deadline set for ${deadLine.toLocal()}!");
-  }
-
-  Future<DateTime> pickDate(BuildContext context) async {
-    var initialDate = goal.deadLine ?? DateTime.now();
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: initialDate,
-        firstDate: initialDate,
-        lastDate: initialDate.add(Duration(days: 365)));
-    return picked;
-  }
-
-  Future<TimeOfDay> pickTime(BuildContext context) async {
-    final initialTime = goal.deadLine == null
-        ? TimeOfDay.now()
-        : TimeOfDay(hour: goal.deadLine.hour, minute: goal.deadLine.minute);
-
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-    );
-    return picked;
+    showSnackBar(context, "Deadline set for ${getFormattedDate(deadLine)}!");
   }
 
   @override
@@ -262,6 +240,7 @@ class CreateGoalState extends State<CreateGoal> {
 
   Future<void> showWeeklyAtDayAndTime(
       int id, String goalTitle, String goalBody) async {
+    if (goal.deadLine == null) return;
     if (id == 0) {
       print("ID IS $id");
     }
