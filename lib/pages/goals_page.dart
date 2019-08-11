@@ -78,11 +78,14 @@ class _GoalsPageState extends State<GoalsPage> {
                       Hero(
                         tag: "dartIcon${this.goalsList[id].index}",
                         child: Container(
-                            width: 40.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage("assets/icon.png")))),
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/icon.png"),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -93,10 +96,41 @@ class _GoalsPageState extends State<GoalsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Goal #${id + 1}",
-                          style: TextStyle(
-                              color: MyColors.accentColor,
-                              fontWeight: FontWeight.w500)),
+                      Container(
+                        width: _width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Goal #${id + 1}",
+                              style: TextStyle(
+                                color: MyColors.accentColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            this.goalsList[id].deadLine != null
+                                ? Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        EvaIcons.clockOutline,
+                                        size: 16,
+                                        color: MyColors.accentColor,
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(
+                                        getFormattedDate(
+                                            this.goalsList[id].deadLine),
+                                        style: TextStyle(
+                                            color: MyColors.accentColor),
+                                      )
+                                    ],
+                                  )
+                                : SizedBox.shrink(),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: 3.0,
                       ),

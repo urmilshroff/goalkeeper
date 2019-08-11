@@ -39,3 +39,8 @@ launchURL(String url) async {
     print('Error launching $url!');
   }
 } //opens up a webpage
+
+String getFormattedDate(DateTime datetime) {
+  var formatted = datetime.toString().substring(0, 16);
+  return formatted;
+}
