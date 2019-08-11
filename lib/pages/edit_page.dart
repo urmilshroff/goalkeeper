@@ -5,6 +5,7 @@ import 'package:goalkeeper/utils/colors.dart';
 import 'package:goalkeeper/utils/database_helper.dart';
 import 'package:goalkeeper/utils/goal.dart';
 import 'package:goalkeeper/utils/functions.dart';
+import "package:goalkeeper/utils/pickers.dart";
 
 class EditGoal extends StatefulWidget {
   final GoalClass goal;
@@ -120,6 +121,34 @@ class EditGoalState extends State<EditGoal> {
                       ),
                       contentPadding: const EdgeInsets.all(15.0)),
                 ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                      primaryColor: MyColors.purple,
+                      accentColor: MyColors.yellow),
+                  child: Builder(
+                    builder: (context) => OutlineButton(
+                      child: Text(
+                          goal.deadLine == null
+                              ? "ADD DEADLINE"
+                              : "EDIT DEADLINE",
+                          style: TextStyle(
+                            color: invertColors(context),
+                            fontWeight: FontWeight.w500,
+                          )),
+                      onPressed: () {
+                        this.editDeadLine(context);
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      borderSide: BorderSide(color: MyColors.purple),
+                      highlightedBorderColor: MyColors.yellow,
+                      splashColor: MyColors.yellow,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -209,5 +238,22 @@ class EditGoalState extends State<EditGoal> {
         );
       },
     );
+  }
+
+  void editDeadLine(context) async {
+    DateTime dueDate = await pickDate(context);
+    if (dueDate == null) return;
+
+    TimeOfDay dueTime = await pickTime(context);
+    if (dueTime == null) return;
+
+    DateTime deadLine = DateTime.utc(dueDate.year, dueDate.month, dueDate.day,
+        dueTime.hour, dueDate.minute, dueDate.second);
+
+    setState(() {
+      goal.deadLine = deadLine;
+    });
+
+    showSnackBar(context, "Deadline set for ${getFormattedDate(deadLine)}!");
   }
 }
