@@ -1,30 +1,26 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:goalkeeper/utils/goal.dart';
+import 'package:goalkeeper/Models/Goal.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
+class Db {
   static Database _database; //singleton database object
-  static DatabaseHelper _databaseHelper; //singleton database helper object
+  static Db _databaseHelper =
+      new Db._createInstance(); //singleton database helper object
 
   final String goalsTable = "goal_table";
   final String colId = "id";
   final String colTitle = "title";
   final String colBody = "body";
   final String colDeadLine = "deadLine";
+  final String dbName = "goals.db";
 
-  DatabaseHelper._createInstance();
+  Db._createInstance();
 
-  factory DatabaseHelper() {
-    if (_databaseHelper == null) {
-      _databaseHelper = DatabaseHelper._createInstance();
-    }
-
-    return _databaseHelper;
-  }
+  factory Db() => _databaseHelper;
 
   void _createDb(Database db, int newVersion) async {
     await db.execute('''
@@ -38,7 +34,7 @@ class DatabaseHelper {
 
   Future<Database> initDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path, "goals.db");
+    String path = join(directory.path, dbName);
     return await openDatabase(path, version: 1, onCreate: _createDb);
   }
 
@@ -51,40 +47,35 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getGoalsMapList() async {
     Database db = await this.database;
-    var result = await db.query(goalsTable);
-    return result;
+    return await db.query(goalsTable);
   }
 
-  Future<int> createGoal(GoalClass goal) async {
+  Future<int> createGoal(Goal goal) async {
     Database db = await this.database;
-    var result = await db.insert(goalsTable, goal.toMap());
-    return result;
+    return await db.insert(goalsTable, goal.toMap());
   }
 
-  Future<int> updateGoal(GoalClass goal) async {
+  Future<int> updateGoal(Goal goal) async {
     Database db = await this.database;
-    var result = await db.update(goalsTable, goal.toMap(),
+    return await db.update(goalsTable, goal.toMap(),
         where: "$colId=?", whereArgs: [goal.id]);
-    return result;
   }
 
-  Future<int> deleteGoal(int id) async {
+  Future<int> deleteGoal(Goal goal) async {
     Database db = await this.database;
-    var result =
-        await db.rawDelete('DELETE FROM $goalsTable WHERE $colId = $id');
-    return result;
+    return await db
+        .rawDelete('DELETE FROM $goalsTable WHERE $colId = ${goal.id}');
   }
 
-  Future<int> getCount(GoalClass goal) async {
+  Future<int> getCount(Goal goal) async {
     Database db = await this.database;
     List<Map<String, dynamic>> num = await db.query(goalsTable);
-    var result = Sqflite.firstIntValue(num);
-    return result;
+    return Sqflite.firstIntValue(num);
   }
 
-  Future<List<GoalClass>> getGoalsList() async {
+  Future<List<Goal>> getGoalsList() async {
     var goalsMapList = await getGoalsMapList();
-    var goalsList = goalsMapList.map((e) => GoalClass.fromMap(e)).toList();
+    var goalsList = goalsMapList.map((e) => Goal.fromMap(e)).toList();
     return Future.value(goalsList);
   }
 }

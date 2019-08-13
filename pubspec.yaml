@@ -23,6 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.7.2"
+  mockito: ^4.1.0
 
 flutter:
   uses-material-design: true
