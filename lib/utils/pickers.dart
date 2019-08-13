@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 Future<DateTime> pickDate(BuildContext context) async {
   var startDate = DateTime.now();
   final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: startDate,
-      firstDate: startDate,
-      lastDate: startDate.add(Duration(days: 365)));
+    context: context,
+    initialDate: startDate,
+    firstDate: startDate,
+    lastDate: startDate.add(
+      Duration(days: 365),
+    ),
+  );
   return picked;
 }
 

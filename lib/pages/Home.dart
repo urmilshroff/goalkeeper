@@ -2,71 +2,69 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goalkeeper/pages/about_page.dart';
-import 'package:goalkeeper/pages/create_page.dart';
-import 'package:goalkeeper/pages/edit_page.dart';
-import 'package:goalkeeper/utils/colors.dart';
-import 'package:goalkeeper/utils/database_helper.dart';
-import 'package:goalkeeper/utils/functions.dart';
-import 'package:goalkeeper/utils/goal.dart';
-import 'package:goalkeeper/utils/widgets.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Navigation.dart';
+import 'package:goalkeeper/Widgets/BuildTile.dart';
+import 'package:goalkeeper/Widgets/EmptyPage.dart';
+import 'package:goalkeeper/Pages/About.dart';
+import 'package:goalkeeper/Utils/HelperUtils.dart';
+import 'package:goalkeeper/Utils/colors.dart';
+import 'package:goalkeeper/Utils/ThemeUtils.dart';
+import 'package:goalkeeper/Models/Goal.dart';
 
-class GoalsPage extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _GoalsPageState createState() => _GoalsPageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _GoalsPageState extends State<GoalsPage> {
-  DatabaseHelper databaseHelper = DatabaseHelper();
-  List<GoalClass> goalsList;
-  int len = 0;
+class _HomeState extends State<Home> {
+  GoalsRepository repo = GoalsRepository();
+  ScrollController _scrollController = ScrollController(keepScrollOffset: true);
+  PageController _myPage = PageController(initialPage: 0);
+  Future<List<Goal>> goalListPromise;
 
-  void _changeBrightness() {
+  @override
+  void initState() {
+    this.goalListPromise = repo.getGoalsList();
+    super.initState();
+  }
+
+  void toggleBrightness() {
     DynamicTheme.of(context).setBrightness(
-        isThemeCurrentlyDark(context) ? Brightness.light : Brightness.dark);
-  } //switch between light & dark modes
-
-  void updateListView() {
-    final Future<Database> dbFuture = databaseHelper.initDatabase();
-    dbFuture.then((database) {
-      Future<List<GoalClass>> goalsListFuture = databaseHelper.getGoalsList();
-      goalsListFuture.then((goalsList) {
-        setState(() {
-          this.goalsList = goalsList;
-          this.len = goalsList.length;
-          if (this.len == 0) {
-            noGoals = true; //if no goals
-          } else {
-            noGoals = false;
-          }
-        });
-      });
-    });
+      getInvertTheme(context),
+    );
   }
 
-  void navigateToCreateGoal(GoalClass goal) async {
-    await Navigator.push(context, CupertinoPageRoute(builder: (context) {
-      return CreateGoal(goal);
-    }));
-    updateListView();
+  Widget buildGoalsListPage() {
+    return FutureBuilder(
+      future: this.goalListPromise,
+      builder: (BuildContext context, AsyncSnapshot<List<Goal>> goals) {
+        if (goals.hasError)
+          showSnackBar(context, goals.error.toString());
+        else if (goals.connectionState == ConnectionState.done)
+          return (goals.hasData ? buildGoalsList(goals.data) : EmptyPage());
+        return Center(
+          child: CircularProgressIndicator(
+            semanticsLabel: 'Loading',
+            semanticsValue: 'Loading',
+            backgroundColor: MyColors.blue,
+          ),
+        );
+      },
+    );
   }
 
-  void navigateToEditGoal(GoalClass goal) async {
-    await Navigator.push(context, CupertinoPageRoute(builder: (context) {
-      return EditGoal(goal);
-    }));
-    updateListView();
-  }
-
-  Widget buildGoalsList() {
+  Widget buildGoalsList(List<Goal> goals) {
     double _width = MediaQuery.of(context).size.width * 0.75;
 
     return Container(
       child: ListView.builder(
-        itemCount: len,
-        itemBuilder: (BuildContext context, int id) {
-          return buildTile(
+        itemCount: goals.length,
+        controller: this._scrollController,
+        itemBuilder: (BuildContext context, int index) {
+          var goal = goals[index];
+
+          return BuildTile(
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -76,7 +74,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   Column(
                     children: <Widget>[
                       Hero(
-                        tag: "dartIcon${this.goalsList[id].index}",
+                        tag: "dartIcon${goal.id}",
                         child: Container(
                           width: 40.0,
                           height: 40.0,
@@ -102,13 +100,13 @@ class _GoalsPageState extends State<GoalsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Goal #${id + 1}",
+                              "Goal #${goal.id + 1}",
                               style: TextStyle(
                                 color: MyColors.accentColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            this.goalsList[id].deadLine != null
+                            goal.deadLine != null
                                 ? Row(
                                     children: <Widget>[
                                       Icon(
@@ -120,8 +118,7 @@ class _GoalsPageState extends State<GoalsPage> {
                                         width: 3,
                                       ),
                                       Text(
-                                        getFormattedDate(
-                                            this.goalsList[id].deadLine),
+                                        getFormattedDate(goal.deadLine),
                                         style: TextStyle(
                                             color: MyColors.accentColor),
                                       )
@@ -141,7 +138,7 @@ class _GoalsPageState extends State<GoalsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              this.goalsList[id].title,
+                              goal.title,
                               style: TextStyle(
                                   color: invertColors(context),
                                   fontWeight: FontWeight.w600,
@@ -154,7 +151,7 @@ class _GoalsPageState extends State<GoalsPage> {
                               height: 3.0,
                             ),
                             Text(
-                              this.goalsList[id].body,
+                              goal.body,
                               style: TextStyle(
                                   color: invertColors(context), fontSize: 16.0),
                               softWrap: true,
@@ -170,7 +167,7 @@ class _GoalsPageState extends State<GoalsPage> {
                 ],
               ),
             ),
-            onTap: () => navigateToEditGoal(this.goalsList[id]),
+            onTap: () => goToEditGoal(context, goal),
           );
         },
       ),
@@ -179,41 +176,37 @@ class _GoalsPageState extends State<GoalsPage> {
 
   @override
   Widget build(BuildContext context) {
-    PageController _myPage = PageController(initialPage: 0);
-    if (goalsList == null) {
-      goalsList = List<GoalClass>();
-      updateListView();
-    }
+    bool isDarkTheme = isThemeCurrentlyDark(context);
+    Icon actionIcon = isDarkTheme ? Icon(EvaIcons.sun) : Icon(EvaIcons.moon);
+    String toolTip = isDarkTheme ? "BURN YOUR EYES" : "SAVE YOUR EYES";
 
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
-        title: Text("My Goals",
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0)),
+        title: Text(
+          "My Goals",
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: isThemeCurrentlyDark(context)
-                ? Icon(EvaIcons.sun) //use sun icon
-                : Icon(EvaIcons.moon), //use moon icon
-            tooltip: isThemeCurrentlyDark(context)
-                ? "BURN YOUR EYES"
-                : "SAVE YOUR EYES",
-            onPressed: _changeBrightness,
+            icon: actionIcon,
+            tooltip: toolTip,
+            onPressed: toggleBrightness,
           ),
         ],
       ),
       body: PageView(
         controller: _myPage,
         children: <Widget>[
-          noGoals == true ? buildEmptyPage(context) : buildGoalsList(),
+          buildGoalsListPage(),
           buildAboutPage(context),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToCreateGoal(GoalClass("", ""));
+          goToCreateGoal(context);
         },
         child: Icon(Icons.add),
         foregroundColor: MyColors.light,
