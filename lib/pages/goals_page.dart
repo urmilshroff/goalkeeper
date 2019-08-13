@@ -236,7 +236,11 @@ class _GoalsPageState extends State<GoalsPage> {
               ),
               color: invertColors(context),
               onPressed: () {
-                _myPage.jumpToPage(0);
+                _myPage.animateToPage(
+                  0,
+                  curve: Curves.easeOut,
+                  duration: Duration(milliseconds: 300),
+                );
               },
             ),
             IconButton(
@@ -246,7 +250,11 @@ class _GoalsPageState extends State<GoalsPage> {
               ),
               color: invertColors(context),
               onPressed: () {
-                _myPage.jumpToPage(1);
+                _myPage.animateToPage(
+                  1,
+                  curve: Curves.easeOut,
+                  duration: Duration(milliseconds: 300),
+                );
               },
             ),
           ],
