@@ -1,16 +1,18 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goalkeeper/utils/functions.dart';
-import 'package:goalkeeper/utils/widgets.dart';
+import 'package:goalkeeper/Utils/HelperUtils.dart';
+import 'package:goalkeeper/Widgets/BuildTile.dart';
+import 'package:goalkeeper/Utils/ThemeUtils.dart';
 
 Widget buildAboutPage(BuildContext context) {
   double _width = MediaQuery.of(context).size.width * 0.75;
+  Color invertColor = invertColors(context);
 
   return Container(
     child: ListView(
       children: <Widget>[
-        buildTile(
+        BuildTile(
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -18,36 +20,42 @@ Widget buildAboutPage(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                    width: 75.0,
-                    height: 75.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: AssetImage("assets/urmil-vector.png")))),
+                  width: 75.0,
+                  height: 75.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage("assets/urmil-vector.png"),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),
                 Center(
-                  child: Text("</> by",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "</> by",
+                    style: TextStyle(
+                        color: invertColor, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Center(
-                  child: Text("Urmil Shroff",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20.0)),
+                  child: Text(
+                    "Urmil Shroff",
+                    style: TextStyle(
+                        color: invertColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20.0),
+                  ),
                 ),
               ],
             ),
           ),
         ),
-        buildTile(
+        BuildTile(
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -55,10 +63,11 @@ Widget buildAboutPage(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Center(
-                  child: Text("Connect",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "Connect",
+                    style: TextStyle(
+                        color: invertColor, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(
                   height: 5,
@@ -70,24 +79,27 @@ Widget buildAboutPage(BuildContext context) {
                     children: <Widget>[
                       GestureDetector(
                         child: IconButton(
-                            icon: Icon(EvaIcons.person),
-                            color: invertColors(context),
-                            onPressed: () =>
-                                launchURL('https://urmilshroff.tech/')),
+                          icon: Icon(EvaIcons.person),
+                          color: invertColor,
+                          onPressed: () =>
+                              launchURL('https://urmilshroff.tech/'),
+                        ),
                       ),
                       GestureDetector(
                         child: IconButton(
-                            icon: Icon(EvaIcons.twitter),
-                            color: invertColors(context),
-                            onPressed: () =>
-                                launchURL('https://twitter.com/urmilshroff')),
+                          icon: Icon(EvaIcons.twitter),
+                          color: invertColor,
+                          onPressed: () =>
+                              launchURL('https://twitter.com/urmilshroff'),
+                        ),
                       ),
                       GestureDetector(
                         child: IconButton(
-                            icon: Icon(EvaIcons.github),
-                            color: invertColors(context),
-                            onPressed: () =>
-                                launchURL('https://github.com/urmilshroff')),
+                          icon: Icon(EvaIcons.github),
+                          color: invertColor,
+                          onPressed: () =>
+                              launchURL('https://github.com/urmilshroff'),
+                        ),
                       ),
                     ],
                   ),
@@ -96,7 +108,7 @@ Widget buildAboutPage(BuildContext context) {
             ),
           ),
         ),
-        buildTile(
+        BuildTile(
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -104,10 +116,11 @@ Widget buildAboutPage(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Center(
-                  child: Text("Support",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "Support",
+                    style: TextStyle(
+                        color: invertColor, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(
                   height: 5,
@@ -122,30 +135,32 @@ Widget buildAboutPage(BuildContext context) {
                         child: Column(
                           children: <Widget>[
                             Text(
-                                "Like the app? Show your support by writing"
-                                " a review on the Play Store, starring it on"
-                                " GitHub and sharing it with your "
-                                "friends!",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontSize: 16.0)),
+                              "Like the app? Show your support by writing"
+                              " a review on the Play Store, starring it on"
+                              " GitHub and sharing it with your "
+                              "friends!",
+                              style:
+                                  TextStyle(color: invertColor, fontSize: 16.0),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 GestureDetector(
                                   child: IconButton(
-                                      icon: Icon(EvaIcons.edit),
-                                      color: invertColors(context),
-                                      onPressed: () => launchURL(
-                                          'https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper')),
+                                    icon: Icon(EvaIcons.edit),
+                                    color: invertColor,
+                                    onPressed: () => launchURL(
+                                        'https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper'),
+                                  ),
                                 ),
                                 GestureDetector(
                                   child: IconButton(
-                                      icon: Icon(EvaIcons.star),
-                                      color: invertColors(context),
-                                      onPressed: () => launchURL(
-                                          'https://github.com/urmilshroff/goalkeeper')),
+                                    icon: Icon(EvaIcons.star),
+                                    color: invertColor,
+                                    onPressed: () => launchURL(
+                                        'https://github.com/urmilshroff/goalkeeper'),
+                                  ),
                                 ),
                               ],
                             )
@@ -159,7 +174,7 @@ Widget buildAboutPage(BuildContext context) {
             ),
           ),
         ),
-        buildTile(
+        BuildTile(
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -167,10 +182,11 @@ Widget buildAboutPage(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Center(
-                  child: Text("Feedback",
-                      style: TextStyle(
-                          color: invertColors(context),
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "Feedback",
+                    style: TextStyle(
+                        color: invertColor, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(
                   height: 5,
@@ -185,19 +201,20 @@ Widget buildAboutPage(BuildContext context) {
                         child: Column(
                           children: <Widget>[
                             Text(
-                                "Bugs found? Feature suggestions? Create a "
-                                "new issue on GitHub to let me know, or"
-                                " contribute by forking and sending a "
-                                "PR!",
-                                style: TextStyle(
-                                    color: invertColors(context),
-                                    fontSize: 16.0)),
+                              "Bugs found? Feature suggestions? Create a "
+                              "new issue on GitHub to let me know, or"
+                              " contribute by forking and sending a "
+                              "PR!",
+                              style:
+                                  TextStyle(color: invertColor, fontSize: 16.0),
+                            ),
                             GestureDetector(
                               child: IconButton(
-                                  icon: Icon(EvaIcons.github),
-                                  color: invertColors(context),
-                                  onPressed: () => launchURL(
-                                      'https://github.com/urmilshroff/goalkeeper')),
+                                icon: Icon(EvaIcons.github),
+                                color: invertColor,
+                                onPressed: () => launchURL(
+                                    'https://github.com/urmilshroff/goalkeeper'),
+                              ),
                             ),
                           ],
                         ),
