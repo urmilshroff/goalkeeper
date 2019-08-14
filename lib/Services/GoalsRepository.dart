@@ -6,10 +6,10 @@ class GoalsRepository {
   static final GoalsRepository instance = new GoalsRepository.getInstance();
   GoalsRepository.getInstance();
 
-  factory GoalsRepository() => instance;
+  bool shouldUpdateCache = true;
 
-  void updateCache() async {
-    var goalsList = await Db().getGoalsList();
+  Future<void> updateCache() async {
+    if (_cache.isNotEmpty) _cache.clear();
     _cache.addAll(goalsList);
   }
 
@@ -21,9 +21,9 @@ class GoalsRepository {
   int getGoalsCount() => _cache.length;
 
   Future<List<Goal>> getGoalsList() async {
-    if (_cache.isEmpty) {
-      var goalsList = await Db().getGoalsList();
-      _cache.addAll(goalsList);
+    if (shouldUpdateCache) {
+      await updateCache();
+      shouldUpdateCache = false;
     }
     return _cache;
   }
