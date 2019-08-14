@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Goal #${goal.id + 1}",
+                              "Goal #${goal.id}",
                               style: TextStyle(
                                 color: MyColors.accentColor,
                                 fontWeight: FontWeight.w500,
