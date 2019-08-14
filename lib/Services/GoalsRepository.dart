@@ -47,10 +47,11 @@ class GoalsRepository {
 
   int getNextId() {
     // since the id is auto-generated in predictable way, we can read the future ! :D
-    return _cache.last.id + 1;
+    return _cache.isNotEmpty ? _cache.last.id + 1 : 1;
   }
 
   Goal find(int goalId) {
-    return _cache.firstWhere((goal) => goal.id == goalId);
+    return _cache.firstWhere((Goal goal) => goal.id == goalId,
+        orElse: () => null);
   }
 }
