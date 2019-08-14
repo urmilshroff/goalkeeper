@@ -42,7 +42,9 @@ class _HomeState extends State<Home> {
         if (goals.hasError)
           showSnackBar(context, goals.error.toString());
         else if (goals.connectionState == ConnectionState.done)
-          return (goals.hasData ? buildGoalsList(goals.data) : EmptyPage());
+          return (goals.hasData && goals.data.isNotEmpty
+              ? buildGoalsList(goals.data)
+              : EmptyPage());
         return Center(
           child: CircularProgressIndicator(
             semanticsLabel: 'Loading',
