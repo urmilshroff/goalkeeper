@@ -47,6 +47,8 @@ class GoalsRepository implements IRepository, ICache<Goal> {
   void update(Goal goal) {
     database.updateGoal(goal);
     var itemIndex = _cache.indexWhere((Goal _g) => _g.id == goal.id);
+    if (itemIndex == -1) return;
+
     _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
   }
 
