@@ -2,14 +2,19 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:goalkeeper/Models/Goal.dart';
+import 'package:goalkeeper/Services/Interfaces/IDatabase.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Db {
+class Db implements IDatabase {
   static Database _database; //singleton database object
-  static Db _databaseHelper =
-      new Db._createInstance(); //singleton database helper object
+  Future<Database> get database async {
+    if (_database == null) {
+      _database = await initDatabase();
+    }
+    return _database;
+  }
 
   final String goalsTable = "goal_table";
   final String colId = "id";
@@ -18,11 +23,7 @@ class Db {
   final String colDeadLine = "deadLine";
   final String dbName = "goals.db";
 
-  Db._createInstance();
-
-  factory Db() => _databaseHelper;
-
-  void _createDb(Database db, int newVersion) async {
+  void createDb(Database db, int newVersion) async {
     await db.execute('''
         CREATE TABLE $goalsTable (
         $colId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,14 +36,7 @@ class Db {
   Future<Database> initDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = join(directory.path, dbName);
-    return await openDatabase(path, version: 1, onCreate: _createDb);
-  }
-
-  Future<Database> get database async {
-    if (_database == null) {
-      _database = await initDatabase();
-    }
-    return _database;
+    return await openDatabase(path, version: 1, onCreate: createDb);
   }
 
   Future<List<Map<String, dynamic>>> getGoalsMapList() async {

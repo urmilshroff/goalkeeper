@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import 'package:goalkeeper/Services/Db.dart';
+import 'package:goalkeeper/Services/Interfaces/ICache.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 
-class GoalsRepository {
+import 'Interfaces/IDatabase.dart';
+
+class GoalsRepository implements IRepository, ICache<Goal> {
   List<Goal> _cache = new List<Goal>();
   IDatabase database;
   GoalsRepository({@required this.database});
