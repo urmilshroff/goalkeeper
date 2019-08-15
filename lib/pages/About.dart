@@ -31,6 +31,20 @@ Widget buildAboutPage(BuildContext context) {
                           height: 75.0,
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0xFFF0EFF4)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                blurRadius: 4.0,
+                                color: Color(0xFFF6D8AE),
+                              )
+                            ],
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Container(
+                          width: 75.0,
+                          height: 75.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: AssetImage("assets/urmil-vector.png"),
@@ -42,12 +56,6 @@ Widget buildAboutPage(BuildContext context) {
                           height: 75.0,
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0xFFF0EFF4)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 4.0,
-                                color: Color(0xFFF6D8AE),
-                              )
-                            ],
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: NetworkImage(
@@ -127,12 +135,10 @@ Widget buildAboutPage(BuildContext context) {
                     Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        CircularProgressIndicator(),
                         Container(
                           width: 75.0,
                           height: 75.0,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFFF0EFF4)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                 blurRadius: 4.0,
