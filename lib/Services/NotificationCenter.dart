@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 
 class NotificationCenter {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -67,10 +68,9 @@ class NotificationCenter {
   }
 
   Future<bool> goalHasNotification(Goal goal) async {
-    if (_pendingNotificationsCache == null)
-      _pendingNotificationsCache =
-          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return _pendingNotificationsCache
+    var pendingNotifications =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingNotifications
         .any((notification) => notification.id == goal.id);
   }
 
@@ -79,7 +79,7 @@ class NotificationCenter {
     if (hasNotification) {
       flutterLocalNotificationsPlugin.cancel(goal.id);
     }
-    // if there is notification then update, and insert
+    // if there is notification then update, and insert it anyway
     scheduleNotification(goal);
   }
 }
