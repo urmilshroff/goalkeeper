@@ -10,25 +10,20 @@ class GoalsRepository implements IRepository, ICache<Goal> {
   IDatabase database;
   GoalsRepository({@required this.database});
 
-  bool shouldUpdateCache = true;
+  bool shouldSyncCache = true;
 
-  Future<void> updateCache() async {
+  Future<void> syncCache() async {
     if (_cache.isNotEmpty) _cache.clear();
     var goalsList = await database.getGoalsList();
     _cache.addAll(goalsList);
-  }
-
-  void purgeCache() {
-    _cache.clear();
-    updateCache();
+    shouldSyncCache = false;
   }
 
   int getGoalsCount() => _cache.length;
 
   Future<List<Goal>> getGoalsList() async {
-    if (shouldUpdateCache) {
-      await updateCache();
-      shouldUpdateCache = false;
+    if (shouldSyncCache) {
+      await syncCache();
     }
     return _cache;
   }
@@ -53,8 +48,8 @@ class GoalsRepository implements IRepository, ICache<Goal> {
       _cache.clear();
       _cache.add(goal);
     } else {
-    _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
-  }
+      _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
+    }
   }
 
   int getNextId() {
