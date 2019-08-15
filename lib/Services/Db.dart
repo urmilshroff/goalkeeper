@@ -41,7 +41,7 @@ class Db implements IDatabase {
 
   Future<List<Map<String, dynamic>>> getGoalsMapList() async {
     Database db = await this.database;
-    return await db.query(goalsTable);
+    return await db.query(goalsTable, orderBy: colId);
   }
 
   Future<int> createGoal(Goal goal) async {
