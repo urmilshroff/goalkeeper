@@ -46,11 +46,7 @@ class _HomeState extends State<Home> {
               ? buildGoalsList(goals.data)
               : EmptyPage());
         return Center(
-          child: CircularProgressIndicator(
-            semanticsLabel: 'Loading',
-            semanticsValue: 'Loading',
-            backgroundColor: MyColors.blue,
-          ),
+          child: CircularProgressIndicator(),
         );
       },
     );
