@@ -1,18 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 
 class NotificationCenter {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
 
-  List<PendingNotificationRequest> _pendingNotificationsCache;
-  GoalsRepository repo = GoalsRepository();
+  final IRepository repository;
 
-  static final NotificationCenter instance = NotificationCenter.getInstance();
-  factory NotificationCenter() => instance;
-
-  NotificationCenter.getInstance() {
+  NotificationCenter({@required this.repository}) {
     var initNotificationSettings = getInitSettings();
     flutterLocalNotificationsPlugin.initialize(initNotificationSettings,
         onSelectNotification: defaultCallBack);
@@ -20,7 +17,7 @@ class NotificationCenter {
 
   Future<bool> defaultCallBack(String goalId) {
     if (goalId != null) {
-      Goal goal = repo.find(int.parse(goalId));
+      Goal goal = repository.find(int.parse(goalId));
       // still need to figure how to go to EditPage from here !
       print('got this notification: $goal');
     }
@@ -71,10 +68,9 @@ class NotificationCenter {
   }
 
   Future<bool> goalHasNotification(Goal goal) async {
-    if (_pendingNotificationsCache == null)
-      _pendingNotificationsCache =
-          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return _pendingNotificationsCache
+    var pendingNotifications =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingNotifications
         .any((notification) => notification.id == goal.id);
   }
 
@@ -83,7 +79,7 @@ class NotificationCenter {
     if (hasNotification) {
       flutterLocalNotificationsPlugin.cancel(goal.id);
     }
-    // if there is notification then update, and insert
+    // if there is notification then update, and insert it anyway
     scheduleNotification(goal);
   }
 }

@@ -1,48 +1,55 @@
+import 'package:flutter/cupertino.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import 'package:goalkeeper/Services/Db.dart';
+import 'package:goalkeeper/Services/Interfaces/ICache.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 
-class GoalsRepository {
+import 'Interfaces/IDatabase.dart';
+
+class GoalsRepository implements IRepository, ICache<Goal> {
   List<Goal> _cache = new List<Goal>();
-  static final GoalsRepository instance = new GoalsRepository.getInstance();
-  GoalsRepository.getInstance();
+  IDatabase database;
+  GoalsRepository({@required this.database});
 
-  bool shouldUpdateCache = true;
+  bool shouldSyncCache = true;
 
-  Future<void> updateCache() async {
+  Future<void> syncCache() async {
     if (_cache.isNotEmpty) _cache.clear();
+    var goalsList = await database.getGoalsList();
     _cache.addAll(goalsList);
-  }
-
-  void purgeCache() {
-    _cache.clear();
-    updateCache();
+    shouldSyncCache = false;
   }
 
   int getGoalsCount() => _cache.length;
 
   Future<List<Goal>> getGoalsList() async {
-    if (shouldUpdateCache) {
-      await updateCache();
-      shouldUpdateCache = false;
+    if (shouldSyncCache) {
+      await syncCache();
     }
     return _cache;
   }
 
   void insert(Goal goal) {
     if (goal.id == null) goal.id = this.getNextId();
-    Db().createGoal(goal);
+    database.createGoal(goal);
     _cache.add(goal);
   }
 
   void delete(Goal goal) {
-    Db().deleteGoal(goal);
+    database.deleteGoal(goal);
     _cache.removeWhere((Goal _goal) => _goal.id == goal.id);
   }
 
   void update(Goal goal) {
-    Db().updateGoal(goal);
-    var itemIndex = _cache.indexOf(goal);
-    _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
+    database.updateGoal(goal);
+    var itemIndex = _cache.indexWhere((Goal _g) => _g.id == goal.id);
+    if (itemIndex == -1) return;
+
+    if (_cache.length == 1) {
+      _cache.clear();
+      _cache.add(goal);
+    } else {
+      _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
+    }
   }
 
   int getNextId() {

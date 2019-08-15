@@ -2,7 +2,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 import 'package:goalkeeper/Services/NotificationCenter.dart';
 import 'package:goalkeeper/Utils/HelperUtils.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
@@ -10,20 +10,31 @@ import "package:goalkeeper/Utils/colors.dart";
 import "package:goalkeeper/Utils/pickers.dart";
 
 class CreateGoal extends StatefulWidget {
+  final IRepository repository;
+  final NotificationCenter notificationCenter;
+
+  CreateGoal({@required this.repository, @required this.notificationCenter});
+
   @override
   State<StatefulWidget> createState() {
-    return CreateGoalState();
+    return CreateGoalState(
+        repository: this.repository,
+        notificationCenter: this.notificationCenter);
   }
 }
 
 class CreateGoalState extends State<CreateGoal> {
-  GoalsRepository repo = GoalsRepository();
+  final IRepository repository;
+  final NotificationCenter notificationCenter;
 
   Goal goal = new Goal("", "");
   Color invertColor;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
+
+  CreateGoalState(
+      {@required this.repository, @required this.notificationCenter});
 
   @override
   Widget build(BuildContext context) {
@@ -195,12 +206,11 @@ class CreateGoalState extends State<CreateGoal> {
     Navigator.pop(context);
     if (goal.title.trim().isNotEmpty) {
       if (goal.id == null) {
-        repo.insert(goal);
+        repository.insert(goal);
       } else {
-        repo.update(goal);
+        repository.update(goal);
       }
-      var noty = NotificationCenter();
-      noty.scheduleNotification(goal);
+      notificationCenter.scheduleNotification(goal);
     }
   }
 
