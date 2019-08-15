@@ -16,24 +16,27 @@ Widget buildAboutPage(BuildContext context) {
         BuildTile(
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
                     Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                Container(
-                  width: 75.0,
-                  height: 75.0,
-                  decoration: BoxDecoration(
+                        Container(
+                          width: 75.0,
+                          height: 75.0,
+                          decoration: BoxDecoration(
                             border: Border.all(color: Color(0xFFF0EFF4)),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage("assets/urmil-vector.png"),
-                    ),
-                  ),
-                ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage("assets/urmil-vector.png"),
+                            ),
+                          ),
+                        ),
                         Container(
                           width: 75.0,
                           height: 75.0,
@@ -55,39 +58,72 @@ Widget buildAboutPage(BuildContext context) {
                       ],
                       overflow: Overflow.clip,
                     ),
-                SizedBox(
-                  height: 10,
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        "</> by",
+                        style: TextStyle(
+                            color: invertColor, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        "Urmil Shroff",
+                        style: TextStyle(
+                            color: invertColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(EvaIcons.person),
+                                  color: invertColor,
+                                  onPressed: () =>
+                                      launchURL('https://urmilshroff.tech/'),
+                                ),
+                                IconButton(
+                                  icon: Icon(EvaIcons.twitter),
+                                  color: invertColor,
+                                  onPressed: () => launchURL(
+                                      'https://twitter.com/urmilshroff'),
+                                ),
+                                IconButton(
+                                  icon: Icon(EvaIcons.github),
+                                  color: invertColor,
+                                  onPressed: () => launchURL(
+                                      'https://github.com/urmilshroff'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Center(
-                  child: Text(
-                    "</> by",
-                    style: TextStyle(
-                        color: invertColor, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Center(
-                  child: Text(
-                    "Urmil Shroff",
-                    style: TextStyle(
-                        color: invertColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        BuildTile(
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
                     Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
@@ -113,47 +149,55 @@ Widget buildAboutPage(BuildContext context) {
                       ],
                       overflow: Overflow.clip,
                     ),
-                Center(
-                  child: Text(
-                    "Connect",
-                    style: TextStyle(
-                        color: invertColor, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                        child: IconButton(
-                          icon: Icon(EvaIcons.person),
-                          color: invertColor,
-                          onPressed: () =>
-                              launchURL('https://urmilshroff.tech/'),
-                        ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        "</> by",
+                        style: TextStyle(
+                            color: invertColor, fontWeight: FontWeight.w500),
                       ),
-                      GestureDetector(
-                        child: IconButton(
-                          icon: Icon(EvaIcons.twitter),
-                          color: invertColor,
-                          onPressed: () =>
-                              launchURL('https://twitter.com/urmilshroff'),
-                        ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        "Ghaith Jardaneh",
+                        style: TextStyle(
+                            color: invertColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20.0),
                       ),
-                      GestureDetector(
-                        child: IconButton(
-                          icon: Icon(EvaIcons.github),
-                          color: invertColor,
-                          onPressed: () =>
-                              launchURL('https://github.com/urmilshroff'),
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(EvaIcons.github),
+                                  color: invertColor,
+                                  onPressed: () =>
+                                      launchURL('https://github.com/ghaith96'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -197,21 +241,17 @@ Widget buildAboutPage(BuildContext context) {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                GestureDetector(
-                                  child: IconButton(
-                                    icon: Icon(EvaIcons.edit),
-                                    color: invertColor,
-                                    onPressed: () => launchURL(
-                                        'https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper'),
-                                  ),
+                                IconButton(
+                                  icon: Icon(EvaIcons.edit),
+                                  color: invertColor,
+                                  onPressed: () => launchURL(
+                                      'https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper'),
                                 ),
-                                GestureDetector(
-                                  child: IconButton(
-                                    icon: Icon(EvaIcons.star),
-                                    color: invertColor,
-                                    onPressed: () => launchURL(
-                                        'https://github.com/urmilshroff/goalkeeper'),
-                                  ),
+                                IconButton(
+                                  icon: Icon(EvaIcons.star),
+                                  color: invertColor,
+                                  onPressed: () => launchURL(
+                                      'https://github.com/urmilshroff/goalkeeper'),
                                 ),
                               ],
                             )
@@ -259,13 +299,11 @@ Widget buildAboutPage(BuildContext context) {
                               style:
                                   TextStyle(color: invertColor, fontSize: 16.0),
                             ),
-                            GestureDetector(
-                              child: IconButton(
-                                icon: Icon(EvaIcons.github),
-                                color: invertColor,
-                                onPressed: () => launchURL(
-                                    'https://github.com/urmilshroff/goalkeeper'),
-                              ),
+                            IconButton(
+                              icon: Icon(EvaIcons.github),
+                              color: invertColor,
+                              onPressed: () => launchURL(
+                                  'https://github.com/urmilshroff/goalkeeper'),
                             ),
                           ],
                         ),
@@ -276,9 +314,6 @@ Widget buildAboutPage(BuildContext context) {
               ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 30,
         ),
       ],
     ),
