@@ -11,6 +11,7 @@ Widget buildAboutPage(BuildContext context) {
 
   return Container(
     child: ListView(
+      padding: EdgeInsets.only(top: 8.0, left: 6.0, right: 6.0),
       children: <Widget>[
         BuildTile(
           Padding(
