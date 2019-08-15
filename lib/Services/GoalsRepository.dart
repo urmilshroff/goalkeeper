@@ -3,13 +3,14 @@ import 'package:goalkeeper/Services/Db.dart';
 
 class GoalsRepository {
   List<Goal> _cache = new List<Goal>();
-  static final GoalsRepository instance = new GoalsRepository.getInstance();
-  GoalsRepository.getInstance();
+  IDatabase database;
+  GoalsRepository({@required this.database});
 
   bool shouldUpdateCache = true;
 
   Future<void> updateCache() async {
     if (_cache.isNotEmpty) _cache.clear();
+    var goalsList = await database.getGoalsList();
     _cache.addAll(goalsList);
   }
 
@@ -30,18 +31,18 @@ class GoalsRepository {
 
   void insert(Goal goal) {
     if (goal.id == null) goal.id = this.getNextId();
-    Db().createGoal(goal);
+    database.createGoal(goal);
     _cache.add(goal);
   }
 
   void delete(Goal goal) {
-    Db().deleteGoal(goal);
+    database.deleteGoal(goal);
     _cache.removeWhere((Goal _goal) => _goal.id == goal.id);
   }
 
   void update(Goal goal) {
-    Db().updateGoal(goal);
-    var itemIndex = _cache.indexOf(goal);
+    database.updateGoal(goal);
+    var itemIndex = _cache.indexWhere((Goal _g) => _g.id == goal.id);
     _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 import 'package:goalkeeper/Services/NotificationCenter.dart';
 import 'package:goalkeeper/Utils/HelperUtils.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
@@ -11,34 +11,39 @@ import "package:goalkeeper/Utils/pickers.dart";
 
 class EditGoal extends StatefulWidget {
   final Goal goal;
+  final NotificationCenter notificationCenter;
+  final IRepository repository;
 
-  EditGoal(this.goal); //constructor
+  EditGoal(this.goal,
+      {@required this.repository,
+      @required this.notificationCenter}); //constructor
 
   @override
   State<StatefulWidget> createState() {
-    return EditGoalState(this.goal);
+    return EditGoalState(this.goal, this.notificationCenter, this.repository);
   }
 }
 
 class EditGoalState extends State<EditGoal> {
-  GoalsRepository repo = GoalsRepository();
+  final IRepository repository;
+  final NotificationCenter notificationCenter;
+
   Goal goal;
   Color invertColor;
 
   TextEditingController _bodyTextController;
   TextEditingController _titleTextController;
 
+  EditGoalState(this.goal, this.notificationCenter, this.repository) {
+    this._titleTextController =
+        new TextEditingController(text: this.goal.title);
+    this._bodyTextController = new TextEditingController(text: this.goal.body);
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     this.invertColor = invertColors(context);
-  }
-
-  EditGoalState(goal) {
-    this.goal = goal;
-    this._titleTextController =
-        new TextEditingController(text: this.goal.title);
-    this._bodyTextController = new TextEditingController(text: this.goal.body);
   }
 
   @override
@@ -224,14 +229,13 @@ class EditGoalState extends State<EditGoal> {
 
     if (goal.title.trim().isNotEmpty) {
       if (goal.id == null) {
-        repo.insert(goal);
+        repository.insert(goal);
       } else {
-        repo.update(goal);
+        repository.update(goal);
       }
     }
 
-    var noty = NotificationCenter();
-    noty.updateGoalNotification(goal);
+    notificationCenter.updateGoalNotification(goal);
   }
 
   void deleteGoal() async {
@@ -268,7 +272,7 @@ class EditGoalState extends State<EditGoal> {
               onPressed: () async {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                repo.delete(goal);
+                repository.delete(goal);
               },
             ),
           ],

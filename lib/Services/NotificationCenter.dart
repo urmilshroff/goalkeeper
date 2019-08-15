@@ -6,13 +6,9 @@ class NotificationCenter {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
 
-  List<PendingNotificationRequest> _pendingNotificationsCache;
-  GoalsRepository repo = GoalsRepository();
+  final IRepository repository;
 
-  static final NotificationCenter instance = NotificationCenter.getInstance();
-  factory NotificationCenter() => instance;
-
-  NotificationCenter.getInstance() {
+  NotificationCenter({@required this.repository}) {
     var initNotificationSettings = getInitSettings();
     flutterLocalNotificationsPlugin.initialize(initNotificationSettings,
         onSelectNotification: defaultCallBack);
@@ -20,7 +16,7 @@ class NotificationCenter {
 
   Future<bool> defaultCallBack(String goalId) {
     if (goalId != null) {
-      Goal goal = repo.find(int.parse(goalId));
+      Goal goal = repository.find(int.parse(goalId));
       // still need to figure how to go to EditPage from here !
       print('got this notification: $goal');
     }

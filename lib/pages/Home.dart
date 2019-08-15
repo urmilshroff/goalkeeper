@@ -2,7 +2,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goalkeeper/Services/GoalsRepository.dart';
+import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 import 'package:goalkeeper/Services/Navigation.dart';
 import 'package:goalkeeper/Widgets/BuildTile.dart';
 import 'package:goalkeeper/Widgets/EmptyPage.dart';
@@ -13,20 +13,25 @@ import 'package:goalkeeper/Utils/ThemeUtils.dart';
 import 'package:goalkeeper/Models/Goal.dart';
 
 class Home extends StatefulWidget {
+  final IRepository repository;
+
+  Home({@required this.repository});
+
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(repository: this.repository);
 }
 
 class _HomeState extends State<Home> {
-  GoalsRepository repo = GoalsRepository();
+  final IRepository repository;
   ScrollController _scrollController = ScrollController(keepScrollOffset: true);
   PageController _myPage = PageController(initialPage: 0);
   Future<List<Goal>> goalListPromise;
 
+  _HomeState({@required this.repository});
   @override
   void initState() {
-    this.goalListPromise = repo.getGoalsList();
     super.initState();
+    this.goalListPromise = repository.getGoalsList();
   }
 
   void toggleBrightness() {

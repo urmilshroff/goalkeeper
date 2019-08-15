@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:goalkeeper/Pages/Home.dart';
 import 'package:goalkeeper/Utils/colors.dart';
 
-void main() => runApp(MyApp());
+  runApp(MyApp(
+    repository: Factory().repository,
+  ));
 
 class MyApp extends StatelessWidget {
+  final IRepository repository;
+  MyApp({@required this.repository});
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: "Goalkeeper",
           theme: theme,
-          home: Home(),
+          home: Home(repository: this.repository),
         );
       },
     );
