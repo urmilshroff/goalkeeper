@@ -49,7 +49,12 @@ class GoalsRepository implements IRepository, ICache<Goal> {
     var itemIndex = _cache.indexWhere((Goal _g) => _g.id == goal.id);
     if (itemIndex == -1) return;
 
+    if (_cache.length == 1) {
+      _cache.clear();
+      _cache.add(goal);
+    } else {
     _cache.replaceRange(itemIndex, itemIndex + 1, [goal]);
+  }
   }
 
   int getNextId() {
