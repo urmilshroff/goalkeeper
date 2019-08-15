@@ -140,6 +140,23 @@ Widget buildAboutPage(BuildContext context) {
                               )
                             ],
                             shape: BoxShape.circle,
+                          ),
+                        ),
+                        Container(
+                          width: 70.0,
+                          height: 70.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/icon.png"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 75.0,
+                          height: 75.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFF0EFF4)),
+                            shape: BoxShape.circle,
                             image: DecorationImage(
                               image: NetworkImage(
                                   "https://avatars.githubusercontent.com/ghaith96"),
