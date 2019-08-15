@@ -20,16 +20,41 @@ Widget buildAboutPage(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                    Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
                 Container(
                   width: 75.0,
                   height: 75.0,
                   decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFF0EFF4)),
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage("assets/urmil-vector.png"),
                     ),
                   ),
                 ),
+                        Container(
+                          width: 75.0,
+                          height: 75.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFF0EFF4)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                blurRadius: 4.0,
+                                color: Color(0xFFF6D8AE),
+                              )
+                            ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://avatars.githubusercontent.com/urmilshroff"),
+                            ),
+                          ),
+                        ),
+                      ],
+                      overflow: Overflow.clip,
+                    ),
                 SizedBox(
                   height: 10,
                 ),
@@ -63,6 +88,31 @@ Widget buildAboutPage(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                    Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        Container(
+                          width: 75.0,
+                          height: 75.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFF0EFF4)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                blurRadius: 4.0,
+                                color: Color(0xFFF6D8AE),
+                              )
+                            ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://avatars.githubusercontent.com/ghaith96"),
+                            ),
+                          ),
+                        ),
+                      ],
+                      overflow: Overflow.clip,
+                    ),
                 Center(
                   child: Text(
                     "Connect",
