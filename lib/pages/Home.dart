@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
 
     return Container(
       child: ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
         itemCount: goals.length,
         controller: this._scrollController,
         itemBuilder: (BuildContext context, int index) {
