@@ -12,6 +12,9 @@ class BuildTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: Material(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? MyColors.black
+            : MyColors.white,
         elevation: 3.0,
         borderRadius: BorderRadius.circular(8.0),
         child: InkWell(

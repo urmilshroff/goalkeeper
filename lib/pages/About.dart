@@ -31,35 +31,9 @@ Widget buildAboutPage(BuildContext context) {
                           height: 75.0,
                           decoration: BoxDecoration(
                             border: Border.all(color: Color(0xFFF0EFF4)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 4.0,
-                                color: Color(0xFFF6D8AE),
-                              )
-                            ],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Container(
-                          width: 75.0,
-                          height: 75.0,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: AssetImage("assets/urmil-vector.png"),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 75.0,
-                          height: 75.0,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFFF0EFF4)),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://avatars.githubusercontent.com/urmilshroff"),
                             ),
                           ),
                         ),
@@ -71,7 +45,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "</> by",
+                        "Developed by",
                         style: TextStyle(
                             color: invertColor, fontWeight: FontWeight.w500),
                       ),
@@ -109,16 +83,16 @@ Widget buildAboutPage(BuildContext context) {
                                       launchURL('https://urmilshroff.tech/'),
                                 ),
                                 IconButton(
-                                  icon: Icon(EvaIcons.twitter),
-                                  color: invertColor,
-                                  onPressed: () => launchURL(
-                                      'https://twitter.com/urmilshroff'),
-                                ),
-                                IconButton(
                                   icon: Icon(EvaIcons.github),
                                   color: invertColor,
                                   onPressed: () => launchURL(
                                       'https://github.com/urmilshroff'),
+                                ),
+                                IconButton(
+                                  icon: Icon(EvaIcons.twitter),
+                                  color: invertColor,
+                                  onPressed: () => launchURL(
+                                      'https://twitter.com/urmilshroff'),
                                 ),
                               ],
                             ),
@@ -138,24 +112,6 @@ Widget buildAboutPage(BuildContext context) {
                         Container(
                           width: 75.0,
                           height: 75.0,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 4.0,
-                                color: Color(0xFFF6D8AE),
-                              )
-                            ],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Container(
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/icon.png"),
-                            ),
-                          ),
                         ),
                         Container(
                           width: 75.0,
@@ -164,8 +120,7 @@ Widget buildAboutPage(BuildContext context) {
                             border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://avatars.githubusercontent.com/ghaith96"),
+                              image: AssetImage("assets/ghaith96.png"),
                             ),
                           ),
                         ),
@@ -177,7 +132,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "</> by",
+                        "Contributions by",
                         style: TextStyle(
                             color: invertColor, fontWeight: FontWeight.w500),
                       ),
@@ -337,6 +292,9 @@ Widget buildAboutPage(BuildContext context) {
               ],
             ),
           ),
+        ),
+        SizedBox(
+          height: 30.0,
         ),
       ],
     ),

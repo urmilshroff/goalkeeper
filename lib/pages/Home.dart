@@ -124,7 +124,9 @@ class _HomeState extends State<Home> {
                                       Text(
                                         getFormattedDate(goal.deadLine),
                                         style: TextStyle(
-                                            color: MyColors.accentColor),
+                                          color: MyColors.accentColor,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       )
                                     ],
                                   )
