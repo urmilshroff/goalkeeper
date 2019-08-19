@@ -57,6 +57,9 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Tween<Rect> heroRectTween(Rect begin, Rect end) =>
+      RectTween(begin: begin, end: end);
+
   Widget buildGoalsList(List<Goal> goals) {
     double _width = MediaQuery.of(context).size.width * 0.75;
 
@@ -78,6 +81,7 @@ class _HomeState extends State<Home> {
                   Column(
                     children: <Widget>[
                       Hero(
+                        createRectTween: this.heroRectTween,
                         tag: "dartIcon${goal.id}",
                         child: Container(
                           width: 40.0,
