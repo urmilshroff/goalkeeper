@@ -2,6 +2,7 @@
 
 # Goalkeeper
 
+[![Codemagic build status](https://api.codemagic.io/apps/5def9463df9d103dc7907c20/5def9463df9d103dc7907c1f/status_badge.svg)](https://codemagic.io/apps/5def9463df9d103dc7907c20/5def9463df9d103dc7907c1f/latest_build)
 [![Issues](https://img.shields.io/github/issues/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/issues)
 [![Forks](https://img.shields.io/github/forks/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/network/members)
 [![Stars](https://img.shields.io/github/stars/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/stargazers)
