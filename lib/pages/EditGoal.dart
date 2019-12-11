@@ -73,7 +73,7 @@ class EditGoalState extends State<EditGoal> {
                     height: 70.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/icon.png'),
+                        image: AssetImage('assets/icon/icon-legacy.png'),
                       ),
                     ),
                   ),

@@ -33,7 +33,7 @@ Widget buildAboutPage(BuildContext context) {
                             border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage('assets/urmil-vector.png'),
+                              image: AssetImage('assets/credits/urmil.png'),
                             ),
                           ),
                         ),
@@ -120,7 +120,7 @@ Widget buildAboutPage(BuildContext context) {
                             border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage('assets/ghaith96.png'),
+                              image: AssetImage('assets/credits/ghaith96.png'),
                             ),
                           ),
                         ),

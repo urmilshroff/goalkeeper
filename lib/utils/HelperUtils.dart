@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void showSnackBar(BuildContext context, String message) {
   final snackBar = SnackBar(
@@ -12,9 +11,9 @@ void showSnackBar(BuildContext context, String message) {
 }
 
 launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  }
+//  if (await canLaunch(url)) {
+//    await launch(url);
+//  }
 }
 
 String getFormattedDate(DateTime datetime) {

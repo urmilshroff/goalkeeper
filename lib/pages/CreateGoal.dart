@@ -63,7 +63,7 @@ class CreateGoalState extends State<CreateGoal> {
                     height: 70.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/icon.png'),
+                        image: AssetImage('assets/icon/icon-legacy.png'),
                       ),
                     ),
                   ),

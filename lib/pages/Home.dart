@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                           height: 40.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/icon.png'),
+                              image: AssetImage('assets/icon/icon-legacy.png'),
                             ),
                           ),
                         ),
