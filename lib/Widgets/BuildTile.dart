@@ -21,6 +21,7 @@ class BuildTile extends StatelessWidget {
           onTap: onTap ?? this.defaultOnTap,
           child: widgetContent,
           splashColor: MyColors.accentColor,
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ),
     );
