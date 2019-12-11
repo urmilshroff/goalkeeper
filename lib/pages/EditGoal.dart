@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:goalkeeper/Models/Goal.dart';
 import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 import 'package:goalkeeper/Services/NotificationCenter.dart';
 import 'package:goalkeeper/Utils/HelperUtils.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
 import 'package:goalkeeper/Utils/colors.dart';
-import 'package:goalkeeper/Models/Goal.dart';
 import 'package:goalkeeper/Utils/pickers.dart';
 
 class EditGoal extends StatefulWidget {
@@ -243,6 +243,9 @@ class EditGoalState extends State<EditGoal> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
           title: Text(
             'Done with \'${goal.title}\'?',
             style:
