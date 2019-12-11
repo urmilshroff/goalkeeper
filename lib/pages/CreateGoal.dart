@@ -1,13 +1,13 @@
-import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goalkeeper/Models/Goal.dart';
 import 'package:goalkeeper/Services/Interfaces/IRepository.dart';
 import 'package:goalkeeper/Services/NotificationCenter.dart';
 import 'package:goalkeeper/Utils/HelperUtils.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
-import "package:goalkeeper/Utils/colors.dart";
-import "package:goalkeeper/Utils/pickers.dart";
+import 'package:goalkeeper/Utils/colors.dart';
+import 'package:goalkeeper/Utils/pickers.dart';
 
 class CreateGoal extends StatefulWidget {
   final IRepository repository;
@@ -27,7 +27,7 @@ class CreateGoalState extends State<CreateGoal> {
   final IRepository repository;
   final NotificationCenter notificationCenter;
 
-  Goal goal = new Goal("", "");
+  Goal goal = new Goal('', '');
   Color invertColor;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -43,7 +43,7 @@ class CreateGoalState extends State<CreateGoal> {
         elevation: 5.0,
         backgroundColor: MyColors.purple,
         title: Text(
-          "New Goal",
+          'New Goal',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0),
         ),
       ),
@@ -57,13 +57,13 @@ class CreateGoalState extends State<CreateGoal> {
                   height: 40.0,
                 ),
                 Hero(
-                  tag: "",
+                  tag: '',
                   child: Container(
                     width: 70.0,
                     height: 70.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/icon.png"),
+                        image: AssetImage('assets/icon.png'),
                       ),
                     ),
                   ),
@@ -73,7 +73,7 @@ class CreateGoalState extends State<CreateGoal> {
                 ),
                 Center(
                   child: Text(
-                    "New Goal",
+                    'New Goal',
                     style: TextStyle(
                         color: this.invertColor,
                         fontWeight: FontWeight.w700,
@@ -100,8 +100,8 @@ class CreateGoalState extends State<CreateGoal> {
                       borderSide: BorderSide(color: MyColors.purple),
                     ),
                     border: OutlineInputBorder(),
-                    labelText: "Goal Title",
-                    hintText: "What\'s your goal for today?",
+                    labelText: 'Goal Title',
+                    hintText: 'What\'s your goal for today?',
                     labelStyle: TextStyle(
                       color: this.invertColor,
                     ),
@@ -131,8 +131,8 @@ class CreateGoalState extends State<CreateGoal> {
                       borderSide: BorderSide(color: MyColors.purple),
                     ),
                     border: OutlineInputBorder(),
-                    labelText: "Description",
-                    hintText: "Explain it in a few words",
+                    labelText: 'Description',
+                    hintText: 'Explain it in a few words',
                     labelStyle: TextStyle(
                       color: this.invertColor,
                     ),
@@ -153,8 +153,8 @@ class CreateGoalState extends State<CreateGoal> {
                     builder: (context) => OutlineButton(
                       child: Text(
                         goal.deadLine == null
-                            ? "ADD DEADLINE"
-                            : "EDIT DEADLINE",
+                            ? 'ADD DEADLINE'
+                            : 'EDIT DEADLINE',
                         style: TextStyle(
                           color: this.invertColor,
                           fontWeight: FontWeight.w500,
@@ -185,7 +185,7 @@ class CreateGoalState extends State<CreateGoal> {
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.yellow,
         elevation: 3.0,
-        heroTag: "fab",
+        heroTag: 'fab',
       ),
     );
   }
@@ -224,7 +224,7 @@ class CreateGoalState extends State<CreateGoal> {
     DateTime deadLine = DateTime(
         dueDate.year, dueDate.month, dueDate.day, dueTime.hour, dueTime.minute);
 
-    showSnackBar(context, "Deadline set for ${getFormattedDate(deadLine)}!");
+    showSnackBar(context, 'Deadline set for ${getFormattedDate(deadLine)}!');
 
     setState(() {
       goal.deadLine = deadLine;

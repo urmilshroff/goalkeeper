@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
-          title: "Goalkeeper",
+          title: 'Goalkeeper',
           theme: theme,
           home: Home(repository: this.repository),
         );

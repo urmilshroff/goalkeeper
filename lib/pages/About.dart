@@ -2,8 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goalkeeper/Utils/HelperUtils.dart';
-import 'package:goalkeeper/Widgets/BuildTile.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
+import 'package:goalkeeper/Widgets/BuildTile.dart';
 
 Widget buildAboutPage(BuildContext context) {
   double _width = MediaQuery.of(context).size.width * 0.75;
@@ -33,7 +33,7 @@ Widget buildAboutPage(BuildContext context) {
                             border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage("assets/urmil-vector.png"),
+                              image: AssetImage('assets/urmil-vector.png'),
                             ),
                           ),
                         ),
@@ -45,7 +45,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "Developed by",
+                        'Developed by',
                         style: TextStyle(
                             color: invertColor, fontWeight: FontWeight.w500),
                       ),
@@ -55,7 +55,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "Urmil Shroff",
+                        'Urmil Shroff',
                         style: TextStyle(
                             color: invertColor,
                             fontWeight: FontWeight.w600,
@@ -120,7 +120,7 @@ Widget buildAboutPage(BuildContext context) {
                             border: Border.all(color: Color(0xFFF0EFF4)),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage("assets/ghaith96.png"),
+                              image: AssetImage('assets/ghaith96.png'),
                             ),
                           ),
                         ),
@@ -132,7 +132,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "Contributions by",
+                        'Contributions by',
                         style: TextStyle(
                             color: invertColor, fontWeight: FontWeight.w500),
                       ),
@@ -142,7 +142,7 @@ Widget buildAboutPage(BuildContext context) {
                     ),
                     Center(
                       child: Text(
-                        "Ghaith Jardaneh",
+                        'Ghaith Jardaneh',
                         style: TextStyle(
                             color: invertColor,
                             fontWeight: FontWeight.w600,
@@ -190,7 +190,7 @@ Widget buildAboutPage(BuildContext context) {
               children: <Widget>[
                 Center(
                   child: Text(
-                    "Support",
+                    'Support',
                     style: TextStyle(
                         color: invertColor, fontWeight: FontWeight.w500),
                   ),
@@ -208,10 +208,7 @@ Widget buildAboutPage(BuildContext context) {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "Like the app? Show your support by writing"
-                              " a review on the Play Store, starring it on"
-                              " GitHub and sharing it with your "
-                              "friends!",
+                              'Like the app? Show your support by writing a review on the Play Store, starring it on GitHub and sharing it with your friends!',
                               style:
                                   TextStyle(color: invertColor, fontSize: 16.0),
                             ),
@@ -252,7 +249,7 @@ Widget buildAboutPage(BuildContext context) {
               children: <Widget>[
                 Center(
                   child: Text(
-                    "Feedback",
+                    'Feedback',
                     style: TextStyle(
                         color: invertColor, fontWeight: FontWeight.w500),
                   ),
@@ -270,10 +267,7 @@ Widget buildAboutPage(BuildContext context) {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "Bugs found? Feature suggestions? Create a "
-                              "new issue on GitHub to let me know, or"
-                              " contribute by forking and sending a "
-                              "PR!",
+                              'Bugs found? Feature suggestions? Create a new issue on GitHub to let me know, or contribute by forking and sending a PR!',
                               style:
                                   TextStyle(color: invertColor, fontSize: 16.0),
                             ),

@@ -82,13 +82,13 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Hero(
                         createRectTween: this.heroRectTween,
-                        tag: "dartIcon${goal.id}",
+                        tag: 'dartIcon${goal.id}',
                         child: Container(
                           width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage("assets/icon.png"),
+                              image: AssetImage('assets/icon.png'),
                             ),
                           ),
                         ),
@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Goal #${goal.id}",
+                              'Goal #${goal.id}',
                               style: TextStyle(
                                 color: MyColors.accentColor,
                                 fontWeight: FontWeight.w500,
@@ -188,14 +188,14 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     bool isDarkTheme = isThemeCurrentlyDark(context);
     Icon actionIcon = isDarkTheme ? Icon(EvaIcons.sun) : Icon(EvaIcons.moon);
-    String toolTip = isDarkTheme ? "BURN YOUR EYES" : "SAVE YOUR EYES";
+    String toolTip = isDarkTheme ? 'BURN YOUR EYES' : 'SAVE YOUR EYES';
 
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: MyColors.primaryColor,
         title: Text(
-          "My Goals",
+          'My Goals',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0),
         ),
         actions: <Widget>[
@@ -222,7 +222,7 @@ class _HomeState extends State<Home> {
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.accentColor,
         elevation: 3.0,
-        heroTag: "fab",
+        heroTag: 'fab',
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 15.0,

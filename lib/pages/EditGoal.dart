@@ -7,7 +7,7 @@ import 'package:goalkeeper/Utils/HelperUtils.dart';
 import 'package:goalkeeper/Utils/ThemeUtils.dart';
 import 'package:goalkeeper/Utils/colors.dart';
 import 'package:goalkeeper/Models/Goal.dart';
-import "package:goalkeeper/Utils/pickers.dart";
+import 'package:goalkeeper/Utils/pickers.dart';
 
 class EditGoal extends StatefulWidget {
   final Goal goal;
@@ -53,7 +53,7 @@ class EditGoalState extends State<EditGoal> {
         elevation: 5.0,
         backgroundColor: MyColors.green,
         title: Text(
-          "Edit Goal",
+          'Edit Goal',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22.0),
         ),
       ),
@@ -67,13 +67,13 @@ class EditGoalState extends State<EditGoal> {
                   height: 40.0,
                 ),
                 Hero(
-                  tag: "dartIcon${goal.id}",
+                  tag: 'dartIcon${goal.id}',
                   child: Container(
                     width: 70.0,
                     height: 70.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/icon.png"),
+                        image: AssetImage('assets/icon.png'),
                       ),
                     ),
                   ),
@@ -83,7 +83,7 @@ class EditGoalState extends State<EditGoal> {
                 ),
                 Center(
                   child: Text(
-                    "Edit Goal",
+                    'Edit Goal',
                     style: TextStyle(
                         color: this.invertColor,
                         fontWeight: FontWeight.w700,
@@ -111,7 +111,7 @@ class EditGoalState extends State<EditGoal> {
                       borderSide: BorderSide(color: MyColors.green),
                     ),
                     border: OutlineInputBorder(),
-                    hintText: "Goal Title",
+                    hintText: 'Goal Title',
                     hintStyle: TextStyle(
                       color: this.invertColor,
                     ),
@@ -139,7 +139,7 @@ class EditGoalState extends State<EditGoal> {
                       borderSide: BorderSide(color: MyColors.green),
                     ),
                     border: OutlineInputBorder(),
-                    hintText: "Description",
+                    hintText: 'Description',
                     hintStyle: TextStyle(
                       color: this.invertColor,
                     ),
@@ -157,8 +157,8 @@ class EditGoalState extends State<EditGoal> {
                     builder: (context) => OutlineButton(
                       child: Text(
                         goal.deadLine == null
-                            ? "ADD DEADLINE"
-                            : "EDIT DEADLINE",
+                            ? 'ADD DEADLINE'
+                            : 'EDIT DEADLINE',
                         style: TextStyle(
                           color: this.invertColor,
                           fontWeight: FontWeight.w500,
@@ -183,7 +183,7 @@ class EditGoalState extends State<EditGoal> {
       ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
-        heroTag: "fab",
+        heroTag: 'fab',
         closeManually: false,
         foregroundColor: MyColors.light,
         backgroundColor: MyColors.pink,
@@ -193,7 +193,7 @@ class EditGoalState extends State<EditGoal> {
             child: Icon(Icons.save),
             foregroundColor: MyColors.light,
             backgroundColor: MyColors.blue,
-            label: "Save",
+            label: 'Save',
             labelStyle:
                 TextStyle(color: MyColors.dark, fontWeight: FontWeight.w500),
             onTap: this.saveGoal,
@@ -202,7 +202,7 @@ class EditGoalState extends State<EditGoal> {
             child: Icon(Icons.delete_forever),
             foregroundColor: MyColors.light,
             backgroundColor: MyColors.red,
-            label: "Delete",
+            label: 'Delete',
             labelStyle:
                 TextStyle(color: MyColors.dark, fontWeight: FontWeight.w500),
             onTap: this.deleteGoal,
@@ -244,12 +244,12 @@ class EditGoalState extends State<EditGoal> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            "Done with \'${goal.title}\'?",
+            'Done with \'${goal.title}\'?',
             style:
                 TextStyle(color: this.invertColor, fontWeight: FontWeight.w600),
           ),
           content: Text(
-            "This goal will be deleted!",
+            'This goal will be deleted!',
             style: TextStyle(
               color: this.invertColor,
             ),
@@ -295,6 +295,6 @@ class EditGoalState extends State<EditGoal> {
       goal.deadLine = deadLine;
     });
 
-    showSnackBar(context, "Deadline set for ${getFormattedDate(deadLine)}!");
+    showSnackBar(context, 'Deadline set for ${getFormattedDate(deadLine)}!');
   }
 }

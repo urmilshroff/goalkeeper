@@ -21,7 +21,7 @@ class NotificationCenter {
       // still need to figure how to go to EditPage from here !
       print('got this notification: $goal');
     }
-    // just to shut the linter up since onSelectNotification expect "Future<dynamic> Function(String)"...
+    // just to shut the linter up since onSelectNotification expect 'Future<dynamic> Function(String)'...
     return Future.value(true);
   }
 
@@ -53,8 +53,8 @@ class NotificationCenter {
   }
 
   AndroidNotificationDetails getAndroidNotificationDetails() {
-    return AndroidNotificationDetails("goalNotificationChannelId",
-        "Goal Deadlines", "Reminders to complete your goals in time",
+    return AndroidNotificationDetails('goalNotificationChannelId',
+        'Goal Deadlines', 'Reminders to complete your goals in time',
         importance: Importance.Max,
         priority: Priority.High,
         ticker: 'ticker',

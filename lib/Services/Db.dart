@@ -16,12 +16,12 @@ class Db implements IDatabase {
     return _database;
   }
 
-  final String goalsTable = "goal_table";
-  final String colId = "id";
-  final String colTitle = "title";
-  final String colBody = "body";
-  final String colDeadLine = "deadLine";
-  final String dbName = "goals.db";
+  final String goalsTable = 'goal_table';
+  final String colId = 'id';
+  final String colTitle = 'title';
+  final String colBody = 'body';
+  final String colDeadLine = 'deadLine';
+  final String dbName = 'goals.db';
 
   void createDb(Database db, int newVersion) async {
     await db.execute('''
@@ -52,7 +52,7 @@ class Db implements IDatabase {
   Future<int> updateGoal(Goal goal) async {
     Database db = await this.database;
     return await db.update(goalsTable, goal.toMap(),
-        where: "$colId=?", whereArgs: [goal.id]);
+        where: '$colId=?', whereArgs: [goal.id]);
   }
 
   Future<int> deleteGoal(Goal goal) async {
