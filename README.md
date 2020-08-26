@@ -1,22 +1,22 @@
-<p align="center"><img height="180px" width="180px" src="./branding/art/icon.png" alt="Goalkeeper"/></p>
+<p align="center"><img height="160px" width="160px" src="./branding/art/icon.png" alt="Goalkeeper"/></p>
 
 # Goalkeeper🎯
 
 [![Stars](https://img.shields.io/github/stars/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/stargazers)
 [![Forks](https://img.shields.io/github/forks/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/network/members)
-[![Codemagic build status](https://api.codemagic.io/apps/5def9463df9d103dc7907c20/5def9463df9d103dc7907c1f/status_badge.svg)](https://codemagic.io/apps/5def9463df9d103dc7907c20/5def9463df9d103dc7907c1f/latest_build)
+[![Build](https://github.com/urmilshroff/goalkeeper/workflows/Build/badge.svg)](https://github.com/urmilshroff/goalkeeper/actions?query=workflow%3ABuild)
 [![Issues](https://img.shields.io/github/issues/urmilshroff/goalkeeper.svg)](https://github.com/urmilshroff/goalkeeper/issues)
 [![License](https://img.shields.io/github/license/urmilshroff/goalkeeper.svg)](https://opensource.org/licenses/MIT)
 
 A neat, nice looking Flutter app to keep track of your goals! It can be built for iOS and Android, and is available for free on the [Play Store](https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper).
 
-Not only was this my first major Flutter app, but it is the first real, working mobile app that I developed. Nostalgia!
+Not only was this my first major Flutter app, but also the first real, working mobile app that I developed and published. Nostalgia!
 
 [<img height="75" width="200" src="./branding/other/google-play-badge.png" alt="Play Store"/>](https://play.google.com/store/apps/details?id=tech.urmilshroff.goalkeeper)
 
 ## Screenshots
 
-<p><img height="306px" width="170px" src="./branding/screener/pixel-xl/1.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/2.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/3.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/4.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/5.png" alt="Goalkeeper"/></p>
+<p><img height="306px" width="170px" src="./branding/screener/pixel-xl/1.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/2.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/3.png" alt="Goalkeeper"/> <img height="306px" width="170px" src="./branding/screener/pixel-xl/4.png" alt="Goalkeeper"/> </p>
 
 ## Building
 
